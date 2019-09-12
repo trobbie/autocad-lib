@@ -35,6 +35,13 @@ git clone git@github.com:trobbie/autocad-lib <clone-folder>
 
 ## Running the tests
 
+To run tests, run the following from AutoCAD console.
+```
+(load "<src-folder>/lsp/test/_test-all.lsp")
+```
+
+FYI, for development purposes, I add it as a macro command in the Tool Pallette.
+
 ## Authors
 
 * **Trevor Robbie** - *Initial work* - [Github account](https://github.com/trobbie)
