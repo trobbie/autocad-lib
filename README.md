@@ -14,9 +14,10 @@ It does not contain commercial data or processes.
 
 ### Installing and Deploying into Autocad
 
-1) Navigate to the desired source folder and run following command.  To create inside a different folder name than autocad-lib, use ```<clone-folder>```, else "autocad-lib" is used.  The complete path (including ```<clone-folder>```) will be referred to as ```<src-folder>```.
+1) Navigate to the desired source folder ```<src-folder>``` and run following command.  To create inside a different folder name than autocad-lib, use ```<lib-folder>```, else "autocad-lib" is used for ```<lib-folder>```.
 ```
-git clone git@github.com:trobbie/autocad-lib <clone-folder>
+cd <src-folder>
+git clone git@github.com:trobbie/autocad-lib <lib-folder>
 ```
 2) In AutoCAD, add the following path to your Trusted Locations.  Note the "...", which trusts all sub-folders as well.
 ```
@@ -24,7 +25,7 @@ git clone git@github.com:trobbie/autocad-lib <clone-folder>
 ```
 3) To load the library, run the following from AutoCAD console:
 ```
-(load "<src-folder>/_all.lsp")
+(load "<src-folder>/<lib-folder>/_all.lsp")
 ```
 4) Consider auto-loading it with each new drawing:
   * In AutoCAD, open Customize User Interface.
@@ -37,7 +38,7 @@ git clone git@github.com:trobbie/autocad-lib <clone-folder>
 
 To run tests, run the following from AutoCAD console.
 ```
-(load "<src-folder>/lsp/test/_test-all.lsp")
+(load "<src-folder>/<lib-folder>/lsp/test/_test-all.lsp")
 ```
 
 FYI, for development purposes, I add it as a macro command in the Tool Pallette.
