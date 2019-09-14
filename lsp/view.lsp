@@ -11,12 +11,10 @@
 (defun TR:zoom-90( )
   (cond
     ((setq ss (ssget "_I"))
-      (terpri)(princ "TEST: ")
       (command "._ZOOM" "object" ss "")
     )
     (T ; if no objects selected, zoom to the extents
       (command ".ZOOM" "_NONE" "_e")
-      (terpri)(princ "TESTB: ")
     )
   )
   (command ".ZOOM" "_NONE" ".9x")
