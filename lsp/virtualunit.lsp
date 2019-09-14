@@ -1,6 +1,11 @@
 ; Virtual unit = a description of a unit, whose actual drawing objects are not created 
 ; until the proper function is called.  The referenced objects in the description can be
-; anywhere in the document, and remain untouched (read-only) by these functions.
+; anywhere in the document, and remain untouched (read-only) by these functions.  The
+; intention is that many calculations can be done without having to recreate a separate
+; object, only creating a new drawing object when finished.
+;
+; Assumptions:
+; - The referenced objects won't chanage
 ;
 ; Format:
 ;   (("Objects" . (list of <vla-object>))
@@ -8,23 +13,26 @@
 ;    ("InsertionPoint" . <list of 3 real numbers, representing insertion point>)
 ;   )
 ;
-; This is intended to reference a list of existing vla-objects, and use it for
-; calculations without having to create other drawing objects in the document.
-; 
 ; There is an implied origin translation at the beginning where the entire unit
-; is seen as moving to the WCS origin.  This always involves an exact translation
-; from the _center_ of the unit's bounding box to (0,0,0).
+; is seen as moving to the WCS origin before rotation.  This always involves an exact
+; translation from the _center_ of the unit's bounding box to (0,0,0).
 ;
-; The RotationDegrees represents taking the read-only unit objects from the
-; implied origin (center of bounding box) and performing rotation.
+; Objects:
+; List of already existing vla-objects, seen as read-only.
 ;
-; The insertion 3d point is where the entire unit will be placed so that the bottom-left
-; point of the rotated unit's bounding box is put there.
+; RotationDegrees:
+; The RotationDegrees represents taking all objects from the implied origin 
+; (center of bounding box surrounding all objects) and performing rotation.
+;
+; InsertionPoint:
+; The insertion 3d point is where the entire unit will be placed so that the _bottom-left_
+; point of the rotated unit's bounding box is put there.  This means there is another
+; implied offset (from origin to bottom-left corner) involved between rotation and insertion.
 ; The bottom-left corner provides a consistant and easily-visualized reference point
 ; when relating to other virtual units.
 ;
 ; When creating a drawing object. we will always create a _copy_ of  the original
-; read-only objects, then performing the appropriate translations and transformations.
+; objects, then performing the appropriate translations and transformations.
 
 (defun TR:virtualunit-get-property ( vu propertyName )
   (cdr (assoc propertyName vu))
@@ -71,7 +79,7 @@
 
 ; create a _copy_ of the original read-only objects, then performing the 
 ; appropriate translations and transformations.
-(defun TR:virtualunit-create-drawing-objects ( vu / listObjectsOrig bbOrig o oCopy )
+(defun TR:virtualunit-create-drawing-objects ( vu / listObjectsOrig listCopies bbOrig o oCopy bbRotated bbCenter )
   (setq listObjectsOrig (TR:virtualunit-get-objects vu))
   (setq bbOrig (TR:objectlist-get-boundingbox listObjectsOrig))
   (setq bbCenter (TR:boundingbox-get-center bbOrig))
