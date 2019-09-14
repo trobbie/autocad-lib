@@ -146,7 +146,10 @@
 
 ; helper function
 ; funcSuccess => lambda expression that returns nil (indicating failure) or non-nil (indicating success)
-(defun TR:testsuite-test-value-with-expression ( testName valueToTest valueForComparison funcSuccess failureMessage)
+(defun TR:testsuite-test-value-with-expression ( testName valueToTest valueForComparison funcSuccess failureMessage
+  / listOldSymbols listSymbolsDiff )
+
+  (setq listOldSymbols (atoms-family 1))
   (cond
   ((apply funcSuccess (list valueToTest valueForComparison))
     (setq *TR:testsuiteCounterSuccesses* (1+ *TR:testsuiteCounterSuccesses*))
@@ -159,6 +162,10 @@
     (terpri)(princ (strcat "FAIL: " testName " => " (vl-princ-to-string valueToTest) ". " failureMessage))
   )
   )
+  (setq listSymbolsDiff (LM:ListSymDifference listOldSymbols (atoms-family 1)))
+  (cond ((> (length listSymbolsDiff) 0)
+    (terpri)(princ "Global Variables introduced: ")(princ listSymbolsDiff)
+  ))
   (princ)
 )
 

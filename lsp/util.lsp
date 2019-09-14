@@ -140,5 +140,23 @@
   )
 )
 
+;;--------------=={ List Symmetric Difference }==-------------;;
+;;                                                            ;;
+;;  Returns items appearing exclusively in each list and not  ;;
+;;  in their intersection.                                    ;;
+;;------------------------------------------------------------;;
+;;  Author: Lee Mac, Copyright © 2011 - www.lee-mac.com       ;;
+;;------------------------------------------------------------;;
+;;  Arguments:                                                ;;
+;;  l1,l2 - lists for which to return symmetric difference    ;;
+;;------------------------------------------------------------;;
+;;  Returns:  List of items in the set (l1\l2)U(l2\l1)        ;;
+;;------------------------------------------------------------;;
+(defun LM:ListSymDifference ( l1 l2 )
+  (append
+    (vl-remove-if '(lambda ( x ) (member x l2)) l1)
+    (vl-remove-if '(lambda ( x ) (member x l1)) l2)
+  )
+)
 ;;;--------------------------------------------------------------;
 (princ)
