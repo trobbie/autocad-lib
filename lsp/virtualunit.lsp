@@ -1,4 +1,4 @@
-; Virtual unit = a description of a unit, whose actual drawing objects are not created 
+; Virtual unit = a definition of a unit, whose actual drawing objects are not created 
 ; until the proper function is called.  The referenced objects in the description can be
 ; anywhere in the document, and remain untouched (read-only) by these functions.  The
 ; intention is that many calculations can be done without having to recreate a separate
@@ -74,11 +74,22 @@
   (TR:matrix-rotate (TR:virtualunit-get-property vu (TR:degrees->radians "RotationDegrees")))
 )
 
-(defun TR:virtualunit-replace-insertion-point ( vu ptInsert )
+(defun TR:virtualunit-set-rotation-degrees ( vu degrees )
+  (TR:virtualunit-set-property vu "RotationDegrees" degrees)
+)
+
+(defun TR:virtualunit-set-insertion-point ( vu ptInsert )
   (TR:virtualunit-set-property vu "InsertionPoint" (TR:point-to-3d-point ptInsert))
 )
 
+(defun TR:virtualunit-get-boundingbox ( vu )
+  (TR:objectlist-get-boundingbox (TR:virtualunit-get-objects vu))
+)
 
+; return list of sizes of each dimension of the bounding box
+(defun TR:virtualunit-get-size ( vu )
+  (TR:boundingbox-get-size (TR:objectlist-get-boundingbox (TR:virtualunit-get-objects vu)))
+)
 
 ; create a _copy_ of the original read-only objects, then performing the 
 ; appropriate translations and transformations.
