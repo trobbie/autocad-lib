@@ -71,29 +71,38 @@
   )
 )
 
+; bb can be 2d or 3d
 (defun TR:boundingbox-get-size ( bb )
   (if bb
-    (list (TR:boundingbox-get-width bb) (TR:boundingbox-get-height bb))
-    nil
+    (mapcar
+      '(lambda (minVal maxVal)
+        (- maxVal minVal)
+	  )
+	  (car bb)
+	  (cadr bb)
+    )
+	nil ; else bb was nil
   )
 )
 
+; bb can be 2d or 3d
 (defun TR:boundingbox-get-center ( bb )
   (if bb
     (mapcar '(lambda (x) (/ x 2.))
       (mapcar '+ 
-        (TR:boundingbox-get-bottomleft bb)
-        (TR:boundingbox-get-topright bb)
+        (car bb)
+        (cadr bb)
       )
     )
     nil ; else bb was nil
   )
 )
 
-; gets the largest size dimension value (x or y) of the bounding box
-(defun TR:boundingbox-get-largest-dimension-length ( bb / boundingSize )
+; gets the largest size dimension value (e.g. width, height, or depth) of the bounding box
+; if bb is a 2d bounding box, only the width and height would be returned
+(defun TR:boundingbox-get-largest-dimension-length ( bb )
   (if bb
-    (max (TR:boundingbox-get-width bb) (TR:boundingbox-get-height bb))
+    (mapcar 'max (TR:boundingbox-get-size bb))
     nil
   )
 )

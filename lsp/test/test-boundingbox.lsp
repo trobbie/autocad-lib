@@ -1,5 +1,5 @@
 
-(defun TR:test ()
+(defun TR:test ( / bb bb3d)
   
   (setq bb '((0. 0.)(10. 5.)))
   (TR:testsuite-test-for-equality 'TR:boundingbox-get-center (list bb ) '(5. 2.5))
@@ -20,6 +20,13 @@
   (TR:testsuite-test-for-equality 'TR:boundingbox-get-bottom (list bb ) 0.)
   (TR:testsuite-test-for-equality 'TR:boundingbox-get-top (list bb ) 10.)
 
+  ; 3d-supported functions
+  (setq bb3d '((-20. 0. 1.)(100. 10. 10.)))
+  (TR:testsuite-test-for-equality 'TR:boundingbox-get-center (list bb3d ) '(40. 5. 5.5))
+  (TR:testsuite-test-for-equality 'TR:boundingbox-get-size (list bb3d ) '(120. 10. 9.))
+  (TR:testsuite-test-for-equality 'TR:boundingbox-get-largest-dimension-length (list bb3d ) 120.)
+
+  ; ensure nil is considered
   (TR:testsuite-test-for-equality 'TR:boundingbox-get-left (list nil ) nil)
   (TR:testsuite-test-for-equality 'TR:boundingbox-get-right (list nil ) nil)
   (TR:testsuite-test-for-equality 'TR:boundingbox-get-bottom (list nil ) nil)
