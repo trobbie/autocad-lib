@@ -356,5 +356,4 @@
   (vlax-tmatrix (TR:matrix-rotate radians))
 )
 
-
 (princ)

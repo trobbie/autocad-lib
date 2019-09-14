@@ -20,3 +20,5 @@
   (command ".ZOOM" "_NONE" ".9x")
   (princ)
 )
+
+(princ)
