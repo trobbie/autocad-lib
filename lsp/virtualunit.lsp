@@ -19,6 +19,7 @@
 ;
 ; Objects:
 ; List of already existing vla-objects, seen as read-only.
+; TODO: consider using Groups here.
 ;
 ; RotationDegrees:
 ; The RotationDegrees represents taking all objects from the implied origin 
@@ -76,6 +77,8 @@
 (defun TR:virtualunit-replace-insertion-point ( vu ptInsert )
   (TR:virtualunit-set-property vu "InsertionPoint" (TR:point-to-3d-point ptInsert))
 )
+
+
 
 ; create a _copy_ of the original read-only objects, then performing the 
 ; appropriate translations and transformations.
