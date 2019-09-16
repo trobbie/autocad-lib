@@ -102,7 +102,7 @@
 ; if bb is a 2d bounding box, only the width and height would be returned
 (defun TR:boundingbox-get-largest-dimension-length ( bb )
   (if bb
-    (mapcar 'max (TR:boundingbox-get-size bb))
+    (apply 'max (TR:boundingbox-get-size bb))
     nil
   )
 )
