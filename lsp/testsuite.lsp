@@ -149,7 +149,6 @@
 (defun TR:testsuite-test-value-with-expression ( testName valueToTest valueForComparison funcSuccess failureMessage
   / listOldSymbols listSymbolsDiff )
 
-  (setq listOldSymbols (atoms-family 1))
   (cond
   ((apply funcSuccess (list valueToTest valueForComparison))
     (setq *TR:testsuiteCounterSuccesses* (1+ *TR:testsuiteCounterSuccesses*))
@@ -162,10 +161,6 @@
     (terpri)(princ (strcat "FAIL: " testName " => " (vl-princ-to-string valueToTest) ". " failureMessage))
   )
   )
-  (setq listSymbolsDiff (LM:ListSymDifference listOldSymbols (atoms-family 1)))
-  (cond ((> (length listSymbolsDiff) 0)
-    (terpri)(princ "Global Variables introduced: ")(princ listSymbolsDiff)
-  ))
   (princ)
 )
 
@@ -209,6 +204,8 @@
   (setq *TR:testsuiteCounterSuccesses* 0)
   (setq *TR:testsuiteCounterFailures* 0)
 
+  (setq *TR:listOldSymbols* (atoms-family 1))
+  (terpri)(princ "Number of symobls (pre-test): ")(princ (length *TR:listOldSymbols*))
 
   ; When test suites are used, the intention is to perform tests in a different environment
   ; than any currently used.  Therefore, it is advised the testsuite is run in a separate
@@ -230,15 +227,28 @@
   
 )
 
-(defun TR:testsuite-finalize ( testsuiteName )
+(defun TR:testsuite-finalize ( testsuiteName / listSymbolsDiff)
 
   (terpri)(princ "*****************************")
   (terpri)(princ "Total successful tests: ")(princ *TR:testsuiteCounterSuccesses*)
   (terpri)(princ "Total failing tests: ")(princ *TR:testsuiteCounterFailures*)
+
+  (setq listSymbolsDiff (vl-remove-if
+    ; don't include testsuite vars and test functions
+    '(lambda ( x )
+       (or (member x (list "TESTSUITENAME" "*TR:LISTOLDSYMBOLS*")) 
+           (wcmatch x "*:TEST*")
+       )
+    )
+    (LM:ListSymDifference *TR:listOldSymbols* (atoms-family 1))
+  ))
+  (cond ((> (length listSymbolsDiff) 1); ignore the local testsuiteName will 
+    (terpri)(princ "Global Variables unintendionally (?) introduced: ")(princ listSymbolsDiff)
+  ))
   (terpri)(princ "*****************************")
 
-   (cond
-    ((> *TR:testsuiteCounterFailures* 0)
+  (cond
+    ((> *TR:testsuiteCounterFailures* 0) 
       (alert (strcat "WARNING: " (if testsuiteName testsuiteName "Test") " has failed testing"))
       ;Note: leave the test DWG open in case tests we wish to examine
     )
@@ -246,6 +256,7 @@
 
   (setq *TR:testsuiteCounterSuccesses* nil)
   (setq *TR:testsuiteCounterFailures* nil)
+  (setq *TR:listOldSymbols* nil)
 
   (princ)
 )
