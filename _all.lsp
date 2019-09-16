@@ -21,7 +21,6 @@
     (load (strcat *TR:srcFolder* "\\lsp\\" relpath))
   )
 
-  (terpri)(princ "LOAD: Loaded environment for utility functions.")
   (princ)
 )
 (TR:load)
