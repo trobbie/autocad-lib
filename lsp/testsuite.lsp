@@ -243,7 +243,7 @@
     (LM:ListSymDifference *TR:listOldSymbols* (atoms-family 1))
   ))
   (cond ((> (length listSymbolsDiff) 1); ignore the local testsuiteName will 
-    (terpri)(princ "Global Variables unintendionally (?) introduced: ")(princ listSymbolsDiff)
+    (terpri)(princ "Global Variables unintentionally (?) introduced: ")(princ listSymbolsDiff)
   ))
   (terpri)(princ "*****************************")
 
