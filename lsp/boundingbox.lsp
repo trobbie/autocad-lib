@@ -145,8 +145,8 @@
 ;;;--------------------------------------------------------------;
 ;;; Function: TR:get-boundingbox-of-two-points                   ;
 ;;;--------------------------------------------------------------;
-;;; Description:                                                 ;
-;;; Returns the 2d bounding box of two points.                      ;
+;; Description:                                                 ;
+;; Returns the 2d bounding box of two points.                      ;
 ;;;--------------------------------------------------------------;
 (defun TR:get-boundingbox-of-two-points( pt1 pt2 )
   (if (and pt1 pt2)
