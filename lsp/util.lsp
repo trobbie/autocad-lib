@@ -238,4 +238,106 @@
 )
 
 ;;;--------------------------------------------------------------;
+;;; Function: JB:min-dist                                        ;
+;;;--------------------------------------------------------------;
+;; Author: Joe Burke (TR: minor modifications)
+;;;--------------------------------------------------------------;
+;; Find the minimum offset between between two entities.
+;; e1 - name of entity 1
+;; e2 - name of entity 2
+;; showMinLine - whether to show a visual line where the smallest
+;;   distance was found
+;; Returns: real number representing minimum distance betwen two entities
+;;;--------------------------------------------------------------;
+(defun JB:min-dist (e1 e2 showMinLine / step e1 e2 p1 p2 len idx dis dlst curveOK getent hasb e3)
+  ;;  CAB test to see if vlax-curve can be used on an object
+  (defun curveOK (ent)				  ; returns nil if not allowed
+    (not (vl-catch-all-error-p
+	   (vl-catch-all-apply 'vlax-curve-getendparam (list ent))
+	 )
+    )
+  )
+  ;;  get the min distance between 2 objects nearest to pt
+  ;;  pt should be a point on obj1
+  (defun 2ObjDist (e1 e2 p1 / p2 d fuzz)
+    (setq fuzz 1E-8)
+    (while (not
+	     (minusp
+	       (- (distance p1 (setq p2 (vlax-curve-GetClosestPointTo e2 p1)))
+		  (setq d (distance p2 (setq p1 (vlax-curve-GetClosestPointTo e1 p2))))
+		  fuzz
+	       )
+	     )
+	   )
+    )
+    (list d p1 p2)
+  )
+  (defun NoBulgeDist (e1 e2 / p1 p2 i d)
+    (setq i (vlax-curve-getEndParam e1))
+    (while (and (>= i 0))
+      (setq p2	 (vlax-curve-getClosestPointTo
+		   e2
+		   (setq p1 (vlax-curve-getPointAtParam e1 i))
+		 )
+	    hasb (or hasb (not (equal (vlax-curve-getSecondDeriv e1 i) '(0 0 0))))
+	    i	 (1- i)
+	    d	 (distance p1 p2)
+	    dlst (if (or (< d (car dlst)) (null dlst))
+		   (list d p1 p2)
+		   dlst
+		 )
+      )
+    )
+  )
+  ;;=========================================================
+  ;(setq e1 (getent "\nFirst entity: "))
+  ;(setq e2 (getent "\nSecond entity: "))
+  (if (vlax-invoke
+	      (vlax-ename->vla-object e1)
+	      'IntersectWith
+	      (vlax-ename->vla-object e2)
+	      acExtendNone
+      )
+    (setq dis 0.0)
+    (progn (NoBulgeDist e2 e1)
+	   (setq dlst (cons (car dlst) (reverse (cdr dlst))))
+	   (NoBulgeDist e1 e2)
+	   (if hasb
+	     (progn (if	(> (vlax-curve-getDistAtParam e1 (vlax-curve-getEndParam e1))
+			   (vlax-curve-getDistAtParam e2 (vlax-curve-getEndParam e2))
+			)
+		      (setq e3	 e1
+			    e1	 e2
+			    e2	 e3
+			    dlst (cons (car dlst) (reverse (cdr dlst)))
+		      )
+		    )
+		    ;| find the min distance within the steps. The accuracy is limited by the
+	   number of steps, then 2ObjDist is used to increase the accuracy|;
+		    (setq idx  0.0
+			  len  (vlax-curve-getdistatparam e1 (vlax-curve-getendparam e1))
+			  step (/ len 1000)	  ; 100 may need to increase for very large unit objects
+		    )
+		    (while (and (<= idx len) (setq p1 (vlax-curve-getpointatdist e1 idx)))
+		      (setq p2	(vlax-curve-getclosestpointto e2 p1)
+			    dis	(distance p1 p2)
+			    idx	(+ idx step)
+		      )
+		      (if (< dis (car dlst))
+			(setq dlst (list dis p1 p2))
+		      )
+		    )
+	     )
+	   )
+	   (setq dlst (2ObjDist e1 e2 (cadr dlst)))
+	   (setq dis (car dlst))
+     (setq coordOffset (mapcar '- (cadr dlst) (caddr dlst)))
+	   (if showMinLine 
+       (grdraw (trans (cadr dlst) 0 1) (trans (caddr dlst) 0 1) 6 1)
+     )
+    )
+  )
+  dis
+)
+;;;--------------------------------------------------------------;
 (princ)
