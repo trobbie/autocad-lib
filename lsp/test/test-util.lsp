@@ -68,6 +68,12 @@
   (TR:testsuite-test-for-equality 'TR:string-pad-right (list "Test" " " 0) "Test")
   (TR:testsuite-test-for-equality 'TR:string-pad-right (list "Test" " " nil) nil)
 
+  (TR:testsuite-test-for-equality 'LM:Permutations (list '(1 2 3)) '((1 2 3) (1 3 2) (2 1 3) (2 3 1) (3 1 2) (3 2 1)))
+  (TR:testsuite-test-for-equality 'LM:Permutations (list '(1 1 2 1)) '((1 1 2 1) (1 1 1 2) (1 2 1 1) (2 1 1 1)))
+  (TR:testsuite-test-for-equality 'LM:Permutations (list '(1)) '((1)))
+  (TR:testsuite-test-for-equality 'LM:Permutations (list nil) '(nil))
+
+
   (princ)
 )
 
