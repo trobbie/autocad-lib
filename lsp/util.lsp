@@ -189,5 +189,53 @@
     (vl-remove-if '(lambda ( x ) (member x l1)) l2)
   )
 )
+
+;;---------------------=={ Permutations }==-------------------;;
+;;                                                            ;;
+;;  Returns a list of all permutations of elements in a list  ;;
+;;------------------------------------------------------------;;
+;;  Author: Lee Mac, Copyright © 2011 - www.lee-mac.com       ;;
+;;------------------------------------------------------------;;
+;;  Arguments:                                                ;;
+;;  l - list to process                                       ;;
+;;------------------------------------------------------------;;
+;;  Returns: List of all permutations of elements in the list ;;
+;;------------------------------------------------------------;;
+(defun LM:Permutations ( l )
+  (if (cdr l)
+    (
+      (lambda ( f )
+        (f
+          (apply 'append
+            (mapcar
+              (function
+                (lambda ( a )
+                  (mapcar (function (lambda ( b ) (cons a b)))
+                    (LM:Permutations
+                      (   (lambda ( f ) (f a l))
+                        (lambda ( a l )
+                          (if l
+                            (if (equal a (car l))
+                                (cdr l)
+                              (cons (car l) (f a (cdr l)))
+                            )
+                          )
+                        )
+                      )
+                    )
+                  )
+                )
+              )
+              l
+            )
+          )
+        )
+      )
+      (lambda ( l ) (if l (cons (car l) (f (vl-remove (car l) (cdr l))))))
+    )
+    (list l)
+  )
+)
+
 ;;;--------------------------------------------------------------;
 (princ)
