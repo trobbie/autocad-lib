@@ -21,7 +21,7 @@
 ;; initially found, filling the document using func-create-drawing
 ;; and running the test func-test on the created objects
 ;;;--------------------------------------------------------------;
-(defun TR:testsuite-test-drawing ( func-create-drawing func-test / listObjects modelspace priorCmdecho priorOsmode )
+(defun TR:testsuite-test-drawing ( func-create-drawing func-test / listObjects modelspace priorCmdecho priorOsmode error-obj )
   (setq modelspace (vla-get-ModelSpace (vla-get-ActiveDocument (vlax-get-acad-object))))
   
   ; delete all objects in model space
