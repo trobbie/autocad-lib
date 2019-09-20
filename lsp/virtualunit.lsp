@@ -146,8 +146,6 @@
                offset)
   )
   (TR:objectlist-offset listCopies offset)
-  (aa:debug-print (strcat "virtualunit inserted at :" (vl-princ-to-string (TR:virtualunit-get-insertion-point vu))))
-
   listCopies
 )
 
