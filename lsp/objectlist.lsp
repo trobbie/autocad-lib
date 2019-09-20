@@ -3,9 +3,7 @@
 ;; Object lists = list of vla-objects
 
 (defun TR:objectlist-map ( listObjects func)
-  (foreach o listObjects
-    (apply func (list o))
-  )
+  (mapcar func listObjects)
 )
 
 ;;;--------------------------------------------------------------;
@@ -68,7 +66,6 @@
 (defun TR:objectlist-offset ( listObjects listOffset / xOffset yOffset )
   (setq xOffset (car listOffset)
         yOffset (cadr listOffset))
-  (setq listResult (list))
   (foreach o listObjects
     (vla-move o
       (vlax-3d-point 0 0 0) ; from
