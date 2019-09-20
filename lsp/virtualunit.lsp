@@ -43,11 +43,15 @@
   (subst (cons propertyName propertyValue) (assoc propertyName vu) vu)
 )
 
-(defun TR:virtualunit-create-virtual ( listObjects degreesRotation ptInsert)
+(defun TR:virtualunit-create-virtual ( listObjects )
+  (TR:virtualunit-create-virtual-with-props listObjects 0 '(0 0 0))
+)
+
+(defun TR:virtualunit-create-virtual-with-props ( listObjects degreesRotation ptInsert)
   (list 
     (cons "Objects" listObjects)
-    (cons "RotationDegrees" degreesRotation))
-    (cons "InsertionPoint" (TR:point-to-3d-point ptInsert))
+    (cons "RotationDegrees" degreesRotation)
+    (cons "InsertionPoint" (TR:point->3d-point ptInsert))
   )
 )
 
