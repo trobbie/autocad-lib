@@ -119,6 +119,40 @@
 )
 
 ;;;--------------------------------------------------------------;
+;;; Function: TR:point->3d-point                                 ;
+;;;--------------------------------------------------------------;
+;; Convert pt to be a list of three numbers.  If a 2d point, the
+;; z coordinate is assigned 0.  If the list is at least three in
+;; length, return the first three numbers as is.
+;; Used in domains where working with either 2d or 3d drawings.
+;;
+;; pt - (x y [z...]), all values are numeric
+;; Returns: (x y z), all values of same type as given respective
+;;   type; if input is 2d, then z is assigned 0.  If pt is not a 
+;;   list of at least two numbers, return nil.
+;;;--------------------------------------------------------------;
+(defun TR:point->3d-point( pt )
+  (cond
+    ((and (= (type pt) 'LIST)
+          (= 2 (length pt))
+          (vl-position (type (car pt)) (list 'REAL 'INT))
+          (vl-position (type (cadr pt)) (list 'REAL 'INT)))
+      (list (car pt) (cadr pt) (float 0))
+    )
+    ((and (= (type pt) 'LIST)
+          (>= (length pt) 3)
+          (vl-position (type (car pt)) (list 'REAL 'INT))
+          (vl-position (type (cadr pt)) (list 'REAL 'INT))
+          (vl-position (type (caddr pt)) (list 'REAL 'INT)))
+      (list (car pt) (cadr pt) (caddr pt))
+    )
+    (T
+      nil; return nil
+    )
+  )
+)
+
+;;;--------------------------------------------------------------;
 ;;; Function: TR:2d-point->3d-point                              ;
 ;;;--------------------------------------------------------------;
 ;; Convert pt2d to be a list of three numbers instead of two,
@@ -127,7 +161,7 @@
 ;; functions assuming 3d coordinates.
 ;;
 ;; pt2d - (x y), all values are numeric
-;; Returns: (x y, 0.0), all values of same type as given respective
+;; Returns: (x y 0.0), all values of same type as given respective
 ;;   type; if pt2d is not a list of two numbers, return nil
 ;;;--------------------------------------------------------------;
 (defun TR:2d-point->3d-point( pt2d )
@@ -139,7 +173,6 @@
     nil; return nil
   )
 )
-
 
 ;;;--------------------------------------------------------------;
 ;;; Function: TR:string-pad-right                                ;

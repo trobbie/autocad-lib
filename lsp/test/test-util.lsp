@@ -31,7 +31,6 @@
   (TR:testsuite-test-for-equality 'TR:radians->degrees (list "notnumber") nil)
   (TR:testsuite-test-for-equality 'TR:radians->degrees (list (list pi)) nil)
 
-;TODO: have eq and equality/fuzz tests
   (TR:testsuite-test-for-equality 'TR:point->2d-point (list '(1 2 3)) '(1 2))
   (TR:testsuite-test-for-equality 'TR:point->2d-point (list '(1 2)) '(1 2))
   (TR:testsuite-test-for-equality 'TR:point->2d-point (list '(1 2 3 4)) '(1 2))
@@ -45,6 +44,21 @@
   (TR:testsuite-test-for-equality 'TR:point->2d-point (list '(1 nil 3)) nil)
   (TR:testsuite-test-for-exactness 'TR:point->2d-point (list '(1.0 2 3)) '(1.0 2))
   (TR:testsuite-test-for-exactness 'TR:point->2d-point (list '(1 2.0 3)) '(1 2.0))
+
+  (TR:testsuite-test-for-equality 'TR:point->3d-point (list '(1 2 3)) '(1 2 3))
+  (TR:testsuite-test-for-equality 'TR:point->3d-point (list '(1 2)) '(1 2 0.))
+  (TR:testsuite-test-for-equality 'TR:point->3d-point (list '(1 2 3 4)) '(1 2 3))
+  (TR:testsuite-test-for-equality 'TR:point->3d-point (list '("notnumber" 2 3)) nil)
+  (TR:testsuite-test-for-equality 'TR:point->3d-point (list '(1 "notnumber" 3)) nil)
+  (TR:testsuite-test-for-equality 'TR:point->3d-point (list '(1 2 "notnumber")) nil)
+  (TR:testsuite-test-for-equality 'TR:point->3d-point (list nil) nil)
+  (TR:testsuite-test-for-equality 'TR:point->3d-point (list 1) nil)
+  (TR:testsuite-test-for-equality 'TR:point->3d-point (list '(1)) nil)
+  (TR:testsuite-test-for-equality 'TR:point->3d-point (list '(nil 2 3)) nil)
+  (TR:testsuite-test-for-equality 'TR:point->3d-point (list '(1 nil 3)) nil)
+  (TR:testsuite-test-for-exactness 'TR:point->3d-point (list '(1. 2 3)) '(1. 2 3))
+  (TR:testsuite-test-for-exactness 'TR:point->3d-point (list '(1 2. 3)) '(1 2. 3))
+  (TR:testsuite-test-for-exactness 'TR:point->3d-point (list '(1 2 3.)) '(1 2 3.))
 
   (TR:testsuite-test-for-equality 'TR:2d-point->3d-point (list '(1 2)) '(1 2 0))
   (TR:testsuite-test-for-equality 'TR:2d-point->3d-point (list '(1.0 2)) '(1.0 2 0))
