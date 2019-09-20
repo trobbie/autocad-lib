@@ -55,14 +55,24 @@
   )
 )
 
-; Returns a new virtual unit that mirrors the same properties as the given one, but
-; replaces the transformation matrix to rotate with given degrees (this is absolute,
-; not an additional rotation)
-(defun TR:virtualunit-copy-with-absolute-rotation ( vu degrees)
+; Returns a new virtual unit that has the same properties as the given one except
+; that it has an absolute rotation of the given degrees, instead of what was
+; assigned in the given one
+(defun TR:virtualunit-copy-with-new-rotation-degrees ( vu degrees)
   (TR:virtualunit-create-virtual 
     (TR:virtualunit-get-objects vu)
     degrees
     (TR:virtualunit-get-property vu "InsertionPoint")
+  )
+)
+
+; Returns a new virtual unit that has the same properties as the given one except
+; that the InsertionPoint has been replaced with the given insertion point
+(defun TR:virtualunit-copy-with-new-insertion-point ( vu ptInsert)
+  (TR:virtualunit-create-virtual 
+    (TR:virtualunit-get-objects vu)
+    (TR:virtualunit-get-property vu "RotationDegrees")
+    (TR:point-to-3d-point ptInsert)
   )
 )
 
