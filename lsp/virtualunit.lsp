@@ -99,8 +99,16 @@
   (TR:virtualunit-set-property vu "InsertionPoint" (TR:point->3d-point ptInsert))
 )
 
-(defun TR:virtualunit-get-boundingbox ( vu )
-  (TR:objectlist-get-boundingbox (TR:virtualunit-get-objects vu))
+(defun TR:virtualunit-get-boundingbox ( vu / tempListObjects bb)
+  ; TODO: way to do this w/o creating/deleting a vla-object?
+
+  (setq tempListObjects (TR:virtualunit-create-drawing-objects vu))
+  (setq bb (TR:objectlist-get-boundingbox tempListObjects))
+  (foreach o tempListObjects
+    (vla-delete o)
+  )
+  ;(TR:objectlist-get-boundingbox (TR:virtualunit-get-objects vu))
+  bb
 )
 
 ; return list of sizes of each dimension of the bounding box
