@@ -63,16 +63,18 @@
 ; move a list of objects an amount specified by listOffset 
 ;; listObjects - ([<vla-object> <vla-object> ...])
 ;; listOffset = list of two real numbers representing offset in X and Y direction, respectively
+;; Returns: list of vla-objects that have been moved
 (defun TR:objectlist-offset ( listObjects listOffset / xOffset yOffset )
-  (setq xOffset (car listOffset)
-        yOffset (cadr listOffset))
-  (foreach o listObjects
-    (vla-move o
-      (vlax-3d-point 0 0 0) ; from
-      (vlax-3d-point xOffset yOffset 0); to
-    )
+  (mapcar
+    '(lambda (o)
+      (vla-move o
+        (vlax-3d-point 0 0 0) ; from
+        (vlax-3d-point listOffset); to
+      )
+	  o
+	)
+	listObjects
   )
-  (princ)
 )
 
 ; shift the objectlist so that bottom-left point of bounding area will be at origin
