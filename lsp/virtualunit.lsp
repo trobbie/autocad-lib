@@ -154,7 +154,6 @@
                offset)
   )
   (TR:objectlist-offset listCopies offset)
-  listCopies
 )
 
 (princ)
