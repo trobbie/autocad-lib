@@ -48,16 +48,12 @@
     listObjects)
 )
 
-; pickset = directly from an (ssget)
-(defun TR:pickset->objectlist ( pickset / ctr item l)
-  (setq ctr 0)
-  (repeat (sslength pickset)
-    (setq item (ssname pickset ctr))
-    (setq item (vlax-ename->vla-object item))
-    (setq l (cons item l))
-    (setq ctr (1+ ctr))
+(defun TR:objectlist-get-selected-objects ( )
+  ; use sssetfirst to ensure it remains selected/highlighted (i.e. unaltered)
+  (sssetfirst nil (ssget))
+  (TR:collection->objectlist
+     (vla-get-ActiveSelectionSet (vla-get-ActiveDocument (vlax-get-acad-object)))
   )
-  l ;return
 )
 
 ; move a list of objects an amount specified by listOffset 
