@@ -63,7 +63,7 @@
 ;; text = string; text contents
 ;; Returns = vla-object of type MText
 ;;;--------------------------------------------------------------;
-(defun TR:create-mtext( ptInsert width text )
+(defun TR:create-mtext( ptInsert width text / modelSpace)
   (setq modelSpace (vla-get-ModelSpace (vla-get-ActiveDocument (vlax-get-acad-object))))
   (vla-AddMText modelSpace 
     (vlax-3d-point ptInsert)
