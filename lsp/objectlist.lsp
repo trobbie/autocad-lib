@@ -48,12 +48,13 @@
     listObjects)
 )
 
-(defun TR:objectlist-get-selected-objects ( )
+(defun TR:objectlist-get-selected-objects ( / ss listObjects )
   ; use sssetfirst to ensure it remains selected/highlighted (i.e. unaltered)
   (sssetfirst nil (ssget))
-  (TR:collection->objectlist
-     (vla-get-ActiveSelectionSet (vla-get-ActiveDocument (vlax-get-acad-object)))
-  )
+  (setq ss (vla-get-ActiveSelectionSet (vla-get-ActiveDocument (vlax-get-acad-object))))
+  (setq listObjects (TR:collection->objectlist ss))
+  (vla-delete ss)
+  listObjects
 )
 
 ; move a list of objects an amount specified by listOffset 
