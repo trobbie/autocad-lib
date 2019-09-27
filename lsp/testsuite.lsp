@@ -198,14 +198,34 @@
   *TR:TESTSUITE-TEST-DOC*
 )
 
+(defun TR:testsuite-start-varcheck ()
+  (setq *TR:listOldSymbols* (atoms-family 1))
+  (terpri)(princ "Number of symobls (pre-test): ")(princ (length *TR:listOldSymbols*))
+)
+
+(defun TR:testsuite-end-varcheck ()
+  (setq listSymbolsDiff (vl-remove-if
+    ; don't include testsuite vars and test functions
+    '(lambda ( x )
+       (or (member x (list "TESTSUITENAME" "*TR:LISTOLDSYMBOLS*")) 
+           (wcmatch x "*:TEST*")
+       )
+    )
+    (LM:ListSymDifference *TR:listOldSymbols* (atoms-family 1))
+  ))
+  (cond ((> (length listSymbolsDiff) 1); ignore the local testsuiteName will 
+    (terpri)(princ "Global Variables unintentionally introduced? -> ")(princ listSymbolsDiff)
+  ))
+  (princ)
+)
+
 ; return T on success; else if nil, do not continue with tests
 (defun TR:testsuite-initialize ( / listObjects)
   ; also initialize test suite variables
   (setq *TR:testsuiteCounterSuccesses* 0)
   (setq *TR:testsuiteCounterFailures* 0)
 
-  (setq *TR:listOldSymbols* (atoms-family 1))
-  (terpri)(princ "Number of symobls (pre-test): ")(princ (length *TR:listOldSymbols*))
+  (TR:testsuite-start-varcheck)
 
   ; When test suites are used, the intention is to perform tests in a different environment
   ; than any currently used.  Therefore, it is advised the testsuite is run in a separate
@@ -232,19 +252,7 @@
   (terpri)(princ "*****************************")
   (terpri)(princ "Total successful tests: ")(princ *TR:testsuiteCounterSuccesses*)
   (terpri)(princ "Total failing tests: ")(princ *TR:testsuiteCounterFailures*)
-
-  (setq listSymbolsDiff (vl-remove-if
-    ; don't include testsuite vars and test functions
-    '(lambda ( x )
-       (or (member x (list "TESTSUITENAME" "*TR:LISTOLDSYMBOLS*")) 
-           (wcmatch x "*:TEST*")
-       )
-    )
-    (LM:ListSymDifference *TR:listOldSymbols* (atoms-family 1))
-  ))
-  (cond ((> (length listSymbolsDiff) 1); ignore the local testsuiteName will 
-    (terpri)(princ "Global Variables unintentionally (?) introduced: ")(princ listSymbolsDiff)
-  ))
+  (TR:testsuite-end-varcheck)
   (terpri)(princ "*****************************")
 
   (cond
