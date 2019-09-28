@@ -18,6 +18,17 @@
 )
 
 ;;;--------------------------------------------------------------;
+;;; Function: TR:object-scale-uneven                             ;
+;;;--------------------------------------------------------------;
+;; Scale object unevenly (where x and y scaling is independent)
+;;;--------------------------------------------------------------;
+(defun TR:object-scale-uneven ( object xScale yScale ptOrigin )
+  ;;TODO: NOT IMPLEMENTED
+
+  nil
+)
+
+;;;--------------------------------------------------------------;
 ;;; Function: TR:create-2d-rectangle                             ;
 ;;;--------------------------------------------------------------;
 ;; Return a vla-object representing the rectangle, given an 
