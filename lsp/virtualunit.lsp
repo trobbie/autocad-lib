@@ -125,7 +125,7 @@
   (setq bbCenter (TR:boundingbox-get-center bbOrig))
   (setq transMatrix (TR:virtualunit-get-tmatrix vu))
   (setq listCopies 
-    (TR:objectlist-map listObjectsOrig
+    (mapcar
       '(lambda (o)
         ; create copy
         (setq oCopy (vla-Copy o))
@@ -138,6 +138,7 @@
         (vla-TransformBy oCopy transMatrix)
         oCopy
       )
+	  listObjectsOrig
     )
   )
 

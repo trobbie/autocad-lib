@@ -2,10 +2,6 @@
 
 ;; Object lists = list of vla-objects
 
-(defun TR:objectlist-map ( listObjects func)
-  (mapcar func listObjects)
-)
-
 ;;;--------------------------------------------------------------;
 ;;; Function: TR:objectlist-get-boundingbox                      ;
 ;;;--------------------------------------------------------------;
