@@ -143,10 +143,28 @@
 )
 
 ;;;--------------------------------------------------------------;
+;; Wrappers for object, using boundingbox
+;;;--------------------------------------------------------------;
+(defun TR:object-get-left ( o )
+  (TR:boundingbox-get-left (TR:object-get-boundingbox o))
+)
+(defun TR:object-get-right ( o )
+  (TR:boundingbox-get-right (TR:object-get-boundingbox o))
+)
+(defun TR:object-get-bottom ( o )
+  (TR:boundingbox-get-bottom (TR:object-get-boundingbox o))
+)
+(defun TR:object-get-top ( o )
+  (TR:boundingbox-get-top (TR:object-get-boundingbox o))
+)
+(defun TR:object-get-center ( o )
+  (TR:boundingbox-get-center (TR:object-get-boundingbox o))
+)
+
+;;;--------------------------------------------------------------;
 ;;; Function: TR:get-boundingbox-of-two-points                   ;
 ;;;--------------------------------------------------------------;
-;; Description:                                                 ;
-;; Returns the 2d bounding box of two points.                      ;
+;; Returns the 2d bounding box of two points.
 ;;;--------------------------------------------------------------;
 (defun TR:get-boundingbox-of-two-points( pt1 pt2 )
   (if (and pt1 pt2)
