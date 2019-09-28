@@ -32,6 +32,25 @@
 )
 
 ;;;--------------------------------------------------------------;
+;; Wrappers for objectlist, using boundingbox
+;;;--------------------------------------------------------------;
+(defun TR:objectlist-get-left ( listObjects )
+  (TR:boundingbox-get-left (TR:objectlist-get-boundingbox listObjects))
+)
+(defun TR:objectlist-get-right ( listObjects )
+  (TR:boundingbox-get-right (TR:objectlist-get-boundingbox listObjects))
+)
+(defun TR:objectlist-get-bottom ( listObjects )
+  (TR:boundingbox-get-bottom (TR:objectlist-get-boundingbox listObjects))
+)
+(defun TR:objectlist-get-top ( listObjects )
+  (TR:boundingbox-get-top (TR:objectlist-get-boundingbox listObjects))
+)
+(defun TR:objectlist-get-center ( listObjects )
+  (TR:boundingbox-get-center (TR:objectlist-get-boundingbox listObjects))
+)
+
+;;;--------------------------------------------------------------;
 ;;; Function: TR:objectlist->safearray                           ;
 ;;;--------------------------------------------------------------;
 ;; Convert a list of objects to a safearray of objects.
