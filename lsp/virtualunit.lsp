@@ -138,7 +138,7 @@
         (vla-TransformBy oCopy transMatrix)
         oCopy
       )
-	  listObjectsOrig
+      listObjectsOrig
     )
   )
 

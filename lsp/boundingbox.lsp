@@ -77,11 +77,11 @@
     (mapcar
       '(lambda (minVal maxVal)
         (- maxVal minVal)
-	  )
-	  (car bb)
-	  (cadr bb)
+      )
+      (car bb)
+      (cadr bb)
     )
-	nil ; else bb was nil
+    nil ; else bb was nil
   )
 )
 

@@ -14,7 +14,7 @@
 ;;;--------------------------------------------------------------;
 (defun TR:objectlist->collection ( listObjects / objCollection count o)
   (setq objCollection (vlax-make-safearray vlax-vbObject (cons 0 (- (length listObjects) 1)))
-	    count 0)
+        count 0)
 
   (foreach o listObjects
    (vlax-safearray-put-element objCollection count o)
@@ -38,7 +38,7 @@
     ; on error (item not found)
     nil
     ; on success (item found)
-	(vla-item collection itemName)
+    (vla-item collection itemName)
   )
 )
 
@@ -103,10 +103,10 @@
     ; on error
     nil ; return nil to inform nothing was done
     ; on success
-	(progn
-	  (vla-delete (vla-item collection itemName))
-	  T ; return T to inform item was deleted
-	)
+    (progn
+      (vla-delete (vla-item collection itemName))
+      T ; return T to inform item was deleted
+    )
   )
 )
 
@@ -140,7 +140,7 @@
 (defun TR:collection->objectlist ( collection / l i )
   (if collection
     (vlax-for i collection
-	  (setq l (cons i l))
+      (setq l (cons i l))
     )
   )
   l ;return

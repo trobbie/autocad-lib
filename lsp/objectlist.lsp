@@ -86,9 +86,9 @@
         (vlax-3d-point 0 0 0) ; from
         (vlax-3d-point listOffset); to
       )
-	  o
-	)
-	listObjects
+      o
+    )
+    listObjects
   )
 )
 

@@ -15,7 +15,7 @@
       n
       (1+ n)
     )
-	nil ; if x is not a number
+    nil ; if x is not a number
   )
 )
 
@@ -33,8 +33,8 @@
     (if (or (= (setq n (fix x)) x) (< 0 x))
       n
       (1- n)
-	)
-	nil ; if x is not a number
+    )
+    nil ; if x is not a number
   )
 )
 
@@ -86,7 +86,7 @@
 (defun TR:radians->degrees( radians )
   (if (numberp radians)
     (*  180.0 (/ radians pi))
-	nil
+    nil
   )
 )
 ;;;--------------------------------------------------------------;
@@ -284,10 +284,9 @@
 ;;;--------------------------------------------------------------;
 (defun JB:min-dist (e1 e2 showMinLine / step e1 e2 p1 p2 len idx dis dlst curveOK getent hasb e3)
   ;;  CAB test to see if vlax-curve can be used on an object
-  (defun curveOK (ent)				  ; returns nil if not allowed
+  (defun curveOK (ent)                  ; returns nil if not allowed
     (not (vl-catch-all-error-p
-	   (vl-catch-all-apply 'vlax-curve-getendparam (list ent))
-	 )
+      (vl-catch-all-apply 'vlax-curve-getendparam (list ent)))
     )
   )
   ;;  get the min distance between 2 objects nearest to pt
@@ -295,7 +294,7 @@
   (defun 2ObjDist (e1 e2 p1 / p2 d fuzz)
     (setq fuzz 1E-8)
     (while (not
-	     (minusp
+         (minusp
 	       (- (distance p1 (setq p2 (vlax-curve-GetClosestPointTo e2 p1)))
 		  (setq d (distance p2 (setq p1 (vlax-curve-GetClosestPointTo e1 p2))))
 		  fuzz
