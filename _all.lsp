@@ -15,6 +15,7 @@
    "drawing.lsp"
    "calculations.lsp"
    "matrix.lsp"
+   "polyline.lsp"
    "virtualunit.lsp"
   ))
 
