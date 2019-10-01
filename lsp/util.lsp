@@ -204,6 +204,26 @@
   )
 )
 
+;;------------=={ SelectionSet -> VLA Objects }==-------------;;
+;;                                                            ;;
+;;  Converts a SelectionSet to a list of VLA Objects          ;;
+;;------------------------------------------------------------;;
+;;  Author: Lee Mac, Copyright © 2011 - www.lee-mac.com       ;;
+;;------------------------------------------------------------;;
+;;  Arguments:                                                ;;
+;;  ss - Valid SelectionSet (Pickset)                         ;;
+;;------------------------------------------------------------;;
+;;  Returns:  List of VLA Objects, else nil                   ;;
+;;------------------------------------------------------------;;
+
+(defun LM:ss->vla ( ss / i l )
+    (if ss
+        (repeat (setq i (sslength ss))
+            (setq l (cons (vlax-ename->vla-object (ssname ss (setq i (1- i)))) l))
+        )
+    )
+)
+
 ;;--------------=={ List Symmetric Difference }==-------------;;
 ;;                                                            ;;
 ;;  Returns items appearing exclusively in each list and not  ;;
