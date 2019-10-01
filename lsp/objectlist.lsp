@@ -52,6 +52,19 @@
 (defun TR:objectlist-get-center ( listObjects )
   (TR:boundingbox-get-center (TR:objectlist-get-boundingbox listObjects))
 )
+(defun TR:objectlist-get-bottomleft ( listObjects )
+  (TR:boundingbox-get-bottomleft (TR:objectlist-get-boundingbox listObjects))
+)
+(defun TR:objectlist-get-bottomright ( listObjects )
+  (TR:boundingbox-get-bottomright (TR:objectlist-get-boundingbox listObjects))
+)
+(defun TR:objectlist-get-topleft ( listObjects )
+  (TR:boundingbox-get-topleft (TR:objectlist-get-boundingbox listObjects))
+)
+(defun TR:objectlist-get-topright ( listObjects )
+  (TR:boundingbox-get-topright (TR:objectlist-get-boundingbox listObjects))
+)
+
 
 ;;;--------------------------------------------------------------;
 ;;; Function: TR:objectlist->safearray                           ;
