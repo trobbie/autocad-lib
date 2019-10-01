@@ -29,6 +29,18 @@
 )
 
 ;;;--------------------------------------------------------------;
+;;; Function: TR:object-set-color-rgb                            ;
+;;;--------------------------------------------------------------;
+;; Sets the color of a given object with the red-green-blue value.
+;;;--------------------------------------------------------------;
+(defun TR:object-set-color-rgb ( obj r g b / rgb)
+  (setq rgb (vlax-create-object "AutoCAD.AcCmColor.20"))
+  (if (not (vl-catch-all-error-p (vl-catch-all-apply 'vla-SetRGB (list rgb 128 128 128))))
+    (vl-catch-all-apply 'vla-put-truecolor (list obj rgb))
+  )
+)
+
+;;;--------------------------------------------------------------;
 ;;; Function: TR:create-2d-rectangle                             ;
 ;;;--------------------------------------------------------------;
 ;; Return a vla-object representing the rectangle, given an 
