@@ -86,14 +86,21 @@
 ;; can be used with autocad commands.
 ;;
 ;; listObjects - ([<vla-object> <vla-object> ...])
-;; Returns: a pickset
+;; Returns: a pickset, or nil if listObjects is nil or empty
 ;;;--------------------------------------------------------------;
 (defun TR:objectlist->pickset ( listObjects / ss)
-  (setq ss (ssadd))
-  (foreach o listObjects
-	  (ssadd (vlax-vla-object->ename o) ss)
+  (cond
+    ((> (length listObjects) 0)
+      (setq ss (ssadd))
+      (foreach o listObjects
+	      (ssadd (vlax-vla-object->ename o) ss)
+      )
+      ss
+    )
+    (T
+      nil
+    )
   )
-  ss
 )
 
 ;;;--------------------------------------------------------------;
