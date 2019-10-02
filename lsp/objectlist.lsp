@@ -79,6 +79,23 @@
     listObjects)
 )
 
+;;;--------------------------------------------------------------;
+;;; Function: TR:objectlist->pickset                             ;
+;;;--------------------------------------------------------------;
+;; Convert a list of objects to a pickset (selection set) that
+;; can be used with autocad commands.
+;;
+;; listObjects - ([<vla-object> <vla-object> ...])
+;; Returns: a pickset
+;;;--------------------------------------------------------------;
+(defun TR:objectlist->pickset ( listObjects / ss)
+  (setq ss (ssadd))
+  (foreach o listObjects
+	  (ssadd (vlax-vla-object->ename o) ss)
+  )
+  ss
+)
+  
 (defun TR:objectlist-get-selected-objects ( / ss listObjects )
   ; use sssetfirst to ensure it remains selected/highlighted (i.e. unaltered)
   (sssetfirst nil (ssget))
