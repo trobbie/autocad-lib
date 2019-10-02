@@ -65,11 +65,11 @@
   (TR:boundingbox-get-topright (TR:objectlist-get-boundingbox listObjects))
 )
 
-
 ;;;--------------------------------------------------------------;
 ;;; Function: TR:objectlist->safearray                           ;
 ;;;--------------------------------------------------------------;
 ;; Convert a list of objects to a safearray of objects.
+;;
 ;; listObjects - ([<vla-object> <vla-object> ...])
 ;; Returns: a safearray of values of type VLA-OBJECT
 ;;;--------------------------------------------------------------;
@@ -95,20 +95,37 @@
   )
   ss
 )
-  
+
+;;;--------------------------------------------------------------;
+;;; Function: TR:objectlist-get-selected-objects                 ;
+;;;--------------------------------------------------------------;
+;; Returns a list of objects representing the currently 
+;; selected objects, or if none selected, first asks user to
+;; select.  Any selection is no longer selected after this returns.
+;;
+;; listObjects - ([<vla-object> <vla-object> ...])
+;; Returns: list of vla-objects that have been selected
+;;;--------------------------------------------------------------;
 (defun TR:objectlist-get-selected-objects ( / ss listObjects )
   ; use sssetfirst to ensure it remains selected/highlighted (i.e. unaltered)
   (sssetfirst nil (ssget))
   (setq ss (vla-get-ActiveSelectionSet (vla-get-ActiveDocument (vlax-get-acad-object))))
   (setq listObjects (TR:collection->objectlist ss))
-  (vla-delete ss)
+  (vla-delete ss) ; this vla selectionset is no longer needed
   listObjects
 )
 
-; move a list of objects an amount specified by listOffset 
+;;;--------------------------------------------------------------;
+;;; Function: TR:objectlist-offset                               ;
+;;;--------------------------------------------------------------;
+;; Move a list of objects an amount specified by listOffset and
+;; and return the updated objects.
+;;
 ;; listObjects - ([<vla-object> <vla-object> ...])
-;; listOffset = list of two real numbers representing offset in X and Y direction, respectively
+;; listOffset = list of two real numbers representing offset in X
+;;   and Y direction, respectively
 ;; Returns: list of vla-objects that have been moved
+;;;--------------------------------------------------------------;
 (defun TR:objectlist-offset ( listObjects listOffset / xOffset yOffset )
   (mapcar
     '(lambda (o)
@@ -122,7 +139,15 @@
   )
 )
 
-; shift the objectlist so that bottom-left point of bounding area will be at origin
+;;;--------------------------------------------------------------;
+;;; Function: TR:objectlist-move-to-origin                       ;
+;;;--------------------------------------------------------------;
+;; Shift the list of objects so that bottom-left point of bounding
+;; area will be at origin.
+;;
+;; listObjects - ([<vla-object> <vla-object> ...])
+;; Returns: list of vla-objects that have been moved
+;;;--------------------------------------------------------------;
 (defun TR:objectlist-move-to-origin ( listObjects / bb o )
   (cond 
     ((not listObjects)
@@ -139,7 +164,6 @@
     )
   )
 )
-
 
 ;;;--------------------------------------------------------------;
 ;;; Function: TR:objectlist-scale-from-bottomleft-to-match-width ;
