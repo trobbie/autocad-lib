@@ -87,6 +87,13 @@
   (TR:testsuite-test-for-equality 'LM:Permutations (list '(1)) '((1)))
   (TR:testsuite-test-for-equality 'LM:Permutations (list nil) '(nil))
 
+  (TR:testsuite-test-for-equality 'TR:list-up-to-member (list '(1 2 3 4) 1) '(1))
+  (TR:testsuite-test-for-equality 'TR:list-up-to-member (list '(1 2 3 4) 2) '(1 2))
+  (TR:testsuite-test-for-equality 'TR:list-up-to-member (list '(1 2 3 4) 4) '(1 2 3 4))
+  (TR:testsuite-test-for-equality 'TR:list-up-to-member (list '(1 2 3 4) 5) nil)
+  (TR:testsuite-test-for-equality 'TR:list-up-to-member (list nil 1) nil)
+  (TR:testsuite-test-for-equality 'TR:list-up-to-member (list '(1 2 3 4) nil) nil)
+  (TR:testsuite-test-for-equality 'TR:list-up-to-member (list nil nil) nil)
 
   (princ)
 )
