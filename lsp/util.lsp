@@ -204,6 +204,20 @@
   )
 )
 
+;;;--------------------------------------------------------------;
+;;; Function: TR:list-up-to-member                               ;
+;;;--------------------------------------------------------------;
+;; Return elements of given list from first element up to and
+;; including the given element.  If given element not found, or
+;; list is empty, return nil.
+;;
+;; l = list
+;; e = element in list
+;;;--------------------------------------------------------------;
+(defun TR:list-up-to-member ( l e )
+  (reverse (member e (reverse l)))
+)
+
 ;;------------=={ SelectionSet -> VLA Objects }==-------------;;
 ;;                                                            ;;
 ;;  Converts a SelectionSet to a list of VLA Objects          ;;
