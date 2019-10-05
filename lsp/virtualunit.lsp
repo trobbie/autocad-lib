@@ -2,7 +2,8 @@
 ; until the proper function is called.  The referenced objects in the description can be
 ; anywhere in the document, and remain untouched (read-only) by these functions.  The
 ; intention is that many calculations can be done without having to recreate a separate
-; object, only creating a new drawing object when finished.
+; object, only creating a new drawing object when finished.  Groups of virtual units
+; are envisioned too.
 ;
 ; Assumptions:
 ; - The referenced objects won't chanage
@@ -32,6 +33,7 @@
 ; virtualunit's location within the array.  For the GroupInsertionPoint, there is another
 ; implied offset (from unit center to bottom-left corner) involved between rotation and
 ; GroupInsertionPoint.
+; If unit is not part of a group, this should be '(0 0 0).
 ; The bottom-left corner provides a consistant and easily-visualized reference point
 ; when relating to other virtual units.
 ;
@@ -161,8 +163,9 @@
   )
   ; move the BL (at origin now) to the insertion point
   (setq offset 
-    (mapcar '+ (TR:virtualunit-get-group-insertion-point vu)
-               offset)
+    (mapcar '+ offset
+              (TR:virtualunit-get-group-insertion-point vu)
+               ptInsert)
   )
   (TR:objectlist-offset listCopies offset)
 )
