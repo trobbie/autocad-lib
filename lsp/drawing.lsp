@@ -41,6 +41,18 @@
 )
 
 ;;;--------------------------------------------------------------;
+;;; Function: TR:object-explode                                  ;
+;;;--------------------------------------------------------------;
+ ; Explode a given object and return a list of the exploded vla-objects
+;;;--------------------------------------------------------------;
+(defun TR:object-explode ( o )
+  (if o
+    (vlax-safearray->list (vlax-variant-value (vla-Explode o)))
+    nil
+  )
+)
+
+;;;--------------------------------------------------------------;
 ;;; Function: TR:create-2d-rectangle                             ;
 ;;;--------------------------------------------------------------;
 ;; Return a vla-object representing the rectangle, given an 
