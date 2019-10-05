@@ -23,4 +23,11 @@
   (princ)
 )
 
+(defun TR:test-doc3-rect ()
+  (terpri)
+  (command ".RECTANGLE" "_NONE" "*0,0" "_NONE" "10,5") ; 10x5
+
+  (princ)
+)
+
 (princ)
