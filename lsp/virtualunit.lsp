@@ -10,7 +10,7 @@
 ; Format:
 ;   (("Objects" . (list of <vla-object>))
 ;    ("RotationDegrees" . <real number, representing degrees of rotation>)
-;    ("InsertionPoint" . <list of 3 real numbers, representing insertion point>)
+;    ("GroupInsertionPoint" . <list of 3 real numbers, representing insertion point>)
 ;   )
 ;
 ; There is an implied origin translation at the beginning where the entire unit
@@ -25,12 +25,21 @@
 ; The RotationDegrees represents taking all objects from the implied origin 
 ; (center of bounding box surrounding all objects) and performing rotation.
 ;
-; InsertionPoint:
-; The insertion 3d point is where the entire unit will be placed so that the _bottom-left_
-; point of the rotated unit's bounding box is put there.  This means there is another
-; implied offset (from origin to bottom-left corner) involved between rotation and insertion.
+; GroupInsertionPoint:
+; The group insertion 3d point is where the unit's _bottom-left_ point of the rotated
+; unit's bounding box will be placed relative to a group origin.
+; Think an array of virtualunits on the screen, and GroupInsertionPoint species this 
+; virtualunit's location within the array.  For the GroupInsertionPoint, there is another
+; implied offset (from unit center to bottom-left corner) involved between rotation and
+; GroupInsertionPoint.
 ; The bottom-left corner provides a consistant and easily-visualized reference point
 ; when relating to other virtual units.
+;
+; InsertionPoint: (not defined inside virtualunit)
+; Not defined until drawing objects are created, and allow a group of virtualunits to be
+; placed together at an insertion point.  This is different than the GroupInsertionPoint,
+; which is defined before drawing object creation and specifies any placement of this
+; virtualunit within a group.
 ;
 ; When creating a drawing object. we will always create a _copy_ of  the original
 ; objects, then performing the appropriate translations and transformations.
@@ -51,7 +60,7 @@
   (list 
     (cons "Objects" listObjects)
     (cons "RotationDegrees" degreesRotation)
-    (cons "InsertionPoint" (TR:point->3d-point ptInsert))
+    (cons "GroupInsertionPoint" (TR:point->3d-point ptInsert))
   )
 )
 
@@ -62,16 +71,16 @@
   (TR:virtualunit-create-virtual-with-props 
     (TR:virtualunit-get-objects vu)
     degrees
-    (TR:virtualunit-get-property vu "InsertionPoint")
+    (TR:virtualunit-get-property vu "GroupInsertionPoint")
   )
 )
 
 ; Returns a new virtual unit that has the same properties as the given one except
 ; that the InsertionPoint has been replaced with the given insertion point
-(defun TR:virtualunit-copy-with-new-insertion-point ( vu ptInsert)
+(defun TR:virtualunit-copy-with-new-group-insertion-point ( vu ptInsert)
   (TR:virtualunit-create-virtual-with-props 
     (TR:virtualunit-get-objects vu)
-    (TR:virtualunit-get-property vu "RotationDegrees")
+    (TR:virtualunit-get-property vu "GroupInsertionPoint")
     (TR:point->3d-point ptInsert)
   )
 )
@@ -92,17 +101,17 @@
   (TR:virtualunit-set-property vu "RotationDegrees" degrees)
 )
 
-(defun TR:virtualunit-get-insertion-point ( vu )
-  (TR:virtualunit-get-property vu "InsertionPoint")
+(defun TR:virtualunit-get-group-insertion-point ( vu )
+  (TR:virtualunit-get-property vu "GroupInsertionPoint")
 )
-(defun TR:virtualunit-set-insertion-point ( vu ptInsert )
-  (TR:virtualunit-set-property vu "InsertionPoint" (TR:point->3d-point ptInsert))
+(defun TR:virtualunit-set-group-insertion-point ( vu ptInsert )
+  (TR:virtualunit-set-property vu "GroupInsertionPoint" (TR:point->3d-point ptInsert))
 )
 
 (defun TR:virtualunit-get-boundingbox ( vu / tempListObjects bb)
   ; TODO: way to do this w/o creating/deleting a vla-object?
 
-  (setq tempListObjects (TR:virtualunit-create-drawing-objects vu))
+  (setq tempListObjects (TR:virtualunit-create-drawing-objects vu '(0 0 0)))
   (setq bb (TR:objectlist-get-boundingbox tempListObjects))
   (foreach o tempListObjects
     (vla-delete o)
@@ -117,8 +126,9 @@
 )
 
 ; create a _copy_ of the original read-only objects, then performing the 
-; appropriate translations and transformations.
-(defun TR:virtualunit-create-drawing-objects ( vu / listObjectsOrig listCopies bbOrig o oCopy bbRotated bbCenter )
+; appropriate translations and transformations, and finally move so
+; bottom-left point is at insertion point (ptInsert).
+(defun TR:virtualunit-create-drawing-objects ( vu ptInsert / listObjectsOrig listCopies bbOrig o oCopy bbRotated bbCenter )
 
   (setq listObjectsOrig (TR:virtualunit-get-objects vu))
   (setq bbOrig (TR:objectlist-get-boundingbox listObjectsOrig))
@@ -151,7 +161,7 @@
   )
   ; move the BL (at origin now) to the insertion point
   (setq offset 
-    (mapcar '+ (TR:virtualunit-get-insertion-point vu)
+    (mapcar '+ (TR:virtualunit-get-group-insertion-point vu)
                offset)
   )
   (TR:objectlist-offset listCopies offset)
