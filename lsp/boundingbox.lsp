@@ -181,4 +181,32 @@
   )
 )
 
+
+;;;--------------------------------------------------------------;
+;;; Function: TR:get-boundingbox-of-two-points                   ;
+;;;--------------------------------------------------------------;
+;; Return non-nil if boundingbox encloses another. Border cases
+;; are seen as included up to a fuzz factor.
+;;
+;; bb - bounding box to test if enclosing
+;; bb2 - bounding box to test if being enclosed
+;; Returns: if bb encloses bb2 
+;;;--------------------------------------------------------------;
+(setq *TR:BOUNDINGBOX-BOUNDARIES-FUZZ* 0.000001)
+(defun TR:boundingbox-encloses-boundingbox (bb bb2 / bb_BL bb_TR bb2_BL bb2_TR)
+  (setq bb_BL (car bb)
+        bb_TR (cadr bb)
+        bb2_BL (car bb2)
+        bb2_TR (cadr bb2)
+  (and (or (>= (car bb2_BL) (car bb_BL))
+           (equal (car bb2_BL) (car bb_BL) *TR:BOUNDINGBOX-BOUNDARIES-FUZZ*))
+       (or (<= (car bb2_TR) (car bb_TR))
+           (equal (car bb2_TR) (car bb_TR) *TR:BOUNDINGBOX-BOUNDARIES-FUZZ*))
+       (or (>= (cadr bb2_BL) (cadr bb_BL))
+           (equal (cadr bb2_BL) (cadr bb_BL) *TR:BOUNDINGBOX-BOUNDARIES-FUZZ*))
+       (or (<= (cadr bb2_TR) (cadr bb_TR))
+           (equal (cadr bb2_TR) (cadr bb_TR) *TR:BOUNDINGBOX-BOUNDARIES-FUZZ*)))
+
+)
+
 (princ)
