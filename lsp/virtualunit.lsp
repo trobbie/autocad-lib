@@ -82,7 +82,7 @@
 (defun TR:virtualunit-copy-with-new-group-insertion-point ( vu ptInsert)
   (TR:virtualunit-create-virtual-with-props 
     (TR:virtualunit-get-objects vu)
-    (TR:virtualunit-get-property vu "GroupInsertionPoint")
+    (TR:virtualunit-get-property vu "RotationDegrees")
     (TR:point->3d-point ptInsert)
   )
 )
@@ -131,7 +131,7 @@
 ; appropriate translations and transformations, and finally move so
 ; bottom-left point is at insertion point (ptInsert).
 (defun TR:virtualunit-create-drawing-objects ( vu ptInsert / listObjectsOrig listCopies bbOrig o oCopy bbRotated bbCenter )
-
+  
   (setq listObjectsOrig (TR:virtualunit-get-objects vu))
   (setq bbOrig (TR:objectlist-get-boundingbox listObjectsOrig))
   (setq bbCenter (TR:boundingbox-get-center bbOrig))
