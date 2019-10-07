@@ -173,20 +173,19 @@
 )
 
 ;;;--------------------------------------------------------------;
-;;; Function: TR:objectlist-scale-from-bottomleft-to-match-width ;
+;;; Function: TR:objectlist-scale-from-bottomleft-with-scale-factor ;
 ;;;--------------------------------------------------------------;
 ;; Scale the objectlist to match the width specified, keeping
 ;; the bottom-left point stationary.
 ;;
 ;; listObjects - list of vla-objects to scale
-;; width - real value representing width to match
+;; scaleFactor - real number representing scale factor
 ;; Returns scaled object
 ;;;--------------------------------------------------------------;
-(defun TR:objectlist-scale-from-bottomleft-to-match-width ( listObjects width )
-  (vla-ScaleEntity 
-    listObjects 
-    (vlax-3d-point (TR:boundingbox-get-bottom-left (TR:objectlist-get-boundingbox listObjects)))
-    (/ (float width) (car (TR:objectlist-get-size listObjects)))
+(defun TR:objectlist-scale-from-bottomleft-with-scale-factor ( listObjects scaleFactor / o ptBase )
+  (setq ptBase (vlax-3d-point (TR:boundingbox-get-bottomleft (TR:objectlist-get-boundingbox listObjects))))
+  (foreach o listObjects
+    (vla-ScaleEntity o ptBase scaleFactor)
   )
   listObjects
 )
