@@ -22,10 +22,17 @@
 ;;;--------------------------------------------------------------;
 ;; Scale object unevenly (where x and y scaling is independent)
 ;;;--------------------------------------------------------------;
-(defun TR:object-scale-uneven ( object xScale yScale ptOrigin )
-  ;;TODO: NOT IMPLEMENTED
+;; Author: heavily influenced by jdvillarreal and BeekeeCZ from
+;; the autodesk forums.
+;;;--------------------------------------------------------------;
+(defun TR:object-scale-uneven ( object xScale yScale ptBase / ptBase3d )
 
-  nil
+  (setq ptBase3d (TR:point->3d-point ptBase))
+  (command "_.-BLOCK"  "TmpBlk" "_none" ptBase3d (TR:objectlist->pickset (list object)) ""
+	     "_.-INSERT" "TmpBlk" "_R" 0 "_X" xScale "_Y" yScale "_none" ptBase3d
+	     "_.EXPLODE" "_L"
+	     "_.-PURGE" "_B" "TmpBlk" "_N")
+  (TR:objectlist-join (LM:ss->vla (ssget "_P")))
 )
 
 ;;;--------------------------------------------------------------;
