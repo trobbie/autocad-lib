@@ -197,7 +197,7 @@
   (setq bb_BL (car bb)
         bb_TR (cadr bb)
         bb2_BL (car bb2)
-        bb2_TR (cadr bb2)
+        bb2_TR (cadr bb2))
   (and (or (>= (car bb2_BL) (car bb_BL))
            (equal (car bb2_BL) (car bb_BL) *TR:BOUNDINGBOX-BOUNDARIES-FUZZ*))
        (or (<= (car bb2_TR) (car bb_TR))
