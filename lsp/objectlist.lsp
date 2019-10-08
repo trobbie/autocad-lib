@@ -207,6 +207,21 @@
   )
 
 ;;;--------------------------------------------------------------;
+;;; Function: TR:objectlist-print                              ;
+;;;--------------------------------------------------------------;
+;; Print data of the objects in a list.
+;;;--------------------------------------------------------------;
+(defun TR:objectlist-print ( listObjects / priorPeditaccept)
+  (terpri)(princ "Object list:")
+  (foreach o listObjects
+    (princ (strcat "\n  " (vl-princ-to-string o)
+      "- Type: " (vlax-get-property o 'ObjectName)
+      " Data: " (vl-princ-to-string (entget (vlax-vla-object->ename o)))
+    ))
+  )
+)
+
+;;;--------------------------------------------------------------;
 ;;; Function: TR:objectlist-calculate-total-length               ;
 ;;;--------------------------------------------------------------;
 ;; Sums all lengths of objects in the supplied list.  If an
