@@ -27,6 +27,20 @@
   (princ)
 )
 
+(defun TR:test-objectlist-explode ()
+  (TR:testsuite-test-drawing
+    'TR:test-doc1-rects
+    '(lambda ( listObjectsAll )
+      (setq listObjectsAllExploded (TR:objectlist-explode listObjectsAll))
+      (TR:testsuite-test-value-for-equality "TR:objectlist-explode on doc1 - # distinct objects" (length listObjectsAllExploded) 8)
+      (TR:testsuite-test-value-for-equality "TR:objectlist-explode on doc1 - prior objects removed - # distinct objects"
+        (length (TR:collection->objectlist (vla-get-ModelSpace (vla-get-ActiveDocument (vlax-get-acad-object)))))
+        8
+      )
+    )
+  )
+)
+
 (defun TR:test ()
   (TR:test-objectlist-get-boundingbox)
   (TR:test-objectlist-calculate-total-length)
