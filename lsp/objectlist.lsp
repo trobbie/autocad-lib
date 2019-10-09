@@ -210,9 +210,9 @@
 ;;;--------------------------------------------------------------;
 ;;; Function: TR:objectlist-explode                              ;
 ;;;--------------------------------------------------------------;
-;; Explode the given list of objects.  Afterwards listObjects will
-;; have been deleted, replaced with the exploded objects.
-;; Returns: the list of objects that were replaced listObjects
+;; Explode the given list of objects.  Afterwards objects in given
+;; list will still remain in the document.
+;; Returns: the list of objects representing the exploded listObjects
 ;;;--------------------------------------------------------------;
 (defun TR:objectlist-explode ( listObjects )
   (apply

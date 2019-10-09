@@ -50,7 +50,8 @@
 ;;;--------------------------------------------------------------;
 ;;; Function: TR:object-explode                                  ;
 ;;;--------------------------------------------------------------;
- ; Explode a given object and return a list of the exploded vla-objects
+;; Explode a given object and return a list of the exploded vla-objects
+;; The given object still remains in the document.
 ;;;--------------------------------------------------------------;
 (defun TR:object-explode ( o )
   (if o
