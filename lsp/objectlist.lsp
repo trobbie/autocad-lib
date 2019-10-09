@@ -208,6 +208,25 @@
 )
 
 ;;;--------------------------------------------------------------;
+;;; Function: TR:objectlist-explode                              ;
+;;;--------------------------------------------------------------;
+;; Explode the given list of objects.  Afterwards listObjects will
+;; have been deleted, replaced with the exploded objects.
+;; Returns: the list of objects that were replaced listObjects
+;;;--------------------------------------------------------------;
+(defun TR:objectlist-explode ( listObjects )
+  (apply
+    'append
+    (mapcar
+      '(lambda (o)
+        (TR:object-explode o)
+      )
+      listObjects
+    )
+  )
+)
+
+;;;--------------------------------------------------------------;
 ;;; Function: TR:objectlist-print                              ;
 ;;;--------------------------------------------------------------;
 ;; Print data of the objects in a list.
