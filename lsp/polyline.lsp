@@ -9,9 +9,9 @@
 ;;   to the end of the list if it is a closed polyline
 ;; Returns: list of (x y) coordinates representing the vertices
 ;;;--------------------------------------------------------------;
-(defun TR:polyline-get-coordinates ( o includeClosingPoint)
+(defun TR:polyline-get-coordinates ( o includeClosingPoint / pts)
   (cond 
-    ((= (vlax-get-property o 'ObjectName) "AcDbPolyline" )
+    ((= (vlax-get-property o 'ObjectName) "AcDbPolyline")
       (setq pts (mapcar 'cdr (acet-list-m-assoc 10 (entget (vlax-vla-object->ename o)))))
       ; if polyline is closed, append the first point to the end
       (if (and includeClosingPoint
