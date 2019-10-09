@@ -30,4 +30,12 @@
   (princ)
 )
 
+(defun TR:test-doc4-rects-sidebyside ()
+  (terpri)
+  (command ".RECTANGLE" "_NONE" "*0,0" "_NONE" "10,5") ; 10x5
+  (command ".RECTANGLE" "_NONE" "*10,0" "_NONE" "20,5") ; 10x5
+
+  (princ)
+)
+
 (princ)
