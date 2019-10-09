@@ -51,7 +51,8 @@
   (setvar "CMDECHO" priorCmdecho)
   (setvar "OSMODE" priorOsmode)
 
-  (mapcar 'vla-Delete listObjects) ; delete all objects created
+  ; delete all objects in modelspace (test may have changed original)
+  (mapcar 'vla-Delete (TR:collection->objectlist modelspace))
   
   (princ)
 )
