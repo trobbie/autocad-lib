@@ -163,9 +163,9 @@
     (T
       (setq bb (TR:objectlist-get-boundingbox listObjects))
       (TR:objectlist-offset listObjects
-        (list 
-          (* -1.0 (TR:boundingbox-get-left bb))
-          (* -1.0 (TR:boundingbox-get-bottom bb))
+        (mapcar
+          '-
+          (TR:boundingbox-get-bottomleft bb)
         )
       )
     )
