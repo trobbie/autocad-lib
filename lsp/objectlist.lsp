@@ -195,16 +195,17 @@
 ;;;--------------------------------------------------------------;
 ;; Join the given list of objects if possible.  This calls PEDIT
 ;; using the "JOIN" option and will not guarantee the objects to
-; ;be joined.  Return the resulting object list.
+;; be joined.
+;; Returns: the resulting object list that was created.
 ;;;--------------------------------------------------------------;
 (defun TR:objectlist-join ( listObjects / priorPeditaccept)
-    ; set PEDITACCEPT env var to avoid getting a "convert to polyline?" question
-    (setq priorPeditaccept (getvar "peditaccept"))
-    (setvar "peditaccept" 1)
-    (command "_.pedit" "_m" (TR:objectlist->pickset listObjects) "" "_j" "" "")
-    (setvar "peditaccept" priorPeditaccept)
-    (LM:ss->vla (ssget "_P"))
-  )
+  ; set PEDITACCEPT env var to avoid getting a "convert to polyline?" question
+  (setq priorPeditaccept (getvar "peditaccept"))
+  (setvar "peditaccept" 1)
+  (command "_.pedit" "_m" (TR:objectlist->pickset listObjects) "" "_j" "" "")
+  (setvar "peditaccept" priorPeditaccept)
+  (LM:ss->vla (ssget "_P"))
+)
 
 ;;;--------------------------------------------------------------;
 ;;; Function: TR:objectlist-print                              ;
