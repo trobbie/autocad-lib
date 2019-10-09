@@ -9,6 +9,7 @@
     "test-calculations.lsp"
     "test-boundingbox.lsp"
     "test-objectlist.lsp"
+    "test-drawing.lsp"
   ))
 
   (cond ((TR:testsuite-initialize)
