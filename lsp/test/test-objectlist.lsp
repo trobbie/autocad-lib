@@ -3,7 +3,7 @@
   (TR:testsuite-test-drawing
     'TR:test-doc1-rects
     '(lambda ( listObjectsAll )
-      (TR:testsuite-test-for-equality 'TR:objectlist-get-boundingbox (list listObjectsAll) '((0.0 0.0)(10.0 5.0)))
+      (TR:testsuite-test-for-equality 'TR:objectlist-get-boundingbox (list listObjectsAll) '((0.0 0.0 0.0)(10.0 5.0 0.0)))
     )
   )
   (princ)

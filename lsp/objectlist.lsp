@@ -14,7 +14,7 @@
 ;;;--------------------------------------------------------------;
 (defun TR:objectlist-get-boundingbox ( listObjects / listBLpoints listTRpoints o o_bb a b)
   (foreach o listObjects
-    (setq o_bb (TR:object-get-boundingbox o)
+    (setq o_bb (TR:object-get-boundingbox3d o)
           listBLpoints (cons (TR:boundingbox-get-bottomleft o_bb) listBLpoints)
           listTRpoints (cons (TR:boundingbox-get-topright o_bb) listTRpoints)
     )
