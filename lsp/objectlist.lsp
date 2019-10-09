@@ -195,8 +195,14 @@
 ;;;--------------------------------------------------------------;
 ;; Join the given list of objects if possible.  This calls PEDIT
 ;; using the "JOIN" option and will not guarantee the objects to
-;; be joined.
-;; Returns: the resulting object list that was created.
+;; be joined (e.g. if points didn't match).  This may create multiple
+;; polylines, so ideally only call this assuming the list of objects will
+;; create at most one joined polyline, since the return value only 
+;; returns one joined polyline.
+;; Side effect: not all objects in given list will still exist in
+;; document after calling this.
+;; Returns: the last polyline created from joining.  Note: if
+;; multiple polylines were created, this only returns one arbitrarily.
 ;;;--------------------------------------------------------------;
 (defun TR:objectlist-join ( listObjects / priorPeditaccept)
   ; set PEDITACCEPT env var to avoid getting a "convert to polyline?" question
@@ -204,7 +210,7 @@
   (setvar "peditaccept" 1)
   (command "_.pedit" "_m" (TR:objectlist->pickset listObjects) "" "_j" "" "")
   (setvar "peditaccept" priorPeditaccept)
-  (LM:ss->vla (ssget "_P"))
+  (LM:ss->vla (ssget "_L"))
 )
 
 ;;;--------------------------------------------------------------;
