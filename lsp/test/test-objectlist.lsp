@@ -32,11 +32,10 @@
     'TR:test-doc1-rects
     '(lambda ( listObjectsAll )
       (setq listObjectsAllExploded (TR:objectlist-explode listObjectsAll))
-      (TR:testsuite-test-value-for-equality "TR:objectlist-explode on doc1 - # distinct objects" (length listObjectsAllExploded) 8)
-      (TR:testsuite-test-value-for-equality "TR:objectlist-explode on doc1 - prior objects removed - # distinct objects"
+      (TR:testsuite-test-value-for-equality "TR:objectlist-explode on doc1 - result - # distinct objects" (length listObjectsAllExploded) 8)
+      (TR:testsuite-test-value-for-equality "TR:objectlist-explode on doc1 - prior objects still remain - # distinct objects"
         (length (TR:collection->objectlist (vla-get-ModelSpace (vla-get-ActiveDocument (vlax-get-acad-object)))))
-        8
-      )
+        10)
     )
   )
 )
@@ -44,6 +43,7 @@
 (defun TR:test ()
   (TR:test-objectlist-get-boundingbox)
   (TR:test-objectlist-calculate-total-length)
+  (TR:test-objectlist-explode)
 )
 
 (princ)
