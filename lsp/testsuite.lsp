@@ -14,6 +14,8 @@
 (setq *TR:TESTSUITE-TEST-DOC* nil)
 (setq *TR:TESTSUITE-PRINT-SUCCESS* nil)
 
+(setq *TR:TESTSUITE-CHECK-GLOBAL-VARS* nil)
+
 ;;;--------------------------------------------------------------;
 ;;; Function: TR:testsuite-test-drawing                          ;
 ;;;--------------------------------------------------------------;
@@ -200,22 +202,26 @@
 )
 
 (defun TR:testsuite-start-varcheck ()
-  (setq *TR:listOldSymbols* (atoms-family 1))
-  (terpri)(princ "Number of symobls (pre-test): ")(princ (length *TR:listOldSymbols*))
+  (cond (*TR:TESTSUITE-CHECK-GLOBAL-VARS*
+    (setq *TR:listOldSymbols* (atoms-family 1))
+    (terpri)(princ "Number of symobls (pre-test): ")(princ (length *TR:listOldSymbols*))
+  ))
 )
 
 (defun TR:testsuite-end-varcheck ()
-  (setq listSymbolsDiff (vl-remove-if
-    ; don't include testsuite vars and test functions
-    '(lambda ( x )
-       (or (member x (list "TESTSUITENAME" "*TR:LISTOLDSYMBOLS*")) 
-           (wcmatch x "*:TEST*")
-       )
-    )
-    (LM:ListSymDifference *TR:listOldSymbols* (atoms-family 1))
-  ))
-  (cond ((> (length listSymbolsDiff) 1); ignore the local testsuiteName will 
-    (terpri)(princ "Global Variables unintentionally introduced? -> ")(princ listSymbolsDiff)
+  (cond (*TR:TESTSUITE-CHECK-GLOBAL-VARS*
+    (setq listSymbolsDiff (vl-remove-if
+      ; don't include testsuite vars and test functions
+      '(lambda ( x )
+        (or (member x (list "TESTSUITENAME" "*TR:LISTOLDSYMBOLS*")) 
+            (wcmatch x "*:TEST*")
+        )
+      )
+      (LM:ListSymDifference *TR:listOldSymbols* (atoms-family 1))
+    ))
+    (cond ((> (length listSymbolsDiff) 1); ignore the local testsuiteName will 
+      (terpri)(princ "Global Variables unintentionally introduced? -> ")(princ listSymbolsDiff)
+    ))
   ))
   (princ)
 )
