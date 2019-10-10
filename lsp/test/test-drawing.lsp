@@ -1,6 +1,6 @@
 
 
-(defun TR:test ()
+(defun TR:test ( / explodedObjects)
 
   (TR:testsuite-test-drawing
     'TR:test-doc3-rect

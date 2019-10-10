@@ -138,7 +138,7 @@
   (setq transMatrix (TR:virtualunit-get-tmatrix vu))
   (setq listCopies 
     (mapcar
-      '(lambda (o)
+      '(lambda (o / oCopy)
         ; create copy
         (setq oCopy (vla-Copy o))
         ; do implied translation to origin
