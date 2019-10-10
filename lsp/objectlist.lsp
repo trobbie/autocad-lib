@@ -122,7 +122,7 @@
   
   ; ensure the selection is clear in the document
   (sssetfirst nil nil)
-  
+
   listObjects
 )
 
@@ -235,14 +235,8 @@
 (defun TR:objectlist-join ( listObjects / priorPeditaccept)
   ; set PEDITACCEPT env var to avoid getting a "convert to polyline?" question
   (setq priorPeditaccept (getvar "peditaccept"))
-
-  (setq ss (TR:objectlist->pickset listObjects))
-  (foreach o (LM:ss->vla ss)
-    (princ "\nTEST: ")(princ o)(princ ": ")(princ (vlax-erased-p o))
-  )
-
   (setvar "peditaccept" 1)
-  (command "_.pedit" "_m" ss "" "_j" "" "")
+  (command "_.pedit" "_m" (TR:objectlist->pickset listObjects) "" "_j" "" "")
   (setvar "peditaccept" priorPeditaccept)
   (LM:ss->vla (ssget "_L"))
 )
