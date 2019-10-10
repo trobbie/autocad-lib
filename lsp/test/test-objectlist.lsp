@@ -32,10 +32,30 @@
     'TR:test-doc1-rects
     '(lambda ( listObjectsAll )
       (setq listObjectsAllExploded (TR:objectlist-explode listObjectsAll))
-      (TR:testsuite-test-value-for-equality "TR:objectlist-explode on doc1 - result - # distinct objects" (length listObjectsAllExploded) 8)
+      (TR:testsuite-test-value-for-equality "TR:objectlist-explode on doc1 - result - # distinct objects"
+        (length listObjectsAllExploded)
+        8)
       (TR:testsuite-test-value-for-equality "TR:objectlist-explode on doc1 - prior objects still remain - # distinct objects"
         (length (TR:collection->objectlist (vla-get-ModelSpace (vla-get-ActiveDocument (vlax-get-acad-object)))))
         10)
+    )
+  )
+)
+
+(defun TR:test-objectlist-copy ()
+   (TR:testsuite-test-drawing
+    'TR:test-doc1-rects
+    '(lambda ( listObjectsAll / listObjectsCopy)
+      (setq listObjectsCopy (TR:objectlist-copy listObjects (TR:objectlist-get-bottomright listObjectsAll)))
+      (TR:testsuite-test-value-for-equality "TR:objectlist-copy on doc1 - result - # distinct objects"
+        (length listObjectsCopy)
+        2)
+      (TR:testsuite-test-value-for-equality "TR:objectlist-copy on doc1 - prior objects still remain - # distinct objects"
+        (length (TR:collection->objectlist (vla-get-ModelSpace (vla-get-ActiveDocument (vlax-get-acad-object)))))
+        4)
+      (TR:testsuite-test-value-for-equality "TR:objectlist-copy on doc1 - resulting insertion point"
+        (TR:objectlist-get-bottomleft listObjectsCopy)
+        '(10. 0. 0.))
     )
   )
 )
@@ -47,7 +67,7 @@
 
   (TR:testsuite-test-drawing
     'TR:test-doc4-rects-sidebyside
-    '(lambda ( listObjectsAll )
+    '(lambda ( listObjectsAll / listObjectsAllExploded)
       (setq listObjectsAllExploded (TR:objectlist-explode listObjectsAll))
 
       (setq listObjectsJoinedOne (TR:objectlist-join listObjectsAllExploded))
@@ -66,7 +86,7 @@
 
   (TR:testsuite-test-drawing
     'TR:test-doc2-supported-objects
-    '(lambda ( listObjectsAll )
+    '(lambda ( listObjectsAll / listObjectsJoined)
       (setq listObjectsJoined (TR:objectlist-join listObjectsAll))
       (TR:testsuite-test-value-for-equality "TR:objectlist-join on doc2 - result - # distinct objects"
         (length listObjectsJoined)
@@ -84,6 +104,7 @@
   (TR:test-objectlist-get-boundingbox)
   (TR:test-objectlist-calculate-total-length)
   (TR:test-objectlist-explode)
+  (TR:test-objectlist-copy)
   (TR:test-objectlist-join)
 )
 

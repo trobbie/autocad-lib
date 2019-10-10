@@ -147,6 +147,30 @@
 )
 
 ;;;--------------------------------------------------------------;
+;;; Function: TR:objectlist-copy                                 ;
+;;;--------------------------------------------------------------;
+;; Copy a list of objects and place its bottom-left corner at
+;; the given insert point.
+;;
+;; listObjects - ([<vla-object> <vla-object> ...])
+;; ptInsert = (x y [z]), real numbers representing insert point
+;; Returns: list of vla-objects that resulted from the copy
+;;;--------------------------------------------------------------;
+(defun TR:objectlist-copy (listObjects ptInsert / oCopy)
+  (mapcar 
+    '(lambda (o)
+      (vla-Move 
+        (setq oCopy (vla-Copy o))
+        (vlax-3d-point (TR:objectlist-get-bottomleft listObjects))
+        (vlax-3d-point ptInsert)
+      )
+      oCopy
+    )
+    listObjects 
+  )
+)
+
+;;;--------------------------------------------------------------;
 ;;; Function: TR:objectlist-move-to-origin                       ;
 ;;;--------------------------------------------------------------;
 ;; Shift the list of objects so that bottom-left point of bounding
