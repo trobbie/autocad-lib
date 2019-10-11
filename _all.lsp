@@ -20,7 +20,6 @@
   ))
 
   (foreach relpath loadOrder
-    (aa:debug-print (strcat "Loading file: " relpath "..."))
     (load (strcat *TR:srcFolder* "\\lsp\\" relpath))
   )
 
