@@ -304,7 +304,7 @@
                 (vlax-property-available-p o "Circumference"))
             (vlax-get-property o "Circumference")
           )
-          ((vl-position o_name (list "AcDbRotatedDimension" "AcDbText"))
+          ((vl-position o_name (list "AcDbRotatedDimension" "AcDbText" "AcDb2LineAngularDimension"))
             ; ignore annotation-like objects
             (float 0)
           )
