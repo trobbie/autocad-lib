@@ -32,7 +32,7 @@
 	     "_.-INSERT" "TmpBlk" "_R" 0 "_X" xScale "_Y" yScale "_none" ptBase3d
 	     "_.EXPLODE" "_L"
 	     "_.-PURGE" "_B" "TmpBlk" "_N")
-  (TR:objectlist-join (LM:ss->vla (ssget "_P")))
+  (car (TR:objectlist-join (LM:ss->vla (ssget "_P"))))
 )
 
 ;;;--------------------------------------------------------------;
