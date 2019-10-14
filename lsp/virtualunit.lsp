@@ -118,7 +118,6 @@
   (foreach o tempListObjects
     (vla-delete o)
   )
-  ;(TR:objectlist-get-boundingbox (TR:virtualunit-get-objects vu))
   bb
 )
 
