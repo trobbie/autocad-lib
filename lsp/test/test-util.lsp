@@ -82,6 +82,15 @@
   (TR:testsuite-test-for-equality 'TR:string-pad-right (list "Test" " " 0) "Test")
   (TR:testsuite-test-for-equality 'TR:string-pad-right (list "Test" " " nil) nil)
 
+  (TR:testsuite-test-for-equality 'TR:string-pad-left (list "LongString" " " 3) "LongString")
+  (TR:testsuite-test-for-equality 'TR:string-pad-left (list "Short" " " 7) "  Short")
+  (TR:testsuite-test-for-equality 'TR:string-pad-left (list "Short" "*" 7) "**Short")
+  (TR:testsuite-test-for-equality 'TR:string-pad-left (list "" "*" 5) "*****")
+  (TR:testsuite-test-for-equality 'TR:string-pad-left (list "Test" "" 5) nil)
+  (TR:testsuite-test-for-equality 'TR:string-pad-left (list "Test" nil 5) nil)
+  (TR:testsuite-test-for-equality 'TR:string-pad-left (list "Test" " " 0) "Test")
+  (TR:testsuite-test-for-equality 'TR:string-pad-left (list "Test" " " nil) nil)
+
   (TR:testsuite-test-for-equality 'LM:Permutations (list '(1 2 3)) '((1 2 3) (1 3 2) (2 1 3) (2 3 1) (3 1 2) (3 2 1)))
   (TR:testsuite-test-for-equality 'LM:Permutations (list '(1 1 2 1)) '((1 1 2 1) (1 1 1 2) (1 2 1 1) (2 1 1 1)))
   (TR:testsuite-test-for-equality 'LM:Permutations (list '(1)) '((1)))
