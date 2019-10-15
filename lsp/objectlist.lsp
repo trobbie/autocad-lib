@@ -158,7 +158,7 @@
 ;;
 ;; listObjects - ([<vla-object> <vla-object> ...])
 ;; ptInsert = (x y [z]), real numbers representing insert point
-;; Returns: list of vla-objects that resulted from the copy
+;; Returns: list of new vla-objects that resulted from the copy
 ;;;--------------------------------------------------------------;
 (defun TR:objectlist-copy (listObjects ptInsert / oCopy)
   (mapcar 
