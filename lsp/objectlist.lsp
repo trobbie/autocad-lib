@@ -210,7 +210,7 @@
 ;; scaleFactor - real number representing scale factor
 ;; Returns scaled object
 ;;;--------------------------------------------------------------;
-(defun TR:objectlist-scale-from-bottomleft-with-scale-factor ( listObjects scaleFactor ptBase/ o )
+(defun TR:objectlist-scale-from-bottomleft-with-scale-factor ( listObjects scaleFactor ptBase / o )
   (foreach o listObjects
     (vla-ScaleEntity o (vlax-3d-point ptBase) scaleFactor)
   )
