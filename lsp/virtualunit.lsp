@@ -87,6 +87,17 @@
   )
 )
 
+(defun TR:virtualunit-list-copy ( listVUs ptInsertOffset)
+  (mapcar 
+    '(lambda (vu)
+      (TR:virtualunit-copy-with-new-group-insertion-point vu 
+        (mapcar '+ (TR:virtualunit-get-group-insertion-point vu) ptInsertOffset)
+      )
+    )
+    listVUs
+  )
+)
+
 (defun TR:virtualunit-get-objects( vu )
   (TR:virtualunit-get-property vu "Objects")
 )
