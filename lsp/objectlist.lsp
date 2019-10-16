@@ -93,7 +93,7 @@
     ((> (length listObjects) 0)
       (setq ss (ssadd))
       (foreach o listObjects
-	      (ssadd (vlax-vla-object->ename o) ss)
+        (ssadd (vlax-vla-object->ename o) ss)
       )
       ss
     )

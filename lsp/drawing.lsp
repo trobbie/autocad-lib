@@ -29,9 +29,9 @@
 
   (setq ptBase3d (TR:point->3d-point ptBase))
   (command "_.-BLOCK"  "TmpBlk" "_none" ptBase3d (TR:objectlist->pickset (list object)) ""
-	     "_.-INSERT" "TmpBlk" "_R" 0 "_X" xScale "_Y" yScale "_none" ptBase3d
-	     "_.EXPLODE" "_L"
-	     "_.-PURGE" "_B" "TmpBlk" "_N")
+           "_.-INSERT" "TmpBlk" "_R" 0 "_X" xScale "_Y" yScale "_none" ptBase3d
+           "_.EXPLODE" "_L"
+           "_.-PURGE" "_B" "TmpBlk" "_N")
   (car (TR:objectlist-join (LM:ss->vla (ssget "_P"))))
 )
 
