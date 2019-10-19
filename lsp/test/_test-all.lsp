@@ -5,12 +5,12 @@
   ; assume each file listed contains a (tr:test) function
   (setq loadOrder (list
     "_test-docs.lsp"
-    "test-util.lsp"
     "test-algorithm.lsp"
-    "test-calculations.lsp"
     "test-boundingbox.lsp"
-    "test-objectlist.lsp"
+    "test-calculations.lsp"
     "test-drawing.lsp"
+    "test-objectlist.lsp"
+    "test-util.lsp"
   ))
 
   (cond ((TR:testsuite-initialize)

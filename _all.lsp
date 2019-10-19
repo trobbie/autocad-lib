@@ -5,18 +5,18 @@
 
 (defun TR:load ( / loadOrder relpath)
   (setq loadOrder (list
-   "testsuite.lsp"
    "algorithm.lsp"
-   "util.lsp"
-   "objectlist.lsp"
    "boundingbox.lsp"
-   "collection.lsp"
-   "groups.lsp"
-   "view.lsp"
-   "drawing.lsp"
    "calculations.lsp"
+   "collection.lsp"
+   "drawing.lsp"
+   "groups.lsp"
    "matrix.lsp"
+   "objectlist.lsp"
    "polyline.lsp"
+   "testsuite.lsp"
+   "util.lsp"
+   "view.lsp"
    "virtualunit.lsp"
   ))
 
