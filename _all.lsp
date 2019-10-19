@@ -7,7 +7,7 @@
   (setq loadOrder (list
    "algorithm.lsp"
    "boundingbox.lsp"
-   "calculations.lsp"
+   "angle.lsp"
    "collection.lsp"
    "drawing.lsp"
    "groups.lsp"
