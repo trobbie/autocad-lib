@@ -6,6 +6,7 @@
 (defun TR:load ( / loadOrder relpath)
   (setq loadOrder (list
    "testsuite.lsp"
+   "algorithm.lsp"
    "util.lsp"
    "objectlist.lsp"
    "boundingbox.lsp"
