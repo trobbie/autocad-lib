@@ -39,28 +39,6 @@
 )
 
 ;;;--------------------------------------------------------------;
-;;; Function: LM:Bulge->Arc                                      ;
-;;;--------------------------------------------------------------;
-;; Bulge to Arc
-;; p1 - start vertex
-;; p2 - end vertex
-;; b  - bulge
-;; Returns: (<center> <start angle> <end angle> <radius>)
-;;;--------------------------------------------------------------;
-;; Author: Lee Mac
-;;;--------------------------------------------------------------;
-
-(defun LM:Bulge->Arc ( p1 p2 b / a c r )
-    (setq a (* 2 (atan b))
-          r (/ (distance p1 p2) 2 (sin a))
-          c (polar p1 (+ (- (/ pi 2) a) (angle p1 p2)) r)
-    )
-    (if (minusp b)
-        (list c (angle c p2) (angle c p1) (abs r))
-        (list c (angle c p1) (angle c p2) (abs r))
-    )
-)
-;;;--------------------------------------------------------------;
 ;;; Function: TR:point->2d-point                                 ;
 ;;;--------------------------------------------------------------;
 ;; Return flattened version of any point, ignoring any
