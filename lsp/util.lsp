@@ -60,35 +60,6 @@
         (list c (angle c p1) (angle c p2) (abs r))
     )
 )
-
-;;;--------------------------------------------------------------;
-;;; Function: TR:degrees->radians                                ;
-;;;--------------------------------------------------------------;
-;; Convert degrees to radians
-;; degrees - degree value, as number
-;; Returns: calculated radians, as real number; if degrees is not
-;;   a number, returns nil.
-;;;--------------------------------------------------------------;
-(defun TR:degrees->radians( degrees )
-  (if (numberp degrees)
-    (* pi (/ degrees 180.0))
-    nil
-  )
-)
-;;;--------------------------------------------------------------;
-;;; Function: TR:radians->degrees                                ;
-;;;--------------------------------------------------------------;
-;; Convert radians to degrees
-;; radians - radians value, as number
-;; Returns: calculated degrees, as real number; if radians is not
-;;   a number, returns nil.
-;;;--------------------------------------------------------------;
-(defun TR:radians->degrees( radians )
-  (if (numberp radians)
-    (*  180.0 (/ radians pi))
-    nil
-  )
-)
 ;;;--------------------------------------------------------------;
 ;;; Function: TR:point->2d-point                                 ;
 ;;;--------------------------------------------------------------;
