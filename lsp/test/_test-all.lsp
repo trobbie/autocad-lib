@@ -6,10 +6,12 @@
   (setq loadOrder (list
     "_test-docs.lsp"
     "test-algorithm.lsp"
+    "test-angle.lsp"
     "test-boundingbox.lsp"
     "test-calculations.lsp"
     "test-drawing.lsp"
     "test-objectlist.lsp"
+    "test-string.lsp"
     "test-util.lsp"
   ))
 
