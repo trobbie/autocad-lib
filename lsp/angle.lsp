@@ -1,6 +1,6 @@
 
 ; angles are in radians
-(defun TR:angle_exclusively_between_start_end_angles ( thisAngle startAngle endAngle / thisAngleCoterminal)
+(defun TR:angle-exclusively-between-start-end-angles ( thisAngle startAngle endAngle / thisAngleCoterminal)
   (setq startAngle (TR:angle-get-normalized startAngle))
   (setq endAngle (TR:angle-get-normalized endAngle))
   ; ensure endAngle has a greater value than startAngle
