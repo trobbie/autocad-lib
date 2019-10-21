@@ -98,7 +98,7 @@
   (setq result
     (cond 
     ((or (not (listp listCoefficients))
-          (not (numberp maxValue))
+          (not (numberp objectiveConstraint))
           (< objectiveConstraint 0)
           (vl-member-if 
             '(lambda (x)
