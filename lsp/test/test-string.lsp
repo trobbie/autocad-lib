@@ -1,5 +1,4 @@
 
-  
 (defun TR:test ()
 
   (TR:testsuite-test-for-equality 'TR:string-pad-right (list "LongString" " " 3) "LongString")

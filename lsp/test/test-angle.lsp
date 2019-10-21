@@ -1,7 +1,6 @@
 
 (defun TR:test ()
 
-
   (TR:testsuite-test-for-equality 'TR:degrees->radians (list 180) pi)
   (TR:testsuite-test-for-equality 'TR:degrees->radians (list 360.0) (* 2 pi))
   (TR:testsuite-test-for-equality 'TR:degrees->radians (list "notnumber") nil)
