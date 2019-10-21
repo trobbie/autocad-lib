@@ -14,6 +14,7 @@
    "matrix.lsp"
    "objectlist.lsp"
    "polyline.lsp"
+   "string.lsp"
    "testsuite.lsp"
    "util.lsp"
    "view.lsp"

@@ -8,7 +8,6 @@
     "test-algorithm.lsp"
     "test-angle.lsp"
     "test-boundingbox.lsp"
-    "test-calculations.lsp"
     "test-drawing.lsp"
     "test-objectlist.lsp"
     "test-string.lsp"
@@ -21,6 +20,7 @@
     (foreach relpath loadOrder
       ; "undefine" test in case the file does not redefine one
       (defun TR:test () (princ))
+      (princ (strcat "\nLoading and testing: " relpath))
       (load (strcat *TR:srcFolder* "\\lsp\\test\\" relpath))
       (TR:test)
     )
