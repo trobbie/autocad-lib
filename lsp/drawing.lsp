@@ -1,6 +1,5 @@
 (vl-load-com)
 
-
 ;;;--------------------------------------------------------------;
 ;;; Function: TR:move-all-to-origin                              ;
 ;;;--------------------------------------------------------------;
@@ -22,8 +21,8 @@
 ;;;--------------------------------------------------------------;
 ;; Scale object unevenly (where x and y scaling is independent)
 ;;;--------------------------------------------------------------;
-;; Author: heavily influenced by jdvillarreal and BeekeeCZ from
-;; the autodesk forums.
+;; Author: jdvillarreal and BeekeeCZ from the autodesk forums
+;;  (TR: minor edits).
 ;;;--------------------------------------------------------------;
 (defun TR:object-scale-uneven ( object xScale yScale ptBase / ptBase3d )
 
@@ -69,7 +68,7 @@
 ;; ptInsert = list of two real numbers; bottom-left 
 ;;   coordinate of the new rectangle
 ;; listSize = list of two real numbers; width and height, respectively
-;; Returns = vla-object of type LWPolyline
+;; Returns: vla-object of type LWPolyline
 ;;;--------------------------------------------------------------;
 (defun TR:create-2d-rectangle( ptInsert listSize / listPoints arrayPoints modelSpace listPolylines)
 
@@ -104,7 +103,7 @@
 ;;   coordinate of the new rectangle
 ;; width = real number; width of bounding box of the mtext object
 ;; text = string; text contents
-;; Returns = vla-object of type MText
+;; Returns: vla-object of type MText
 ;;;--------------------------------------------------------------;
 (defun TR:create-mtext( ptInsert width text / modelSpace)
   (setq modelSpace (vla-get-ModelSpace (vla-get-ActiveDocument (vlax-get-acad-object))))
