@@ -2,11 +2,10 @@
 ;;;--------------------------------------------------------------;
 ;;; Function: TR:zoom90percent                                   ;
 ;;;--------------------------------------------------------------;
-;;; Description:                                                 ;
-;;; Show all drawings at 90% of extents                          ;
-;;;                                                              ;
-;;; Useful to use in a C: function that is named for keyboard    ;
-;;; shortcut convenience.                                        ;
+;; Show all drawings at 90% of extents                          ;
+;;                                                            ;
+;; Useful to use in a C: function that is named for keyboard    ;
+;; shortcut convenience.                                        ;
 ;;;--------------------------------------------------------------;
 (defun TR:zoom-90( )
   (cond

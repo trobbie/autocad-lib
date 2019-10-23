@@ -1,9 +1,12 @@
 (vl-load-com)
-
-;;; Collection = a VLA object of type VLA collection
-;;; VLA collection is a super-class for many VLA classes,
-;;; including selection sets, blocks, groups, documents, layers,
-;;; etc.
+;;;--------------------------------------------------------------;
+;; Collection 
+;;;--------------------------------------------------------------;
+;; A VLA object of type VLA collection.
+;; A VLA collection is a super-class for many VLA classes,
+;; including selection sets, blocks, groups, documents, layers,
+;; etc.
+;;;--------------------------------------------------------------;
 
 ;;;--------------------------------------------------------------;
 ;;; Function: TR:objectlist->collection                          ;

@@ -1,5 +1,14 @@
 
-; Bounding Box = list of bottom-left and top-right 2d points
+;;;--------------------------------------------------------------;
+;;; Bounding Box 
+;;;--------------------------------------------------------------;
+;; List of bottom-left and top-right 2d points
+;;
+;; It is assumed to be used with 2d drawings, but a 3d bounding box
+;; (specially defined below) may be used where the bottom-left point
+;; contains lowest z-value and top-right point contains highest
+;; z-value.
+;;;--------------------------------------------------------------;
 
 (defun TR:boundingbox-get-bottomleft ( bb )
   (if bb
@@ -7,63 +16,54 @@
     nil
   )
 )
-
 (defun TR:boundingbox-get-bottomright ( bb )
   (if bb
     (list (TR:boundingbox-get-right bb) (TR:boundingbox-get-bottom bb))
     nil
   )
 )
-
 (defun TR:boundingbox-get-topright ( bb )
   (if bb
     (cadr bb)
     nil
   )
 )
-
 (defun TR:boundingbox-get-topleft ( bb )
   (if bb
     (list (TR:boundingbox-get-left bb) (TR:boundingbox-get-top bb))
     nil
   )
 )
-
 (defun TR:boundingbox-get-left ( bb )
   (if bb
     (car (TR:boundingbox-get-bottomleft bb))
     nil
   )
 )
-
 (defun TR:boundingbox-get-right ( bb )
   (if bb
     (car (TR:boundingbox-get-topright bb))
     nil
   )
 )
-
 (defun TR:boundingbox-get-bottom ( bb )
   (if bb
     (cadr (TR:boundingbox-get-bottomleft bb))
     nil
   )
 )
-
 (defun TR:boundingbox-get-top ( bb )
   (if bb
     (cadr (TR:boundingbox-get-topright bb))
     nil
   )
 )
-
 (defun TR:boundingbox-get-width ( bb )
   (if bb
     (- (TR:boundingbox-get-right bb) (TR:boundingbox-get-left bb))
     nil
   )
 )
-
 (defun TR:boundingbox-get-height ( bb )
   (if bb
     (- (TR:boundingbox-get-top bb) (TR:boundingbox-get-bottom bb))
@@ -71,7 +71,15 @@
   )
 )
 
-; bb can be 2d or 3d
+;;;--------------------------------------------------------------;
+;;; Function: TR:boundingbox-get-size                            ;
+;;;--------------------------------------------------------------;
+;; Return size of bounding box, e.g. width (x length) and height
+;; y length.  Returns the depth (z length) if bounding box contains
+;; z values.
+;;
+;; Returns: (width length [depth])
+;;;--------------------------------------------------------------;
 (defun TR:boundingbox-get-size ( bb )
   (if bb
     (mapcar
@@ -85,7 +93,14 @@
   )
 )
 
-; bb can be 2d or 3d
+;;;--------------------------------------------------------------;
+;;; Function: TR:boundingbox-get-center                          ;
+;;;--------------------------------------------------------------;
+;; Return center/middle of bounding box.  A z component is included if
+;; the passed bounding box contains a z component.
+;;
+;; Returns: (mid-x mid-y [mid-z])
+;;;--------------------------------------------------------------;
 (defun TR:boundingbox-get-center ( bb )
   (if bb
     (mapcar '(lambda (x) (/ x 2.))
@@ -98,8 +113,15 @@
   )
 )
 
-; gets the largest size dimension value (e.g. width, height, or depth) of the bounding box
-; if bb is a 2d bounding box, only the width and height would be returned
+;;;--------------------------------------------------------------;
+;;; Function: boundingbox-get-largest-dimension-length           ;
+;;;--------------------------------------------------------------;
+;; Return the largest size dimension value (e.g. width or height)
+;; of the bounding box.  If the given bounding box contains z
+;; values, the depth is also considered.
+;;
+;; Returns: real number, representing a length
+;;;--------------------------------------------------------------;
 (defun TR:boundingbox-get-largest-dimension-length ( bb )
   (if bb
     (apply 'max (TR:boundingbox-get-size bb))
@@ -112,6 +134,7 @@
 ;;;--------------------------------------------------------------;
 ;; Return 2d bounding box of vla object, in WCS coordinates, the
 ;; z values ignored (i.e. projected upon the xy plane).
+;;
 ;; o - vla object
 ;; Returns: ((min-x min-y) (max-x max-y))
 ;;;--------------------------------------------------------------;
@@ -127,6 +150,7 @@
 ;;; Function: TR:object-get-boundingbox3d                        ;
 ;;;--------------------------------------------------------------;
 ;; Return 3d bounding box of vla object, in WCS coordinates.
+;;
 ;; o - vla object
 ;; Returns: ((min-x min-y min-z) (max-x max-y max-z))
 ;;;--------------------------------------------------------------;
@@ -167,9 +191,9 @@
 ;;;--------------------------------------------------------------;
 ;;; Function: TR:get-boundingbox-of-two-points                   ;
 ;;;--------------------------------------------------------------;
-;; Returns the 2d bounding box of two points.
+;; Returns the 2d bounding box surrounding (and including) two points.
 ;;;--------------------------------------------------------------;
-(defun TR:get-boundingbox-of-two-points( pt1 pt2 )
+(defun TR:boundingbox-encloses-boundingbox( pt1 pt2 )
   (if (and pt1 pt2)
     (list
       (list (min (car pt1) (car pt2))
@@ -181,16 +205,15 @@
   )
 )
 
-
 ;;;--------------------------------------------------------------;
-;;; Function: TR:get-boundingbox-of-two-points                   ;
+;;; Function: TR:boundingbox-encloses-boundingbox                ;
 ;;;--------------------------------------------------------------;
 ;; Return non-nil if boundingbox encloses another. Border cases
 ;; are seen as included up to a fuzz factor.
 ;;
 ;; bb - bounding box to test if enclosing
 ;; bb2 - bounding box to test if being enclosed
-;; Returns: if bb encloses bb2 
+;; Returns: non-nil if bb encloses bb2 
 ;;;--------------------------------------------------------------;
 (setq *TR:BOUNDINGBOX-BOUNDARIES-FUZZ* 0.000001)
 (defun TR:boundingbox-encloses-boundingbox (bb bb2 / bb_BL bb_TR bb2_BL bb2_TR)
@@ -206,7 +229,6 @@
            (equal (cadr bb2_BL) (cadr bb_BL) *TR:BOUNDINGBOX-BOUNDARIES-FUZZ*))
        (or (<= (cadr bb2_TR) (cadr bb_TR))
            (equal (cadr bb2_TR) (cadr bb_TR) *TR:BOUNDINGBOX-BOUNDARIES-FUZZ*)))
-
 )
 
 (princ)

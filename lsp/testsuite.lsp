@@ -1,16 +1,18 @@
-; TEST SUITE functions
-; These functions are intended to be used to run tests for a whole library.  It is assumed
-; that the test loader will reset *TR:testsuiteCounterSuccesses* and *TR:testsuiteCounterFailures* to 0, as these functions
-; will increment these values to track the health of the entire library.
-
-; Tests are intended to be run in a new document to not interfere with any current
-; drawings.
-
-; Tolerance (i.e. fuzz) is used for comparing real numbers.
+;;;--------------------------------------------------------------;
+; TEST SUITE
+;;;--------------------------------------------------------------;
+;; These functions are intended to be used to run tests for a whole library.
+;;
+;; To use, start by calling TR:testsuite-initialize before other
+;; calls to this library, which initializes counters and ensures
+;; active document contains no objects.
+;;
+;; When done with all tests for the test suite, call 
+;; TR:testsuite-finalize, which prints out the results.
 
 (vl-load-com)
 
-(setq *TR:TESTSUITE-FUZZ* 0.000001)
+(setq *TR:TESTSUITE-FUZZ* 0.000001) ; used for comparing real numbers.
 (setq *TR:TESTSUITE-TEST-DOC* nil)
 (setq *TR:TESTSUITE-PRINT-SUCCESS* nil)
 
@@ -226,7 +228,13 @@
   (princ)
 )
 
-; return T on success; else if nil, do not continue with tests
+;;;--------------------------------------------------------------;
+;;; Function: TR:testsuite-initialize                            ;
+;;;--------------------------------------------------------------;
+;; Call before running other testsuite functions.
+;;
+;; Returns: T on success; else returns nil, signaling not continue with tests
+;;;--------------------------------------------------------------;
 (defun TR:testsuite-initialize ( / listObjects)
   ; also initialize test suite variables
   (setq *TR:testsuiteCounterSuccesses* 0)
@@ -254,6 +262,11 @@
   
 )
 
+;;;--------------------------------------------------------------;
+;;; Function: TR:testsuite-finalize                              ;
+;;;--------------------------------------------------------------;
+;; Call to reset counters and print out results
+;;;--------------------------------------------------------------;
 (defun TR:testsuite-finalize ( testsuiteName / listSymbolsDiff)
 
   (terpri)(princ "*****************************")

@@ -1,4 +1,6 @@
 
+; Helpful functions pertinent to matrices
+
 ;; Matrix Determinant (Upper Triangular Form)  -  ElpanovEvgeniy
 ;; Args: m - nxn matrix
 

@@ -1,4 +1,7 @@
-; Virtual unit = a definition of a unit, whose actual drawing objects are not created 
+;;;--------------------------------------------------------------;
+;; Virtual Unit
+;;;--------------------------------------------------------------;
+; A definition of a unit, whose actual drawing objects are not created 
 ; until the proper function is called.  The referenced objects in the description can be
 ; anywhere in the document, and remain untouched (read-only) by these functions.  The
 ; intention is that many calculations can be done without having to recreate a separate
