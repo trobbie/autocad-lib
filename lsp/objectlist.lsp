@@ -242,6 +242,23 @@
 )
 
 ;;;--------------------------------------------------------------;
+;;; Function: TR:objectlist-delete                               ;
+;;;--------------------------------------------------------------;
+;; Delete all objects in the given list.  Print warning if an object
+;; could not be deleted.
+;;;--------------------------------------------------------------;
+(defun TR:objectlist-delete ( listObjects / o)
+  (foreach o listObjects
+    (cond ((and o (not (vlax-erased-p o)))
+      (vla-Delete o)
+      (if (not (vlax-erased-p o))
+        (princ (strcat "\nWARNING: Object could not be deleted: bounding box = " (vl-princ-to-string (TR:object-get-boundingbox o))))
+      )
+    ))
+  )
+)
+
+;;;--------------------------------------------------------------;
 ;;; Function: TR:objectlist-explode                              ;
 ;;;--------------------------------------------------------------;
 ;; Explode the given list of objects.  Afterwards objects in given
