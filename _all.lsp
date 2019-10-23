@@ -10,7 +10,6 @@
    "angle.lsp"
    "collection.lsp"
    "drawing.lsp"
-   "groups.lsp"
    "matrix.lsp"
    "objectlist.lsp"
    "polyline.lsp"
