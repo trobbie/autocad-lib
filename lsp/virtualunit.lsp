@@ -129,9 +129,8 @@
 
   (setq tempListObjects (TR:virtualunit-create-drawing-objects vu '(0 0 0)))
   (setq bb (TR:objectlist-get-boundingbox tempListObjects))
-  (foreach o tempListObjects
-    (vla-delete o)
-  )
+  (TR:objectlist-delete tempListObjects)
+
   bb
 )
 

@@ -30,7 +30,7 @@
   
   ; delete all objects in model space
   (setq listObjects (TR:collection->objectlist modelspace))
-  (mapcar 'vla-Delete listObjects) 
+  (TR:objectlist-delete listObjects)
  
   ; support "autocad" commands (command) inside func-create-drawing
   ;   CMDECHO: temporarily disable CMDECHO so as not to crowd the console output
@@ -56,7 +56,7 @@
   (setvar "OSMODE" priorOsmode)
 
   ; delete all objects in modelspace (test may have changed original)
-  (mapcar 'vla-Delete (TR:collection->objectlist modelspace))
+  (TR:objectlist-delete (TR:collection->objectlist modelspace))
   
   (princ)
 )
