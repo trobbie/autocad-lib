@@ -41,7 +41,7 @@
 ;;;--------------------------------------------------------------;
 (defun TR:object-set-color-rgb ( obj r g b / rgb)
   (setq rgb (vlax-create-object "AutoCAD.AcCmColor.20"))
-  (if (not (vl-catch-all-error-p (vl-catch-all-apply 'vla-SetRGB (list rgb 128 128 128))))
+  (if (not (vl-catch-all-error-p (vl-catch-all-apply 'vla-SetRGB (list rgb r g b))))
     (vl-catch-all-apply 'vla-put-truecolor (list obj rgb))
   )
 )
