@@ -95,6 +95,25 @@
 )
 
 ;;;--------------------------------------------------------------;
+;;; Function: TR:create-3d-box                                   ;
+;;;--------------------------------------------------------------;
+;; Return a vla-object representing the box, given an 
+;; insertion point and 3d box size
+;;
+;; ptInsert = (x y z); all real numbers; minimum corner value where
+;;   box is placed, going positive direction
+;; listSize = list of three real numbers; lengths in x, y, z directions, respectively
+;; Returns: vla-object of type 3D Solid
+;;;--------------------------------------------------------------;
+(defun TR:create-3d-box( ptInsert listSize / center modelSpace )
+  (setq center (mapcar '+ ptInsert (TR:boundingbox-get-center (list '(0 0 0) listSize))))
+  (setq modelSpace (vla-get-ModelSpace (vla-get-ActiveDocument (vlax-get-acad-object))))
+  (vla-AddBox modelSpace
+    (vlax-3d-point center)
+    (car listSize) (cadr listSize) (caddr listSize))
+)
+
+;;;--------------------------------------------------------------;
 ;;; Function: TR:create-mtext                                    ;
 ;;;--------------------------------------------------------------;
 ;; Return an MText object, given an insertion point, width, and text
