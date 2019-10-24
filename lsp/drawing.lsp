@@ -103,7 +103,7 @@
 ;; ptInsert = (x y z); all real numbers; minimum corner value where
 ;;   box is placed, going positive direction
 ;; listSize = list of three real numbers; lengths in x, y, z directions, respectively
-;; Returns: vla-object of type 3D Solid
+;; Returns: vla-object of type AcDb3dSolid
 ;;;--------------------------------------------------------------;
 (defun TR:create-3d-box( ptInsert listSize / center modelSpace )
   (setq center (mapcar '+ ptInsert (TR:boundingbox-get-center (list '(0 0 0) listSize))))
