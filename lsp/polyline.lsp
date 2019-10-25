@@ -26,5 +26,45 @@
   )
 )
 
+;;;--------------------------------------------------------------;
+;;; Function: EE:polyline-get-coordinates                        ;
+;;;--------------------------------------------------------------;
+;; Return whether polyline is drawn CW or CCW
+;;;--------------------------------------------------------------;
+;; Author: Evgeniy Elpanov (minor edits: TR)
+;;;--------------------------------------------------------------;
+(defun EE:polyline-is-drawn-clockwise (ename / lw lst maxp minp)
+  (setq lw (vlax-ename->vla-object ename))
+  (vla-GetBoundingBox lw 'minp 'maxp)
+  (setq
+    minp (vlax-safearray->list minp)
+    maxp (vlax-safearray->list maxp)
+    lst (mapcar
+          (function
+            (lambda (x)
+              (vlax-curve-getParamAtPoint
+                lw
+                (vlax-curve-getClosestPointTo lw x)
+              );_ vlax-curve-getParamAtPoint
+            ) ;_ lambda
+          ) ;_ function
+          (list minp
+                (list (car minp) (cadr maxp))
+                maxp
+                (list (car maxp) (cadr minp))
+          ) ;_ list
+        ) ;_ mapcar
+  )
+  (if 
+    (or
+      (<= (car lst) (cadr lst) (caddr lst) (cadddr lst))
+      (<= (cadr lst) (caddr lst) (cadddr lst) (car lst))
+      (<= (caddr lst) (cadddr lst) (car lst) (cadr lst))
+      (<= (cadddr lst) (car lst) (cadr lst) (caddr lst))
+      ) ;_ or
+    T
+    nil
+  )
+)
 
 (princ)
