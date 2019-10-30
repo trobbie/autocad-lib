@@ -12,6 +12,7 @@
     "test-objectlist.lsp"
     "test-string.lsp"
     "test-util.lsp"
+    "test-virtualunit.lsp"
   ))
 
   (cond ((TR:testsuite-initialize)
