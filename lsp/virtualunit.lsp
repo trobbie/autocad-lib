@@ -13,7 +13,7 @@
 ;
 ; Format:
 ;   (("Objects" . (list of <vla-object>))
-;    ("RotationDegrees" . <real number, representing degrees of rotation>)
+;    ("RotationDegreesZ" . <real number, representing degrees of rotation around z-axis>)
 ;    ("GroupInsertionPoint" . <list of 3 real numbers, representing insertion point>)
 ;   )
 ;
@@ -25,9 +25,9 @@
 ; List of already existing vla-objects, seen as read-only.
 ; TODO: consider using Groups here.
 ;
-; RotationDegrees:
-; The RotationDegrees represents taking all objects from the implied origin 
-; (center of bounding box surrounding all objects) and performing rotation.
+; RotationDegreesZ:
+; The RotationDegreesZ represents taking all objects from the implied origin 
+; (center of bounding box surrounding all objects) and performing a rotation around the z-axis.
 ;
 ; GroupInsertionPoint:
 ; The group insertion 3d point is where the unit's _bottom-left_ point of the rotated
@@ -61,10 +61,10 @@
   (TR:virtualunit-create-virtual-with-props listObjects 0 '(0 0 0))
 )
 
-(defun TR:virtualunit-create-virtual-with-props ( listObjects degreesRotation ptInsert)
+(defun TR:virtualunit-create-virtual-with-props ( listObjects degreesRotationZ ptInsert)
   (list 
     (cons "Objects" listObjects)
-    (cons "RotationDegrees" degreesRotation)
+    (cons "RotationDegreesZ" degreesRotationZ)
     (cons "GroupInsertionPoint" (TR:point->3d-point ptInsert))
   )
 )
@@ -85,7 +85,7 @@
 (defun TR:virtualunit-copy-with-new-group-insertion-point ( vu ptInsert)
   (TR:virtualunit-create-virtual-with-props 
     (TR:virtualunit-get-objects vu)
-    (TR:virtualunit-get-property vu "RotationDegrees")
+    (TR:virtualunit-get-property vu "RotationDegreesZ")
     (TR:point->3d-point ptInsert)
   )
 )
@@ -106,15 +106,15 @@
 )
 
 (defun TR:virtualunit-get-tmatrix( vu )
-  (TR:tMatrix-rotate (TR:degrees->radians (TR:virtualunit-get-property vu "RotationDegrees")))
+  (TR:tMatrix-rotate-around-z-axis (TR:degrees->radians (TR:virtualunit-get-property vu "RotationDegreesZ")))
 )
 
 (defun TR:virtualunit-get-tmatrix-as-list( vu )
-  (TR:matrix-rotate (TR:degrees->radians (TR:virtualunit-get-property vu "RotationDegrees")))
+  (TR:matrix-rotate-around-z-axis (TR:degrees->radians (TR:virtualunit-get-property vu "RotationDegreesZ")))
 )
 
-(defun TR:virtualunit-set-rotation-degrees ( vu degrees )
-  (TR:virtualunit-set-property vu "RotationDegrees" degrees)
+(defun TR:virtualunit-set-rotation-degrees ( vu degreesZ )
+  (TR:virtualunit-set-property vu "RotationDegreesZ" degreesZ)
 )
 
 (defun TR:virtualunit-get-group-insertion-point ( vu )
