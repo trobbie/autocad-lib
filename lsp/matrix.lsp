@@ -354,8 +354,22 @@
   )
 )
 
-(defun TR:tMatrix-rotate-around-z-axis ( radians )
-  (vlax-tmatrix (TR:matrix-rotate-around-z-axis radians))
+(defun TR:matrix-rotate-around-x-axis ( radians )
+  (list
+    (list 1. 0. 0. 0.)
+    (list 0. (cos radians) (- (sin radians)) 0.)
+    (list 0. (sin radians) (cos radians) 0.)
+    (list 0. 0. 0. 1.)
+  )
+)
+
+(defun TR:matrix-rotate-around-y-axis ( radians )
+  (list
+    (list (cos radians) 0. (sin radians) 0.)
+    (list 0. 1. 0. 0.)
+    (list (- (sin radians)) 0. (cos radians) 0.)
+    (list 0. 0. 0. 1.)
+  )
 )
 
 (princ)
