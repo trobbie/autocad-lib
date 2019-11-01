@@ -107,13 +107,13 @@
 )
 
 ;;;--------------------------------------------------------------;
-;;; Function: TR:virtualunit-copy-with-new-rotation-z-axis       ;
+;;; Function: TR:virtualunit-replace-with-new-rotation-z-axis       ;
 ;;;--------------------------------------------------------------;
 ;; Return the virtualunit that is given, but with the rotation value
 ;; (in all directions) being replaced with one given rotation amount
 ;; around the z-axis.
 ;;;--------------------------------------------------------------;
-(defun TR:virtualunit-copy-with-new-rotation-z-axis ( vu degreesRotationZ )
+(defun TR:virtualunit-replace-with-new-rotation-z-axis ( vu degreesRotationZ )
   (TR:virtualunit-create-virtual-with-props
     (TR:virtualunit-get-property vu "Objects")
     degreesRotationZ
@@ -122,12 +122,12 @@
 )
 
 ;;;--------------------------------------------------------------;
-;;; Function: TR:virtualunit-copy-with-new-group-insertion-point ;
+;;; Function: TR:virtualunit-replace-group-insertion-point       ;
 ;;;--------------------------------------------------------------;
 ;; Return the virtualunit that is given, but with the insertion
 ;; point changed to the one given
 ;;;--------------------------------------------------------------;
-(defun TR:virtualunit-copy-with-new-group-insertion-point ( vu ptInsert )
+(defun TR:virtualunit-replace-group-insertion-point ( vu ptInsert )
   (list 
     (cons "Objects" (TR:virtualunit-get-property vu "Objects"))
     (cons "GroupInsertionPoint" (TR:point->3d-point ptInsert))
@@ -313,15 +313,15 @@
 )
 
 ;;;--------------------------------------------------------------;
-;;; Function: TR:virtualunitlist-copy                           ;
+;;; Function: TR:virtualunitlist-copy-to-insertion-point                           ;
 ;;;--------------------------------------------------------------;
 ;; Return a list of virtual units that is a copy of the given list
 ;; of virtual units having applied the given (group) offset. 
 ;;;--------------------------------------------------------------;
-(defun TR:virtualunitlist-copy ( listVUs ptInsertOffset )
+(defun TR:virtualunitlist-copy-to-insertion-point ( listVUs ptInsertOffset )
   (mapcar 
     '(lambda (vu)
-      (TR:virtualunit-copy-with-new-group-insertion-point vu 
+      (TR:virtualunit-replace-group-insertion-point vu 
         (mapcar '+ (TR:virtualunit-get-group-insertion-point vu) ptInsertOffset)
       )
     )

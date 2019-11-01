@@ -27,7 +27,7 @@
       (TR:testsuite-test-for-equality 'TR:virtualunit-get-boundingbox (list vu3 ) '((0. 0.) (10. 5.)))
       (TR:testsuite-test-for-equality 'TR:virtualunit-get-matrix-description (list vu3) "RotZ:90 RotZ:90")
 
-      (setq vu3 (TR:virtualunit-copy-with-new-group-insertion-point vuZ90 '(20 30)))
+      (setq vu3 (TR:virtualunit-replace-group-insertion-point vuZ90 '(20 30)))
       (TR:testsuite-test-for-equality 'TR:virtualunit-get-boundingbox (list vu3 ) '((20. 30.) (25. 40.)))
 
 
