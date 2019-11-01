@@ -160,7 +160,7 @@
 ;;;--------------------------------------------------------------;
 ;;; Function: TR:virtualunit-rotate-around-x-axis                ;
 ;;;--------------------------------------------------------------;
-;; Return given virutal unit after having rotated it an additional
+;; Return given virtual unit after having rotated it an additional
 ;; given amount around the x-axis.
 ;;;--------------------------------------------------------------;
 (defun TR:virtualunit-rotate-around-x-axis ( vu degreesX / desc )
@@ -186,7 +186,7 @@
 ;;;--------------------------------------------------------------;
 ;;; Function: TR:virtualunit-rotate-around-y-axis                ;
 ;;;--------------------------------------------------------------;
-;; Return given virutal unit after having rotated it an additional
+;; Return given virtual unit after having rotated it an additional
 ;; given amount around the y-axis.
 ;;;--------------------------------------------------------------;
 (defun TR:virtualunit-rotate-around-y-axis ( vu degreesY / desc )
@@ -212,7 +212,7 @@
 ;;;--------------------------------------------------------------;
 ;;; Function: TR:virtualunit-rotate-around-z-axis                ;
 ;;;--------------------------------------------------------------;
-;; Return given virutal unit after having rotated it an additional
+;; Return given virtual unit after having rotated it an additional
 ;; given amount around the z-axis.
 ;;;--------------------------------------------------------------;
 (defun TR:virtualunit-rotate-around-z-axis ( vu degreesZ / desc )
