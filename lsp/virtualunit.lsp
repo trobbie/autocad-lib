@@ -139,23 +139,6 @@
 )
 
 ;;;--------------------------------------------------------------;
-;;; Function: TR:virtualunit-list-copy                           ;
-;;;--------------------------------------------------------------;
-;; Return a list of virtual units that is a copy of the given list
-;; of virtual units having applied the given (group) offset. 
-;;;--------------------------------------------------------------;
-(defun TR:virtualunit-list-copy ( listVUs ptInsertOffset )
-  (mapcar 
-    '(lambda (vu)
-      (TR:virtualunit-copy-with-new-group-insertion-point vu 
-        (mapcar '+ (TR:virtualunit-get-group-insertion-point vu) ptInsertOffset)
-      )
-    )
-    listVUs
-  )
-)
-
-;;;--------------------------------------------------------------;
 ;;; Convenience functions:
 ;;;--------------------------------------------------------------;
 (defun TR:virtualunit-get-objects ( vu )
@@ -329,6 +312,23 @@
                ptInsert)
   )
   (TR:objectlist-offset listCopies offset)
+)
+
+;;;--------------------------------------------------------------;
+;;; Function: TR:virtualunitlist-copy                           ;
+;;;--------------------------------------------------------------;
+;; Return a list of virtual units that is a copy of the given list
+;; of virtual units having applied the given (group) offset. 
+;;;--------------------------------------------------------------;
+(defun TR:virtualunitlist-copy ( listVUs ptInsertOffset )
+  (mapcar 
+    '(lambda (vu)
+      (TR:virtualunit-copy-with-new-group-insertion-point vu 
+        (mapcar '+ (TR:virtualunit-get-group-insertion-point vu) ptInsertOffset)
+      )
+    )
+    listVUs
+  )
 )
 
 (princ)
