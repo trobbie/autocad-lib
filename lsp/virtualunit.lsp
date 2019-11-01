@@ -114,13 +114,11 @@
 ;; around the z-axis.
 ;;;--------------------------------------------------------------;
 (defun TR:virtualunit-copy-with-new-rotation-z-axis ( vu degreesRotationZ )
-  (list 
-    (cons "Objects" (TR:virtualunit-get-property vu "Objects"))
-    (cons "GroupInsertionPoint" (TR:virtualunit-get-property vu "GroupInsertionPoint"))
-    (cons "MatrixRotation" (imat 4))
-    (cons "DescRotation" "")
+  (TR:virtualunit-create-virtual-with-props
+    (TR:virtualunit-get-property vu "Objects")
+    degreesRotationZ
+    (TR:virtualunit-get-property vu "GroupInsertionPoint")
   )
-  (TR:virtualunit-rotate-around-z-axis vu degreesRotationZ)
 )
 
 ;;;--------------------------------------------------------------;
