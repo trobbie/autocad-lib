@@ -58,19 +58,42 @@
 ; When creating a drawing object. we will always create a _copy_ of  the original
 ; objects, then performing the appropriate translations and transformations.
 
+;;;--------------------------------------------------------------;
+;;; Function: TR:virtualunit-get-property                        ;
+;;;--------------------------------------------------------------;
+;; Return the value of a given property name.
+;;;--------------------------------------------------------------;
 (defun TR:virtualunit-get-property ( vu propertyName )
   (cdr (assoc propertyName vu))
 )
 
+;;;--------------------------------------------------------------;
+;;; Function: TR:virtualunit-set-property                        ;
+;;;--------------------------------------------------------------;
+;; Return the virtualunit that is given, but with the property given changed.
+;;;--------------------------------------------------------------;
 (defun TR:virtualunit-set-property ( vu propertyName propertyValue )
   (subst (cons propertyName propertyValue) (assoc propertyName vu) vu)
 )
 
+;;;--------------------------------------------------------------;
+;;; Function: TR:virtualunit-create-virtual                      ;
+;;;--------------------------------------------------------------;
+;; Return a virtual unit given a list of objects
+;;;--------------------------------------------------------------;
 (defun TR:virtualunit-create-virtual ( listObjects )
   (TR:virtualunit-create-virtual-with-props listObjects 0 '(0 0 0))
 )
 
-; the most common rotation is around z-axis; for other axis rotations, use the appropriate rotation function later
+;;;--------------------------------------------------------------;
+;;; Function: TR:virtualunit-create-virtual-with-props           ;
+;;;--------------------------------------------------------------;
+;; Return a virtual unit given a list of objects, rotation amount 
+;; around z-axis, and insertion point.  We use a rotation around z-axis
+;; since it is the most common rotation.  Additional rotations can
+;; be done using appropriate rotation functions on this created
+;; virtual unit (applied in order called).
+;;;--------------------------------------------------------------;
 (defun TR:virtualunit-create-virtual-with-props ( listObjects degreesRotationZ ptInsert / vu )
   (setq vu 
     (list 
@@ -83,9 +106,13 @@
   (TR:virtualunit-rotate-around-z-axis vu degreesRotationZ)
 )
 
-; Returns a new virtual unit that has the same properties as the given one except
-; that it has an absolute rotation of the given degrees around z-axis, instead of the
-; rotation assigned in the given one
+;;;--------------------------------------------------------------;
+;;; Function: TR:virtualunit-copy-with-new-rotation-z-axis       ;
+;;;--------------------------------------------------------------;
+;; Return the virtualunit that is given, but with the rotation value
+;; (in all directions) being replaced with one given rotation amount
+;; around the z-axis.
+;;;--------------------------------------------------------------;
 (defun TR:virtualunit-copy-with-new-rotation-z-axis ( vu degreesRotationZ )
   (list 
     (cons "Objects" (TR:virtualunit-get-property vu "Objects"))
@@ -96,8 +123,12 @@
   (TR:virtualunit-rotate-around-z-axis vu degreesRotationZ)
 )
 
-; Returns a new virtual unit that has the same properties as the given one except
-; that the InsertionPoint has been replaced with the given insertion point
+;;;--------------------------------------------------------------;
+;;; Function: TR:virtualunit-copy-with-new-group-insertion-point ;
+;;;--------------------------------------------------------------;
+;; Return the virtualunit that is given, but with the insertion
+;; point changed to the one given
+;;;--------------------------------------------------------------;
 (defun TR:virtualunit-copy-with-new-group-insertion-point ( vu ptInsert )
   (list 
     (cons "Objects" (TR:virtualunit-get-property vu "Objects"))
@@ -107,6 +138,12 @@
   )
 )
 
+;;;--------------------------------------------------------------;
+;;; Function: TR:virtualunit-list-copy                           ;
+;;;--------------------------------------------------------------;
+;; Return a list of virtual units that is a copy of the given list
+;; of virtual units having applied the given (group) offset. 
+;;;--------------------------------------------------------------;
 (defun TR:virtualunit-list-copy ( listVUs ptInsertOffset )
   (mapcar 
     '(lambda (vu)
@@ -118,18 +155,31 @@
   )
 )
 
+;;;--------------------------------------------------------------;
+;;; Convenience functions:
+;;;--------------------------------------------------------------;
 (defun TR:virtualunit-get-objects ( vu )
   (TR:virtualunit-get-property vu "Objects")
 )
-
 (defun TR:virtualunit-get-matrix-description ( vu )
   (TR:virtualunit-get-property "DescMatrix")
 )
-
 (defun TR:virtualunit-get-matrix-rotation ( vu )
   (TR:virtualunit-get-property "MatrixRotation")
 )
+(defun TR:virtualunit-get-group-insertion-point ( vu )
+  (TR:virtualunit-get-property vu "GroupInsertionPoint")
+)
+(defun TR:virtualunit-set-group-insertion-point ( vu ptInsert )
+  (TR:virtualunit-set-property vu "GroupInsertionPoint" (TR:point->3d-point ptInsert))
+)
 
+;;;--------------------------------------------------------------;
+;;; Function: TR:virtualunit-rotate-around-x-axis                ;
+;;;--------------------------------------------------------------;
+;; Return given virutal unit after having rotated it an additional
+;; given amount around the x-axis.
+;;;--------------------------------------------------------------;
 (defun TR:virtualunit-rotate-around-x-axis ( vu degreesX / desc )
   (cond ((not (= degreesX 0)) ; do no rotation if no degrees
     ; note to do an additional rotation with matrix multiplication, the new rotation must be the first matrix
@@ -150,6 +200,12 @@
   vu
 )
 
+;;;--------------------------------------------------------------;
+;;; Function: TR:virtualunit-rotate-around-y-axis                ;
+;;;--------------------------------------------------------------;
+;; Return given virutal unit after having rotated it an additional
+;; given amount around the y-axis.
+;;;--------------------------------------------------------------;
 (defun TR:virtualunit-rotate-around-y-axis ( vu degreesY / desc )
   (cond ((not (= degreesY 0)) ; do no rotation if no degrees
     ; note to do an additional rotation with matrix multiplication, the new rotation must be the first matrix
@@ -170,6 +226,12 @@
   vu
 )
 
+;;;--------------------------------------------------------------;
+;;; Function: TR:virtualunit-rotate-around-z-axis                ;
+;;;--------------------------------------------------------------;
+;; Return given virutal unit after having rotated it an additional
+;; given amount around the z-axis.
+;;;--------------------------------------------------------------;
 (defun TR:virtualunit-rotate-around-z-axis ( vu degreesZ / desc )
   (cond ((not (= degreesZ 0)) ; do no rotation if no degrees
     ; note to do an additional rotation with matrix multiplication, the new rotation must be the first matrix
@@ -190,13 +252,12 @@
   vu
 )
 
-(defun TR:virtualunit-get-group-insertion-point ( vu )
-  (TR:virtualunit-get-property vu "GroupInsertionPoint")
-)
-(defun TR:virtualunit-set-group-insertion-point ( vu ptInsert )
-  (TR:virtualunit-set-property vu "GroupInsertionPoint" (TR:point->3d-point ptInsert))
-)
-
+;;;--------------------------------------------------------------;
+;;; Function: TR:virtualunit-get-boundingbox                     ;
+;;;--------------------------------------------------------------;
+;; Return the bounding box of the drawing objects that would be
+;; create from this virtual unit.
+;;;--------------------------------------------------------------;
 (defun TR:virtualunit-get-boundingbox ( vu / tempListObjects bb )
   ; TODO: way to do this w/o creating/deleting a vla-object?
 
@@ -207,15 +268,30 @@
   bb
 )
 
-; return list of sizes of each dimension of the bounding box
+;;;--------------------------------------------------------------;
+;;; Function: TR:virtualunit-get-size                            ;
+;;;--------------------------------------------------------------;
+;; Return the size of the bounding box of the drawing objects that
+;; would be create from this virtual unit.
+;;;--------------------------------------------------------------;
 (defun TR:virtualunit-get-size ( vu )
   (TR:boundingbox-get-size (TR:objectlist-get-boundingbox (TR:virtualunit-get-objects vu)))
 )
 
-; create a _copy_ of the original read-only objects, then performing the 
-; appropriate translations and transformations, and finally move so
-; bottom-left point is at insertion point (ptInsert).
-(defun TR:virtualunit-create-drawing-objects ( vu ptInsert / listObjectsOrig listCopies bbOrig o oCopy bbRotated bbCenter )
+;;;--------------------------------------------------------------;
+;;; Function: TR:virtualunit-create-drawing-objects              ;
+;;;--------------------------------------------------------------;
+;; Return and create the drawing objects in the active document
+;; that are defined by this virtual unit definition.  See the
+;; top-level description of a virtual unit for explanation of how
+;; this is done.
+;;
+;; This creation will not change the source objects nor this 
+;; virtual unit.  After creation, there will be no connection
+;; between the created objects and the virtual unit.
+;;;--------------------------------------------------------------;
+(defun TR:virtualunit-create-drawing-objects ( vu ptInsert 
+  / listObjectsOrig listCopies bbOrig o oCopy bbRotated bbCenter )
   
   (setq listObjectsOrig (TR:virtualunit-get-objects vu))
   (setq bbOrig (TR:objectlist-get-boundingbox listObjectsOrig))
