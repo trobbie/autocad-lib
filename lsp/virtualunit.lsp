@@ -298,12 +298,12 @@
 
   ; move to insertion point
   (setq bbRotated (TR:objectlist-get-boundingbox listCopies))
-  ; consider implied offset from bb min-extent to origin
+  ; consider implied offset from bbRotated min-extent to origin
   (setq offset 
     (mapcar '(lambda(x) (- x))
             (TR:boundingbox-get-min-extent bbRotated))
   )
-  ; move the BL (at origin now) to the insertion point
+  ; move the bbRotated min-extent (at origin now) to the insertion point
   (setq offset 
     (mapcar '+ offset
               (TR:virtualunit-get-group-insertion-point vu)
