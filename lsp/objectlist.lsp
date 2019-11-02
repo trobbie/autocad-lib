@@ -6,30 +6,30 @@
 ;;;--------------------------------------------------------------;
 ;;; Function: TR:objectlist-get-boundingbox                      ;
 ;;;--------------------------------------------------------------;
-;; Return the bottom-left (BL) and top-right (TR) points of a 
-;; rectangle bounding a list of objects.  Note:  
+;; Return the min and max extents (as points) of a bounding box
+;; surrounding the given list of objects.  If the objects are in
+;; 2d, then this would be the bottom-left and top-right points.
 ;; listObjects - ([<vla-object> <vla-object> ...])
-;; Returns: ((min-x min-y min-z) (max-x max-y max-z))
+;; Returns: ((min-x min-y [min-z]) (max-x max-y [max-z]))
 ;;;--------------------------------------------------------------;
 ;; Author: Lee Mac (with minor edits - TR)
 ;;;--------------------------------------------------------------;
-(defun TR:objectlist-get-boundingbox ( listObjects / listBLpoints listTRpoints o o_bb a b)
+(defun TR:objectlist-get-boundingbox ( listObjects / listMinPts listTRpoints o o_bb a b)
   (foreach o listObjects
     (setq o_bb (TR:object-get-boundingbox3d o)
-          listBLpoints (cons (TR:boundingbox-get-bottomleft o_bb) listBLpoints)
-          listTRpoints (cons (TR:boundingbox-get-topright o_bb) listTRpoints)
+          listMinPts (cons (TR:boundingbox-get-min-extent o_bb) listMinPts)
+          listMaxPts (cons (TR:boundingbox-get-max-extent o_bb) listMaxPts)
     )
   )
-  ; list of Bottom-Left and Top-Right points are now created
   (mapcar
     '(lambda( a b )
        (apply 'mapcar (cons a b)) 
     )
     '(min max)
-    (list listBLpoints listTRpoints)
+    (list listMinPts listMaxPts)
   )
-  ; returns list of "min of x, y, and z values amongst BL points" 
-  ;             and "max of x, y, and z amongst TR points"
+  ; returns list of "min of x, y, and z values amongst min-extents of each object" 
+  ;             and "max of x, y, and z values amongst max-extents of each object"
 )
 
 ;;;--------------------------------------------------------------;
