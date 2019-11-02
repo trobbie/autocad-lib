@@ -27,15 +27,15 @@
 ; TODO: consider using Groups here.
 
 ; GroupInsertionPoint
-; The group insertion 3d point is where the unit's _bottom-left_ point of the rotated
-; unit's bounding box will be placed relative to a group origin.
+; The group insertion 3d point is where the unit's _min-extent_ point (or bottom-left if 2d)
+; of the bounding box of the unit will be placed relative to a group origin.
 ; Think an array of virtualunits on the screen, and GroupInsertionPoint species this 
 ; virtualunit's location within the array.  For the GroupInsertionPoint, there is another
-; implied offset (from unit center to bottom-left corner) involved between rotation and
+; implied offset (from unit center to min-extent corner) involved between rotation and
 ; GroupInsertionPoint.
 ; If unit is not part of a group, this should be '(0 0 0).
-; The bottom-left corner provides a consistant and easily-visualized reference point
-; when relating to other virtual units.
+; The min-extent point (bottom-left) corner provides a consistant and easily-visualized 
+; reference point when relating to other virtual units.
 ;
 ; MatrixRotation
 ; The MatrixRotation represents the transform matrix applied to all objects from the
@@ -298,10 +298,10 @@
 
   ; move to insertion point
   (setq bbRotated (TR:objectlist-get-boundingbox listCopies))
-  ; consider implied offset from BL to origin
+  ; consider implied offset from bb min-extent to origin
   (setq offset 
     (mapcar '(lambda(x) (- x))
-            (TR:boundingbox-get-bottomleft bbRotated))
+            (TR:boundingbox-get-min-extent bbRotated))
   )
   ; move the BL (at origin now) to the insertion point
   (setq offset 
