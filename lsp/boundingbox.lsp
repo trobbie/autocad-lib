@@ -75,13 +75,13 @@
 )
 (defun TR:boundingbox-get-width ( bb )
   (if bb
-    (- (TR:boundingbox-get-right bb) (TR:boundingbox-get-left bb))
+    (car (TR:boundingbox-get-size bb))
     nil
   )
 )
 (defun TR:boundingbox-get-height ( bb )
   (if bb
-    (- (TR:boundingbox-get-top bb) (TR:boundingbox-get-bottom bb))
+    (cadr (TR:boundingbox-get-size bb))
     nil
   )
 )
