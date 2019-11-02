@@ -2,12 +2,13 @@
 ;;;--------------------------------------------------------------;
 ;;; Bounding Box 
 ;;;--------------------------------------------------------------;
-;; List of bottom-left and top-right 2d points
-;;
-;; It is assumed to be used with 2d drawings, but a 3d bounding box
-;; (specially defined below) may be used where the bottom-left point
-;; contains lowest z-value and top-right point contains highest
-;; z-value.
+;; List of two points.
+;; If source objects were 2d, then the two points are the 
+;;   bottom-left and top-right 2d points of the bounding box
+;;   surround the object.
+;; If source objects were 3d, then the two points are the 
+;;   minimum-extent 3d point and maximum-extent 3d point of the bounding
+;;   box surrounding the objects.
 ;;;--------------------------------------------------------------;
 
 (defun TR:boundingbox-get-bottomleft ( bb )
@@ -58,6 +59,20 @@
     nil
   )
 )
+; can use with either 2d or 3d bounding boxes
+(defun TR:boundingbox-get-min-extent ( bb )
+  (if bb
+    (car bb)
+    nil
+  )
+)
+; can use with either 2d or 3d bounding boxes
+(defun TR:boundingbox-get-max-extent ( bb )
+  (if bb
+    (cadr bb)
+    nil
+  )
+)
 (defun TR:boundingbox-get-width ( bb )
   (if bb
     (- (TR:boundingbox-get-right bb) (TR:boundingbox-get-left bb))
@@ -67,6 +82,12 @@
 (defun TR:boundingbox-get-height ( bb )
   (if bb
     (- (TR:boundingbox-get-top bb) (TR:boundingbox-get-bottom bb))
+    nil
+  )
+)
+(defun TR:boundingbox-get-depth ( bb )
+  (if (and bb (>= (length (car bb)) 3) (>= (length (cadr bb)) 3)
+    (caddr (TR:boundingbox-get-size bb))
     nil
   )
 )
