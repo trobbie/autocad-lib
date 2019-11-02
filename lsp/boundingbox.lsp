@@ -214,7 +214,7 @@
 ;;;--------------------------------------------------------------;
 ;; Returns the 2d bounding box surrounding (and including) two points.
 ;;;--------------------------------------------------------------;
-(defun TR:boundingbox-encloses-boundingbox( pt1 pt2 )
+(defun TR:get-boundingbox-of-two-points( pt1 pt2 )
   (if (and pt1 pt2)
     (list
       (list (min (car pt1) (car pt2))
