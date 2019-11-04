@@ -143,10 +143,10 @@
   (TR:virtualunit-get-property vu "Objects")
 )
 (defun TR:virtualunit-get-matrix-description ( vu )
-  (TR:virtualunit-get-property "DescMatrix")
+  (TR:virtualunit-get-property vu "DescMatrix")
 )
 (defun TR:virtualunit-get-matrix-rotation ( vu )
-  (TR:virtualunit-get-property "MatrixRotation")
+  (TR:virtualunit-get-property vu "MatrixRotation")
 )
 (defun TR:virtualunit-get-group-insertion-point ( vu )
   (TR:virtualunit-get-property vu "GroupInsertionPoint")
@@ -172,8 +172,7 @@
     )
     (setq desc (TR:virtualunit-get-matrix-description vu))
     (TR:virtualunit-set-property vu "DescRotation"
-      (strcat desc 
-            (if desc " " "")
+      (strcat (if desc (strcat desc " ") "") 
             "RotX:" (rtos degreesX 2 0)
       )
     )
@@ -198,8 +197,7 @@
     )
     (setq desc (TR:virtualunit-get-matrix-description vu))
     (TR:virtualunit-set-property vu "DescRotation"
-      (strcat desc 
-            (if desc " " "")
+      (strcat (if desc (strcat desc " ") "") 
             "RotY:" (rtos degreesY 2 0)
       )
     )
@@ -224,8 +222,7 @@
     )
     (setq desc (TR:virtualunit-get-matrix-description vu))
     (TR:virtualunit-set-property vu "DescRotation"
-      (strcat desc 
-            (if desc " " "")
+      (strcat (if desc (strcat desc " ") "") 
             "RotZ:" (rtos degreesZ 2 0)
       )
     )
@@ -273,7 +270,7 @@
 ;;;--------------------------------------------------------------;
 (defun TR:virtualunit-create-drawing-objects ( vu ptInsert 
   / listObjectsOrig listCopies bbOrig o oCopy bbRotated bbCenter )
-  
+
   (setq listObjectsOrig (TR:virtualunit-get-objects vu))
   (setq bbOrig (TR:objectlist-get-boundingbox listObjectsOrig))
   (setq bbCenter (TR:boundingbox-get-center bbOrig))
@@ -303,6 +300,7 @@
     (mapcar '(lambda(x) (- x))
             (TR:boundingbox-get-min-extent bbRotated))
   )
+
   ; move the bbRotated min-extent (at origin now) to the insertion point
   (setq offset 
     (mapcar '+ offset
