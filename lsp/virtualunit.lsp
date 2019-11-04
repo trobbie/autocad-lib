@@ -164,18 +164,18 @@
 (defun TR:virtualunit-rotate-around-x-axis ( vu degreesX / desc )
   (cond ((not (= degreesX 0)) ; do no rotation if no degrees
     ; note to do an additional rotation with matrix multiplication, the new rotation must be the first matrix
-    (TR:virtualunit-set-property vu "MatrixRotation"
+    (setq vu (TR:virtualunit-set-property vu "MatrixRotation"
       (mxm 
         (TR:matrix-rotate-around-x-axis (TR:degrees->radians degreesX))
         (TR:virtualunit-get-matrix-rotation vu)
       )
-    )
+    ))
     (setq desc (TR:virtualunit-get-matrix-description vu))
-    (TR:virtualunit-set-property vu "DescRotation"
+    (setq vu (TR:virtualunit-set-property vu "DescRotation"
       (strcat (if desc (strcat desc " ") "") 
             "RotX:" (rtos degreesX 2 0)
       )
-    )
+    ))
   ))
   vu
 )
@@ -189,18 +189,18 @@
 (defun TR:virtualunit-rotate-around-y-axis ( vu degreesY / desc )
   (cond ((not (= degreesY 0)) ; do no rotation if no degrees
     ; note to do an additional rotation with matrix multiplication, the new rotation must be the first matrix
-    (TR:virtualunit-set-property vu "MatrixRotation"
+    (setq vu (TR:virtualunit-set-property vu "MatrixRotation"
       (mxm 
         (TR:matrix-rotate-around-y-axis (TR:degrees->radians degreesY))
         (TR:virtualunit-get-matrix-rotation vu)
       )
-    )
+    ))
     (setq desc (TR:virtualunit-get-matrix-description vu))
-    (TR:virtualunit-set-property vu "DescRotation"
+    (setq vu (TR:virtualunit-set-property vu "DescRotation"
       (strcat (if desc (strcat desc " ") "") 
             "RotY:" (rtos degreesY 2 0)
       )
-    )
+    ))
   ))
   vu
 )
@@ -214,18 +214,18 @@
 (defun TR:virtualunit-rotate-around-z-axis ( vu degreesZ / desc )
   (cond ((not (= degreesZ 0)) ; do no rotation if no degrees
     ; note to do an additional rotation with matrix multiplication, the new rotation must be the first matrix
-    (TR:virtualunit-set-property vu "MatrixRotation"
+    (setq vu (TR:virtualunit-set-property vu "MatrixRotation"
       (mxm 
         (TR:matrix-rotate-around-z-axis (TR:degrees->radians degreesZ))
         (TR:virtualunit-get-matrix-rotation vu)
       )
-    )
+    ))
     (setq desc (TR:virtualunit-get-matrix-description vu))
-    (TR:virtualunit-set-property vu "DescRotation"
+    (setq vu (TR:virtualunit-set-property vu "DescRotation"
       (strcat (if desc (strcat desc " ") "") 
             "RotZ:" (rtos degreesZ 2 0)
       )
-    )
+    ))
   ))
   vu
 )
