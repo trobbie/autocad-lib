@@ -14,7 +14,7 @@
 ;;;--------------------------------------------------------------;
 ;; Author: Lee Mac (with minor edits - TR)
 ;;;--------------------------------------------------------------;
-(defun TR:objectlist-get-boundingbox ( listObjects / listMinPts listTRpoints o o_bb a b)
+(defun TR:objectlist-get-boundingbox ( listObjects / listMinPts listMaxPts o o_bb a b)
   (foreach o listObjects
     (setq o_bb (TR:object-get-boundingbox3d o)
           listMinPts (cons (TR:boundingbox-get-min-extent o_bb) listMinPts)
