@@ -86,7 +86,7 @@
   )
 )
 (defun TR:boundingbox-get-depth ( bb )
-  (if (and bb (>= (length (car bb)) 3) (>= (length (cadr bb)) 3)
+  (if (and bb (>= (length (car bb)) 3) (>= (length (cadr bb)) 3))
     (caddr (TR:boundingbox-get-size bb))
     nil
   )
