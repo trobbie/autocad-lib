@@ -1,4 +1,7 @@
 
+ ; determine max precision needed for objects
+ (setq *TR:DECIMAL-PRECISION* 6)
+
 ;;;--------------------------------------------------------------;
 ;;; Bounding Box 
 ;;;--------------------------------------------------------------;
@@ -178,8 +181,8 @@
 (defun TR:object-get-boundingbox3d( o / o_minExt o_maxExt)
   (cond (o
     (vla-GetBoundingBox o 'o_minExt 'o_maxExt)
-    (setq o_minExt (vlax-safearray->list o_minExt))
-    (setq o_maxExt (vlax-safearray->list o_maxExt))
+    (setq o_minExt (mapcar '(lambda(n) (LM:roundto n *TR:DECIMAL-PRECISION*)) (vlax-safearray->list o_minExt)))
+    (setq o_maxExt (mapcar '(lambda(n) (LM:roundto n *TR:DECIMAL-PRECISION*)) (vlax-safearray->list o_maxExt)))
     (list o_minExt o_maxExt)
   )
   (T
