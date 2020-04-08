@@ -4,8 +4,6 @@ Base functions used in my AutoCAD environment.
 
 Language: Autolisp
 
-It does not contain commercial data or processes.
-
 ## Getting Started
 
 ### Prerequisites
