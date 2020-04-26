@@ -1,6 +1,6 @@
 # autocad-lib
 
-Base functions used in my AutoCAD environment.
+Base functions used in my AutoCAD environment.  Provides a common dependency library that is deemed stable and tested to for other team members to use.
 
 Language: Autolisp
 
