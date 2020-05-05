@@ -12,8 +12,9 @@
 ;;   A1x1 + A2x2 + A3x3 + ... = result <= objectiveConstraint
 ;;
 ;; When multiple solutions exist giving same optimized result, return the solution that gives more value
-;; to earlier variables. E.e. x2 has more value than x3, so returns a solution with higher x2 (assuming
-;; x1 was the same in all others) regardless of how large x3 may be in other solutions.
+;; to earlier variables. E.g. because of its parameter position, x2 has more value than x3, so it returns
+;; a solution where x1 is tied for the highest and the highest x2 is used, regardless of how large x3 
+;; may be in other solutions.  Ties in x2 values, push determining factor x3 parameter position, and so on.
 ;;
 ;; listCoefficients - list of positive real numbers; coefficients of the variables in objective linear function
 ;; objectiveConstraint - real number; maximum constraining value of objective function
