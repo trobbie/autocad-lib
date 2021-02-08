@@ -336,4 +336,226 @@
   )
 )
 
+
+;;;--------------------------------------------------------------;
+;;; Function: TR:objectlist-get-all-dim-related-points           ;
+;;;--------------------------------------------------------------;
+;; Find all points within the given list of objects that are
+;; pertinent when dealing with DIM objects
+;; E.g. for polylines, all points found would be considered;
+;;      for a circle, the top/bottom/left/right extents would
+;;
+;; listObjects = ([<vla-object> <vla-object> ...])
+;; Returns: list of 2d points, where a point is of form: (real-x real-y)
+;;;--------------------------------------------------------------;
+(defun TR:objectlist-get-all-dim-related-points ( listObjects 
+  / listPoints o pt2d pt3d o_name pt2dPrior msg bulge bulgePt i listBulgePoints )
+  (setq listPoints nil)
+  (foreach o listObjects
+    (setq o_name (vlax-get-property o 'ObjectName))
+    (cond
+      ((= o_name "AcDbPolyline")
+        (setq i 0)
+        (setq pt2dPrior nil)
+        (foreach pt2d (TR:polyline-get-coordinates o nil)
+            ; Arcs (designated by "bulge" values) supported within polylines:
+            ; if bulge is non-zero, then the polyline arcs between this vertex and next
+            ; and this may contain points at the quadrant extents
+          (cond (pt2dPrior
+            (setq bulge (vla-GetBulge o (1- i)))
+            (setq listBulgePoints (TR:get-arc-bulge-extents-exclusive pt2dPrior pt2d bulge))
+            ; listBulgePoints should not include start and end points
+            (foreach bulgePt listBulgePoints
+              (setq listPoints (cons pt2d listPoints))
+            )
+          ))
+          (setq listPoints (cons pt2d listPoints))
+
+          (setq pt2dPrior pt2d) ; in case next point has a bulge value
+          (setq i (1+ i))
+        )
+      );_end-of cond "AcDbPolyline"
+      ((= o_name "AcDbLine")
+        (setq pt3d (vlax-safearray->list (vlax-variant-value (vlax-get-property o 'StartPoint))))
+        (setq listPoints (cons (TR:point->2d-point pt3d) listPoints))
+        (setq pt3d (vlax-safearray->list (vlax-variant-value (vlax-get-property o 'EndPoint))))
+        (setq listPoints (cons (TR:point->2d-point pt3d) listPoints))
+      );_end-of cond "AcDbLine"
+      ((= o_name "AcDbCircle")
+        (setq center (vlax-safearray->list (vlax-variant-value (vlax-get-property o 'Center)))
+              radius (vlax-get-property o 'Radius))
+        (setq pt2d (list (car center) (- (cadr center) radius)))
+        (setq listPoints (cons pt2d listPoints))
+        (setq pt2d (list (car center) (+ (cadr center) radius)))
+        (setq listPoints (cons pt2d listPoints))
+        (setq pt2d (list (- (car center) radius) (cadr center)))
+        (setq listPoints (cons pt2d listPoints))
+        (setq pt2d (list (+ (car center) radius) (cadr center)))
+        (setq listPoints (cons pt2d listPoints))
+      );_end-of cond "AcDbCircle"
+      ((= o_name "AcDbArc")
+        ; add top/bottom/leftmost/rightmost points of circle if arc traverses  the point
+        ; we use shortcut here: if one of these four points are on the bounding box of the arc, use it
+        (setq o_bb (TR:object-get-boundingbox o))
+        (setq o_center3d (vlax-safearray->list (vlax-variant-value (vlax-get-property o 'Center))))
+        (setq o_radius (vlax-get-property o 'Radius))
+
+        (setq pt2d (list (car o_center3d) (+ (cadr o_center3d) o_radius))) ; possible top of arc
+        (if (= (cadr pt2d) (TR:boundingbox-get-top o_bb))
+          (setq listPoints (cons pt2d listPoints))
+        )
+        (setq pt2d (list (car o_center3d) (- (cadr o_center3d) o_radius))) ; possible bottom of arc
+        (if (= (cadr pt2d) (TR:boundingbox-get-bottom o_bb))
+          (setq listPoints (cons pt2d listPoints))
+        )
+        (setq pt2d (list (- (car o_center3d) o_radius) (cadr o_center3d))) ; possible leftmost of arc
+        (if (= (car pt2d) (TR:boundingbox-get-left o_bb))
+          (setq listPoints (cons pt2d listPoints))
+        )
+        (setq pt2d (list (+ (car o_center3d) o_radius) (cadr o_center3d))) ; possible rightmost of arc
+        (if (= (car pt2d) (TR:boundingbox-get-right o_bb))
+          (setq listPoints (cons pt2d listPoints))
+        )
+      );_end-of "AcDbArc"
+      ((= o_name "AcDbBlockReference")
+         ; for blocks, just use the corners of its bounding box
+         ; TODO: dive into the block and find the specific points that touch the bounding box
+         (setq o_bb (TR:object-get-boundingbox o))
+         (setq listPoints (cons (TR:boundingbox-get-bottomleft o_bb) listPoints))
+         (setq listPoints (cons (TR:boundingbox-get-bottomright o_bb) listPoints))
+         (setq listPoints (cons (TR:boundingbox-get-topleft o_bb) listPoints))
+         (setq listPoints (cons (TR:boundingbox-get-topright o_bb) listPoints))
+      )  ;_end-of "AcDbBlockReference"
+      ((vl-position o_name (list "AcDbRotatedDimension" "AcDbText" "AcDbMText" "AcDb2LineAngularDimension"))
+        nil
+      )
+      (T ; default of cond
+        (setq msg (strcat "WARNING: template-objectlist-get-all-points(): ignored object of type "  o_name))
+        (terpri)(princ msg)
+        (alert msg)
+      )
+    );_end-of cond
+  );_end-of foreach
+  listPoints
+)
+
+;;;--------------------------------------------------------------;
+;;; Function: TR:objectlist-get-topmost-of-leftmost-vertices     ;
+;;;--------------------------------------------------------------;
+;; Return top-most of the left-most points in object list.
+;; Z-dimesion is ignored.
+;;
+;; listObjects = ([<vla-object> <vla-object> ...])
+;; Returns: (real-x real-y)
+;;;--------------------------------------------------------------;
+(defun TR:objectlist-get-topmost-of-leftmost-vertices( listObjects / pt_topleft pt)
+  (setq pt_topleft nil)
+  (foreach pt (TR:objectlist-get-all-dim-related-points listObjects)
+    (if (not pt_topleft)
+      (setq pt_topleft pt)
+      ;else possibly update pt_topleft
+      (cond
+        ((equal (car pt) (car pt_topleft) *AA:POINT-BOUNDARIES-FUZZ*)
+          (if (>= (cadr pt) (cadr pt_topleft))
+            (setq pt_topleft pt)
+          )
+        )
+        ((< (car pt) (car pt_topleft))
+          (setq pt_topleft pt)
+        )
+      );_ end-of cond
+    )
+  )
+  pt_topleft
+)
+
+;;;--------------------------------------------------------------;
+;;; Function: TR:objectlist-get-topmost-of-rightmost-vertices    ;
+;;;--------------------------------------------------------------;
+;; Return top-most of the right-most points in object list.
+;; Z-dimesion is ignored.
+;;
+;; listObjects = ([<vla-object> <vla-object> ...])
+;; Returns: (real-x real-y)
+;;;--------------------------------------------------------------;
+(defun TR:objectlist-get-topmost-of-rightmost-vertices( listObjects / pt_topright pt)
+  (setq pt_topright nil)
+  (foreach pt (TR:objectlist-get-all-dim-related-points listObjects)
+    (if (not pt_topright)
+      (setq pt_topright pt)
+      ;else possibly update pt_topright
+      (cond
+        ((equal (car pt) (car pt_topright) *AA:POINT-BOUNDARIES-FUZZ*)
+          (if (>= (cadr pt) (cadr pt_topright))
+            (setq pt_topright pt)
+          )
+        )
+        ((> (car pt) (car pt_topright))
+          (setq pt_topright pt)
+        )
+        );_ end-of cond
+    )
+  )
+  pt_topright
+)
+
+;;;--------------------------------------------------------------;
+;;; Function: TR:objectlist-get-rightmost-of-bottommost-vertices ;
+;;;--------------------------------------------------------------;
+;; Return right-most of the bottom-most points in object list.
+;; Z-dimesion is ignored.
+;;
+;; listObjects = ([<vla-object> <vla-object> ...])
+;; Returns: (real-x real-y)
+;;;--------------------------------------------------------------;
+(defun TR:objectlist-get-rightmost-of-bottommost-vertices( listObjects / pt_rightbottom pt )
+  (setq pt_rightbottom nil)
+  (foreach pt (TR:objectlist-get-all-dim-related-points listObjects)
+    (if (not pt_rightbottom)
+      (setq pt_rightbottom pt)
+      ;else possibly update pt_rightbottom
+      (cond
+        ((equal (cadr pt) (cadr pt_rightbottom) *AA:POINT-BOUNDARIES-FUZZ*)
+          (if (>= (car pt) (car pt_rightbottom))
+            (setq pt_rightbottom pt)
+          )
+        )
+        ((< (cadr pt) (cadr pt_rightbottom))
+          (setq pt_rightbottom pt)
+        )
+      );_ end-of cond
+    )
+  )
+  pt_rightbottom
+)
+
+;;;--------------------------------------------------------------;
+;;; Function: TR:objectlist-get-rightmost-of-topmost-vertices    ;
+;;;--------------------------------------------------------------;
+;; Return right-most of the top-most points in object list.
+;; Z-dimesion is ignored.
+;;
+;; listObjects = ([<vla-object> <vla-object> ...])
+;; Returns: (real-x real-y)
+;;;--------------------------------------------------------------;
+(defun TR:objectlist-get-rightmost-of-topmost-vertices( listObjects / pt_righttop pt)
+  (setq pt_righttop nil)
+  (foreach pt (TR:objectlist-get-all-dim-related-points listObjects)
+    (if (not pt_righttop)
+      (setq pt_righttop pt)
+      ;else possibly update pt_righttop
+      (cond
+        ((equal (cadr pt) (cadr pt_righttop) *AA:POINT-BOUNDARIES-FUZZ*)
+          (if (>= (car pt) (car pt_righttop))
+            (setq pt_righttop pt)
+          )
+        )
+        ((> (cadr pt) (cadr pt_righttop))
+          (setq pt_righttop pt)
+        )
+      );_ end-of cond
+    )
+  )
+  pt_righttop
+)
 (princ)

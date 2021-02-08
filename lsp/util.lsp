@@ -349,5 +349,76 @@
   )
   dis
 )
+
+;;;--------------------------------------------------------------;
+;;; Function: TR:get-arc-bulge-extents-exclusive                 ;
+;;;--------------------------------------------------------------;
+;; Return a list of points that are useful in determining a
+;; bulge's extents (i.e. bounding box).  Exclude the start/end 
+;; vertices in the returned list, only considering the 
+;; curve points in  between.
+;;
+;; vertexStart = start vertex of the bulge
+;; vertexEnd = end vertex of the bulge
+;; bulgeValue = bulge value (as defined for Autocad polyline vertices)
+;; Returns: list of 2d points as described above.
+;;;--------------------------------------------------------------;
+(defun TR:get-arc-bulge-extents-exclusive  ( vertexStart vertexEnd bulgeValue
+  / resultList arcParams center startAngle endAngle radius pt1)
+  ;;;--------------------------------------------------------------;
+  ;;; Function: LM:Bulge->Arc                                      ;
+  ;;;--------------------------------------------------------------;
+  ;; Bulge to Arc
+  ;; Returns: (<center> <start angle> <end angle> <radius>)
+  ;;;--------------------------------------------------------------;
+  ;; Author: Lee Mac
+  ;;;--------------------------------------------------------------;
+  (defun _Bulge->Arc ( vertexStart vertexEnd bulge / a c r )
+      (setq a (* 2 (atan bulge))
+            r (/ (distance vertexStart vertexEnd) 2 (sin a))
+            c (polar vertexStart (+ (- (/ pi 2) a) (angle vertexStart vertexEnd)) r)
+      )
+      (if (minusp bulge)
+          (list c (angle c vertexEnd) (angle c vertexStart) (abs r))
+          (list c (angle c vertexStart) (angle c vertexEnd) (abs r))
+      )
+  )
+
+  (setq resultList (list))
+  (cond 
+  ((= 0 bulge)
+    (list) ;empty list
+  )
+  (T 
+    (setq arcParams (_Bulge->Arc vertexStart vertexEnd bulgeValue)
+          center (nth 0 arcParams)
+          startAngle (nth 1 arcParams)
+          endAngle (nth 2 arcParams)
+          radius (nth 3 arcParams))
+    ; possible top extent
+    (cond ((TR:angle-exclusively-between-start-end-angles (* PI 0.5) startAngle endAngle)
+      (setq pt1 (list (car center) (+ (cadr center) radius))) 
+      (setq resultList (cons pt1 resultList))
+    ))
+    ;possible left extent
+    (cond ((TR:angle-exclusively-between-start-end-angles (* PI 1) startAngle endAngle)
+      (setq pt1 (list (- (car center) radius) (cadr center)))  
+      (setq resultList (cons pt1 resultList))
+    ))
+    ;possible bottom extent
+    (cond ((TR:angle-exclusively-between-start-end-angles (* PI 1.5) startAngle endAngle)
+      (setq pt1 (list (car center) (- (cadr center) radius))) 
+      (setq resultList (cons pt1 resultList))
+    ))
+    ;possible right extent
+    (cond ((TR:angle-exclusively-between-start-end-angles 0 startAngle endAngle)
+      (setq pt1 (list (+ (car center) radius) (cadr center))) 
+      (setq resultList (cons pt1 resultList))
+    ))
+
+    resultList; return
+  ));_end-of cond
+)
+
 ;;;--------------------------------------------------------------;
 (princ)
