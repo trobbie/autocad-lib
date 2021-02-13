@@ -254,5 +254,29 @@
        (or (<= (cadr bb2_TR) (cadr bb_TR))
            (equal (cadr bb2_TR) (cadr bb_TR) *TR:BOUNDINGBOX-BOUNDARIES-FUZZ*)))
 )
+;;;--------------------------------------------------------------;
+;;; Function: TR:boundingbox-near-boundingbox                    ;
+;;;--------------------------------------------------------------;
+;; Return non-nil if boundingbox is near another boundingbox;
+;; the edges are within adjacencyTolerance of each other in x and
+;; y dimensions.
+;;
+;; bb - bounding box to test
+;; bb2 - other bounding box to test if nearby
+;; adjacencyTolerance - maximum distance allowed to be considered nearby
+;; Returns: non-nil if bb near bb2 
+;;;--------------------------------------------------------------;
+(defun TR:boundingbox-near-boundingbox (bb bb2 adjacencyTolerance)
+  (and 
+    (or (and (>= (TR:boundingbox-get-left bb) (- (TR:boundingbox-get-left bb2) adjacencyTolerance))
+             (<= (TR:boundingbox-get-left bb) (+ (TR:boundingbox-get-right bb2) adjacencyTolerance)))
+        (and (>= (TR:boundingbox-get-right bb) (- (TR:boundingbox-get-left bb2) adjacencyTolerance))
+             (<= (TR:boundingbox-get-right bb) (+ (TR:boundingbox-get-right bb2) adjacencyTolerance))))
+    (or (and (>= (TR:boundingbox-get-top bb) (- (TR:boundingbox-get-bottom bb2) adjacencyTolerance))
+             (<= (TR:boundingbox-get-top bb) (+ (TR:boundingbox-get-top bb2) adjacencyTolerance)))
+        (and (>= (TR:boundingbox-get-bottom bb) (- (TR:boundingbox-get-bottom bb2) adjacencyTolerance))
+             (<= (TR:boundingbox-get-bottom bb) (+ (TR:boundingbox-get-top bb2) adjacencyTolerance))))
+  )
+)
 
 (princ)
