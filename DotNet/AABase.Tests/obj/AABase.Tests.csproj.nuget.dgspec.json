@@ -1,0 +1,104 @@
+{
+  "format": 1,
+  "restore": {
+    "U:\\code\\autocad\\src\\tr\\DotNet\\AABase.Tests\\AABase.Tests.csproj": {}
+  },
+  "projects": {
+    "U:\\code\\autocad\\src\\tr\\DotNet\\AABase.Logic\\AABase.Logic.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "U:\\code\\autocad\\src\\tr\\DotNet\\AABase.Logic\\AABase.Logic.csproj",
+        "projectName": "AABase.Logic",
+        "projectPath": "U:\\code\\autocad\\src\\tr\\DotNet\\AABase.Logic\\AABase.Logic.csproj",
+        "packagesPath": "C:\\Users\\trobbie\\.nuget\\packages\\",
+        "outputPath": "U:\\code\\autocad\\src\\tr\\DotNet\\AABase.Logic\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\trobbie\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net461"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net461": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net461": {
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.113\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "U:\\code\\autocad\\src\\tr\\DotNet\\AABase.Tests\\AABase.Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "U:\\code\\autocad\\src\\tr\\DotNet\\AABase.Tests\\AABase.Tests.csproj",
+        "projectName": "AABase.Tests",
+        "projectPath": "U:\\code\\autocad\\src\\tr\\DotNet\\AABase.Tests\\AABase.Tests.csproj",
+        "packagesPath": "C:\\Users\\trobbie\\.nuget\\packages\\",
+        "outputPath": "U:\\code\\autocad\\src\\tr\\DotNet\\AABase.Tests\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\trobbie\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net461"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net461": {
+            "projectReferences": {
+              "U:\\code\\autocad\\src\\tr\\DotNet\\AABase.Logic\\AABase.Logic.csproj": {
+                "projectPath": "U:\\code\\autocad\\src\\tr\\DotNet\\AABase.Logic\\AABase.Logic.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net461": {
+          "dependencies": {
+            "MSTest.TestAdapter": {
+              "target": "Package",
+              "version": "[1.4.0, )"
+            },
+            "MSTest.TestFramework": {
+              "target": "Package",
+              "version": "[1.4.0, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[16.2.0, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[1.0.1, )"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.113\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
