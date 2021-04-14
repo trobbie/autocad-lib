@@ -1,6 +1,0 @@
-U:\code\autocad\src\tr\DotNet\AABase.Logic\bin\Debug\net461\AABase.Logic.dll
-U:\code\autocad\src\tr\DotNet\AABase.Logic\bin\Debug\net461\AABase.Logic.pdb
-U:\code\autocad\src\tr\DotNet\AABase.Logic\obj\Debug\net461\AABase.Logic.AssemblyInfoInputs.cache
-U:\code\autocad\src\tr\DotNet\AABase.Logic\obj\Debug\net461\AABase.Logic.AssemblyInfo.cs
-U:\code\autocad\src\tr\DotNet\AABase.Logic\obj\Debug\net461\AABase.Logic.dll
-U:\code\autocad\src\tr\DotNet\AABase.Logic\obj\Debug\net461\AABase.Logic.pdb
