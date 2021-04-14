@@ -10,9 +10,9 @@ namespace AABase.Logic
         protected readonly DBObject _dbobject;
         public AaDBObject(DBObject dbobject) { _dbobject = dbobject; }
 
-        public object getID() { return _dbobject.Id; }
+        public object GetID() { return _dbobject.Id; }
 
-        public string getDxfName() { return _dbobject.Id.ObjectClass.DxfName; }
+        public string GetDxfName() { return _dbobject.Id.ObjectClass.DxfName; }
     }
 
 }

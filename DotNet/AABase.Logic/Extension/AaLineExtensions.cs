@@ -12,7 +12,7 @@ namespace AABase.Logic
             // for each supported entity, add to the list of curves
             foreach (IEntity entity in listLines)
             {
-                switch (entity.getDxfName())
+                switch (entity.GetDxfName())
                 {
                     case "LINE":
                         ICurve l = (ICurve)entity;
