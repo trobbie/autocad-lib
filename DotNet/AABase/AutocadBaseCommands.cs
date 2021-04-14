@@ -10,9 +10,8 @@ using Autodesk.AutoCAD.Geometry;
 namespace AABase
 {
 
-    public static class AutocadCommands
+    public static class AutocadBaseCommands
     {
-/*
         public static void PerformAutocadCommand(string commandName, string commandDesc, Func<bool> action)
         {
             Active.WriteDebugMessage(2, "START "+commandName+": "+commandDesc);
@@ -26,7 +25,7 @@ namespace AABase
 
             Active.WriteDebugMessage(2, "END "+commandName);
         }
-        
+/*        
         [CommandMethod("AAC-COUNT-OBJECTS2", CommandFlags.UsePickSet)]
         public static void TotalCountOfSelection()
         {
