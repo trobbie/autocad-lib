@@ -6,9 +6,9 @@ namespace AABase.Logic
     public class AaEntity : AaDBObject, IEntity, IDBObject
     {
         public AaEntity(Entity entity) : base(entity) { }
-        public object GetAutocadEntity() { return (Entity)_dbobject; }
+        public object GetAcEntity() { return (Entity)_dbobject; }
 
-        public IExtents3d GeometricExtents { get { return new AaExtents3d(((Entity)GetAutocadEntity()).GeometricExtents); } }
+        public IExtents3d GeometricExtents { get { return new AaExtents3d(((Entity)GetAcEntity()).GeometricExtents); } }
 
         public double GetLength() {
             if (_dbobject is Curve)

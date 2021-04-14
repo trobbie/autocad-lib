@@ -9,7 +9,7 @@ namespace AABase.Logic
     {
         public AaPolyline(Polyline pl) : base(pl) { }
 
-        public AaPolyline(IEntity entity) : base((Polyline)entity.GetAutocadEntity()) { }
+        public AaPolyline(IEntity entity) : base((Polyline)entity.GetAcEntity()) { }
 
         private Polyline GetPolyline() { return (Polyline)_dbobject; }
 

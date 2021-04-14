@@ -6,7 +6,7 @@ namespace AABase.Logic
     {
         public AaCurve(Curve curve) : base(curve) { }
 
-        public AaCurve(IEntity entity) : base((Curve)entity.GetAutocadEntity()) { }
+        public AaCurve(IEntity entity) : base((Curve)entity.GetAcEntity()) { }
 
         private Curve GetCurve() { return (Curve)_dbobject; }
 

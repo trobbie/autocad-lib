@@ -60,7 +60,7 @@ namespace Autodesk.AutoCAD.ApplicationServices.Core
                 bool doCommit = true;
                 foreach (IEntity ent in entities)
                 {
-                    doCommit = doCommit && action((Entity)ent.GetAutocadEntity(), tr);
+                    doCommit = doCommit && action((Entity)ent.GetAcEntity(), tr);
                     if (!doCommit) break;
                 }
                 return doCommit;

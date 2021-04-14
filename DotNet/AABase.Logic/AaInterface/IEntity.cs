@@ -3,7 +3,7 @@ namespace AABase.Logic
 {
     public interface IEntity : IDBObject
     {
-        object GetAutocadEntity();
+        object GetAcEntity();
 
         IExtents3d GeometricExtents { get; }
 

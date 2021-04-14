@@ -73,7 +73,7 @@ namespace AABase
                     Active.WriteMessage($"No point selected.  Cancelling...");
                     return false;
                 }
-                Polyline acPL = ((Polyline)pl.GetAutocadEntity());
+                Polyline acPL = ((Polyline)pl.GetAcEntity());
                 double swid;
                 double ewid;
                 double bulge;

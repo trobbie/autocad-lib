@@ -6,7 +6,7 @@ namespace AABase.Logic
     {
         public AaArc(Arc arc) : base(arc) { }
 
-        public AaArc(IEntity entity) : base((Arc)entity.GetAutocadEntity()) { }
+        public AaArc(IEntity entity) : base((Arc)entity.GetAcEntity()) { }
 
         private Arc GetArc() { return (Arc)_dbobject; }
         public AaPoint3d Center { get { return GetArc().Center.GetPoint(); } }
