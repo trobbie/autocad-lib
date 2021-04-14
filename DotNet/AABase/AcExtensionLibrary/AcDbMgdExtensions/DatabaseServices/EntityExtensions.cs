@@ -2,9 +2,6 @@
 
 namespace Autodesk.AutoCAD.DatabaseServices
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class EntityExtensions
     {
         public static AaEntity AsAaEntity(this Entity e)

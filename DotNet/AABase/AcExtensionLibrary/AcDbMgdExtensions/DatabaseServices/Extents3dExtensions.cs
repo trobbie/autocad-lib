@@ -3,9 +3,6 @@ using AABase.Logic;
 
 namespace Autodesk.AutoCAD.DatabaseServices
 {
-    /// <summary>
-    /// 
-    /// </summary>
     public static class Extents3dExtensions
     {
         public static Size3d GetSize(this Extents3d extents)

@@ -1,5 +1,4 @@
-﻿using AABase.Logic.Model;
-
+﻿
 namespace AABase.Logic
 {
     public interface ICurve : IEntity

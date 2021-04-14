@@ -1,7 +1,7 @@
-﻿using AABase.Logic.Model;
-using Autodesk.AutoCAD.Geometry;
+﻿using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 using System.Linq;
+using AABase.Logic;
 
 namespace Autodesk.AutoCAD.DatabaseServices
 {

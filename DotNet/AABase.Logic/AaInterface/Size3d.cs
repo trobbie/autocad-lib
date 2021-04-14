@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace AABase.Logic
 {
     public struct Size3d
