@@ -25,15 +25,21 @@
   </ItemGroup>
   
   <ItemGroup Condition="'$(OS)' != 'Windows_NT'">
-    <PackageReference Include="AutoCAD-2017.Net.Base" Version="1.0.0" />
+  <!-- <PackageReference Include="AutoCAD-2017.Net.Base" Version="1.0.0" /> -->
   </ItemGroup>
   
-  <ItemGroup>
+  <ItemGroup Condition="'$(OS)' == 'Windows_NT'">
     <Compile Remove="AcWrapper\**" />
     <EmbeddedResource Remove="AcWrapper\**" />
     <None Remove="AcWrapper\**" />
   </ItemGroup>
 
+  <ItemGroup Condition="'$(OS)' == 'Windows_NT'">
+    <Folder Include="AcExtensionLibrary\AcCoreMgdExtensions\" />
+    <Folder Include="AcExtensionLibrary\AcMgdExtensions\" />
+    <Folder Include="AaWrapper\" />
+    <Folder Include="Extensions\" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AABase.Logic\AABase.Logic.csproj" />
