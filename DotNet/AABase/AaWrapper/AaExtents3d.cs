@@ -3,12 +3,13 @@ using AABase.Logic.Model;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 
-namespace AABase.Logic.AaInterface
+namespace AABase.Logic
 {
     public class AaExtents3d : IExtents3d
     {
         private Extents3d _extents;
         public AaExtents3d() { _extents = new Extents3d(); }
+
         public AaExtents3d(Extents3d extents) { _extents = extents; }
 
         public AaExtents3d(BoundBlock3d boundBlock) { _extents = Create(boundBlock.GetMinimumPoint().GetPoint(), boundBlock.GetMaximumPoint().GetPoint()); }

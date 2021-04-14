@@ -4,7 +4,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
 
-namespace AABase.Logic.AaInterface
+namespace AABase.Logic
 {
     public class AaPolyline : AaCurve, IPolyline
     {

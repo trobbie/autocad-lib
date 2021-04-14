@@ -1,5 +1,5 @@
 ﻿
-namespace AABase.Logic.AaInterface
+namespace AABase.Logic
 {
     public interface IDBObject
     {

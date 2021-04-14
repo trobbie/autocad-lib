@@ -1,5 +1,5 @@
 
-namespace AABase.Logic.Model
+namespace AABase.Logic
 {
     public class AaLine
     {

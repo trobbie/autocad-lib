@@ -1,7 +1,7 @@
 ﻿using AABase.Logic.Model;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace AABase.Logic.AaInterface
+namespace AABase.Logic
 {
     public class AaArc : AaCurve, IArc
     {

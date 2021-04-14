@@ -1,7 +1,7 @@
 ﻿using Autodesk.AutoCAD.DatabaseServices;
 using System;
 
-namespace AABase.Logic.AaInterface
+namespace AABase.Logic
 {
     public class AaEntity : AaDBObject, IEntity, IDBObject
     {

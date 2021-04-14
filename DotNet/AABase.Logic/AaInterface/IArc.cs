@@ -1,6 +1,5 @@
-﻿using AABase.Logic.Model;
-
-namespace AABase.Logic.AaInterface
+﻿
+namespace AABase.Logic
 {
     public interface IArc : ICurve
     {

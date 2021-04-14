@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace AABase.Logic.AaInterface
+namespace AABase.Logic
 {
     public interface IPolyline : ICurve
     {

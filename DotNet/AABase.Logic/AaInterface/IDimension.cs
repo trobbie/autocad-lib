@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AABase.Logic.AaInterface
+namespace AABase.Logic
 {
     public interface IDimension : IEntity
     {

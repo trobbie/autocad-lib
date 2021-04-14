@@ -4,7 +4,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using System.Linq;
 using System.Collections.Generic;
 using System;
-using AABase.Logic.AaInterface;
+using AABase.Logic;
 
 namespace AABase
 {

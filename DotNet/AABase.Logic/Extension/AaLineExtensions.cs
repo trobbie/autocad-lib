@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using AABase.Logic.AaInterface;
-using AABase.Logic.Model;
 
 namespace AABase.Logic
 {

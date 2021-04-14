@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AABase.Logic.AaInterface
+namespace AABase.Logic
 {
     public struct Size3d
     {

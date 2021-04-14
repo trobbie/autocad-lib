@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AABase.Logic.Model
+namespace AABase.Logic
 {
     public class AaPoint3d
     {
