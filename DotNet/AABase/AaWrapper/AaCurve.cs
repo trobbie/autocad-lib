@@ -1,0 +1,20 @@
+﻿using AABase.Logic.Model;
+using Autodesk.AutoCAD.DatabaseServices;
+
+namespace AABase.Logic.AaInterface
+{
+    public class AaCurve : AaEntity, ICurve
+    {
+        public AaCurve(Curve curve) : base(curve) { }
+
+        public AaCurve(IEntity entity) : base((Curve)entity.GetAutocadEntity()) { }
+
+        private Curve GetCurve() { return (Curve)_dbobject; }
+
+        public AaPoint3d StartPoint { get { return GetCurve().StartPoint.GetPoint(); } }
+
+        public AaPoint3d EndPoint { get { return GetCurve().EndPoint.GetPoint(); } }
+
+    }
+
+}

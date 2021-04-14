@@ -4,8 +4,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using System.Linq;
 using System.Collections.Generic;
 using System;
-
-using Autodesk.AutoCAD.Geometry;
+using AABase.Logic.AaInterface;
 
 namespace AABase
 {
@@ -25,7 +24,7 @@ namespace AABase
 
             Active.WriteDebugMessage(2, "END "+commandName);
         }
-/*        
+        
         [CommandMethod("AAC-COUNT-OBJECTS2", CommandFlags.UsePickSet)]
         public static void TotalCountOfSelection()
         {
@@ -40,7 +39,7 @@ namespace AABase
                 return true;
             });
         }
-
+/*
         // TODO: replace autolisp version with this one; rename when releasing the DLL
         [CommandMethod("AAC-TOTAL-LENGTH-BETA2", CommandFlags.UsePickSet)]
         public static void TotalLengthOfSelection()
