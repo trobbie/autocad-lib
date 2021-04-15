@@ -49,10 +49,22 @@ namespace AABase
             {
                 double totalLength = 0; 
                 IEnumerable<IEntity> entities = Active.Document.GetSelectedSetObjects();
+                foreach (IEntity ent in entities)
+                  Active.WriteDebugMessage(2,$"isCurve? {(ent.GetAcEntity() is Curve)}");
+                string unsupportedTypes = entities
+                    .Where(ent => !(ent.GetAcEntity() is Curve))
+                    .Select(ent => ent.GetDxfName())
+                    .Distinct()
+                    .Aggregate("", (i,j) => i + (i.Equals("")?"":", ") + j);
+                if (unsupportedTypes.Length>0)
+                {
+                   Application.ShowAlertDialog($"Could not calculate length for certain selected objects: {unsupportedTypes}");
+                   return false;
+                }
                 totalLength = entities
+                    .Where(obj => (obj.GetAcEntity() is Curve))
                     .Select(obj => obj.GetLength())
                     .Sum();
-
                 Application.ShowAlertDialog($"Total length of selected objects: {totalLength.ToString("N4")}");
                 return true;
             });
