@@ -1,0 +1,13 @@
+{
+  "folders": [
+      {
+          "name": "lib",
+          "path": "."
+      }
+  ],
+  // place windows-specific settings here
+  "settings": {
+    "files.exclude": {
+    }
+  }
+}

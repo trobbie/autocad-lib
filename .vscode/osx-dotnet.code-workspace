@@ -1,0 +1,13 @@
+{
+  "folders": [
+      {
+          "name": "lib",
+          "path": "."
+      }
+  ],
+  // place osx-specific settings here
+  "settings": {
+    "files.exclude": {
+    }
+  }
+}
