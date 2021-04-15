@@ -14,7 +14,7 @@ namespace AABase.Logic
             if (_dbobject is Curve)
                 return ((Curve)_dbobject).GetLength();
             else
-                throw new NotImplementedException("Contact developer.  Did not implement for a supported class.");
+                throw new NotImplementedException($"Does not find length from object type: {this.GetDxfName()}");
         }
 
         public void SetLayer(string layerName)
