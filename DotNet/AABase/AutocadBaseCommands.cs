@@ -1,6 +1,7 @@
 ﻿using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.ApplicationServices.Core;
 using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
 using System.Linq;
 using System.Collections.Generic;
 using System;
@@ -25,7 +26,7 @@ namespace AABase
             Active.WriteDebugMessage(2, "END "+commandName);
         }
         
-        [CommandMethod("AAC-COUNT-OBJECTS2", CommandFlags.UsePickSet)]
+        [CommandMethod("AAC-COUNT-OBJECTS", CommandFlags.UsePickSet)]
         public static void TotalCountOfSelection()
         {
             PerformAutocadCommand("AAC-COUNT-OBJECTS", "", () =>
@@ -39,24 +40,25 @@ namespace AABase
                 return true;
             });
         }
-/*
+
         // TODO: replace autolisp version with this one; rename when releasing the DLL
-        [CommandMethod("AAC-TOTAL-LENGTH-BETA2", CommandFlags.UsePickSet)]
+        [CommandMethod("AAC-TOTAL-LENGTH-BETA", CommandFlags.UsePickSet)]
         public static void TotalLengthOfSelection()
         {
             PerformAutocadCommand("AAC-TOTAL-LENGTH-BETA", "", () =>
             {
                 double totalLength = 0; 
-                IAnnotatedPiece2d piece = new AnnotatedPiece2d(DrawingTemplateFormatting.CreateAnnotatingParams()); // annotations ignored though
                 IEnumerable<IEntity> entities = Active.Document.GetSelectedSetObjects();
-                piece.IncludeObjects(entities, false);
-                totalLength = piece.CalculateTotalLength();
+                totalLength = entities
+                    .Select(obj => obj.GetLength())
+                    .Sum();
+
                 Application.ShowAlertDialog($"Total length of selected objects: {totalLength.ToString("N4")}");
                 return true;
             });
         }
 
-        [CommandMethod("AAX-POLYLINE-ORIGIN-BETA2", CommandFlags.UsePickSet)]
+        [CommandMethod("AAX-POLYLINE-ORIGIN-BETA", CommandFlags.UsePickSet)]
         public static void PolylineOriginCommand()
         {
             PerformAutocadCommand("AAC-POLYLINE-ORIGIN-BETA", "Reassign vertex 1 of selected polyline", () =>
@@ -117,6 +119,5 @@ namespace AABase
                 return true;
             });
         }
-*/
     }
 }
