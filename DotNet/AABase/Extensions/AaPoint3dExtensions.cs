@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace AABase.Logic.Model
+namespace AABase.Logic
 {
     public static class AaPoint3dExtensions
     {

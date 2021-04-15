@@ -1,5 +1,4 @@
 ﻿using AABase.Logic;
-using AABase.Logic.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -176,6 +175,34 @@ namespace Autodesk.AutoCAD.ApplicationServices.Core
             return selectedObjects;
         }
 
+        /// <summary>
+        /// Return selected polyline, or if none currently selected, ask user first to select a polyline.
+        /// </summary>
+        /// Evalulates polyline immediately (no lazy initialization) so that Autocad interactions are ensured done within a transaction.
+        /// <returns></returns>
+        public static IPolyline GetSelectedPolyline(this Document acDoc)
+        {
+            IPolyline plSelected = null;
+            bool cancel = false;
+
+            while ((plSelected == null) && !cancel)
+                acDoc.UsingSelectionSetObjects<Polyline>((IEnumerable<Polyline> entities) =>
+                {
+                    if (entities.Count() == 0)
+                    {
+                        cancel = true;
+                    }
+                    else if (entities.Count() > 1)
+                    {
+                        Application.ShowAlertDialog("Multiple polylines were selected.  Please select only one.");
+                    }
+                    else
+                    {
+                        plSelected = (IPolyline)entities.First().AsAaEntity();
+                    }
+                });
+            return plSelected;
+        }
 
     }
 }

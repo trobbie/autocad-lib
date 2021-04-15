@@ -1,5 +1,4 @@
 ﻿using System;
-using AABase.Logic.Model;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 
