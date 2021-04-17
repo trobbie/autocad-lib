@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework Condition="'$(OS)' == 'Windows_NT'">net461</TargetFramework>
-    <TargetFramework Condition="'$(OS)' != 'Windows_NT'">net5.0</TargetFramework>
+    <TargetFramework Condition="'$(OS)' != 'Windows_NT'">net461</TargetFramework>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>
@@ -25,7 +25,7 @@
   </ItemGroup>
   
   <ItemGroup Condition="'$(OS)' != 'Windows_NT'">
-  <!-- <PackageReference Include="AutoCAD-2017.Net.Base" Version="1.0.0" /> -->
+    <PackageReference Include="AutoCAD-2017.Net.Base" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
