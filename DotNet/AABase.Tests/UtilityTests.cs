@@ -2,7 +2,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AABase.Logic;
 using System;
 
-namespace AAExt1.Tests
+namespace AABase.Tests
 {
     [TestClass]
     public class UtilityTests
