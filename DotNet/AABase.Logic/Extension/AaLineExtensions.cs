@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace AABase.Logic
 {
     public static class AaLineExtensions
     {
+        public static string ToStringDebug(this IEnumerable<AaLine> listLines)
+        {
+            return listLines.Select(i => i.ToString())
+                            .Aggregate("",(i,j) => i + "," + j);
+        }
         public static List<AaLine> GetLineList(this IEnumerable<IEntity> listLines)
         {
             List<AaLine> result = new List<AaLine>();
