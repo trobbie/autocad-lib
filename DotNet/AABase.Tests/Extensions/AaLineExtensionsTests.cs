@@ -8,6 +8,15 @@ namespace AABase.Tests
   [TestClass]
     public class AaLineExtensionsTests
     {
+        private static readonly List<FakeEntity> triangleLines1 = new List<FakeEntity>();
+       [ClassInitialize]
+        public static void InitializeFakeData(TestContext testContext) {
+            // triangle (as individual lines)
+            triangleLines1.Add(new FakeLineEntity(0, 0, 10, 0));
+            triangleLines1.Add(new FakeLineEntity(10, 0, 10, 10));
+            triangleLines1.Add(new FakeLineEntity(10, 10, 0, 0));
+        }
+        
         static void TestGetLineList(IEnumerable<IEntity>listObjects, List<AaLine> expected)
         {
             // Act
@@ -19,20 +28,13 @@ namespace AABase.Tests
 
         [TestMethod]
         public void GetLineList_TEST1()
-        {
-            List<FakeEntity> listLinesEntities = new List<FakeEntity>();
-
-            // triangle (as individual lines)
-            listLinesEntities.Add(new FakeLineEntity(0, 0, 10, 0));
-            listLinesEntities.Add(new FakeLineEntity(10, 0, 10, 10));
-            listLinesEntities.Add(new FakeLineEntity(10, 10, 0, 0));
-
+        { 
             List<AaLine> listLinesExpected = new List<AaLine>();
             listLinesExpected.Add(new AaLine(new AaPoint3d(0,0), new AaPoint3d(10,0)));
             listLinesExpected.Add(new AaLine(new AaPoint3d(10,0), new AaPoint3d(10,10)));
             listLinesExpected.Add(new AaLine(new AaPoint3d(10,10), new AaPoint3d(0,0)));
 
-            TestGetLineList(listLinesEntities, listLinesExpected);
+            TestGetLineList(triangleLines1, listLinesExpected);
         }
 
     }
