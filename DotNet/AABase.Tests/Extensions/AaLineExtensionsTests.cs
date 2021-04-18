@@ -8,6 +8,7 @@ namespace AABase.Tests
   [TestClass]
     public class AaLineExtensionsTests
     {
+        private static readonly List<FakeEntity> emptyList = new List<FakeEntity>();
         private static readonly List<FakeEntity> triangleLines1 = new List<FakeEntity>();
        [ClassInitialize]
         public static void InitializeFakeData(TestContext testContext) {
@@ -24,6 +25,14 @@ namespace AABase.Tests
             // Assert
             if (!test.OrderBy(t => t).SequenceEqual<AaLine>(expected.OrderBy(e => e)))
                 Assert.Fail($"Failed args {listObjects}.\nReturned {test.ToStringDebug()}.\nExpected {expected.ToStringDebug()}.");
+        }
+
+        [TestMethod]
+        public void GetLineList_EmptyList_ReturnEmptyList()
+        { 
+            List<AaLine> listLinesExpected = new List<AaLine>();
+
+            TestGetLineList(emptyList, listLinesExpected);
         }
 
         [TestMethod]
