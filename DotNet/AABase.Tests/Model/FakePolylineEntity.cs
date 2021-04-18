@@ -4,33 +4,27 @@ using System.Collections.Generic;
 namespace AABase.Tests
 {
     internal class FakePolylineEntity : FakeEntity, IPolyline
-    {
-        public int NumberOfVertices => throw new System.NotImplementedException();
+    { 
+        protected List<AaPoint3d> _listVertices = new List<AaPoint3d>();
+        protected int _numOfVertices;
+        protected bool _closed;
 
-        public bool Closed => throw new System.NotImplementedException();
+        public int NumberOfVertices { get { return _numOfVertices; }}
+        public bool Closed { get { return _closed; }}
 
-        public AaPoint3d StartPoint => throw new System.NotImplementedException();
-
-        public AaPoint3d EndPoint => throw new System.NotImplementedException();
-
-        public AaPoint3d GetPoint3dAt(int vertexIndex)
+        public override string GetDxfName()
         {
-            throw new System.NotImplementedException();
+            return "LWPOLYLINE";
         }
+        public virtual AaPoint3d StartPoint => NumberOfVertices==0 ? null : _listVertices[0];
 
-        public IEnumerable<AaPoint3d> GetPointsOnExtentsOfSegmentAt(int vertexIndex)
-        {
-            throw new System.NotImplementedException();
-        }
+        public virtual AaPoint3d EndPoint => NumberOfVertices==0 ? null : GetPoint3dAt(NumberOfVertices-1);
 
-        public bool IsArcSegment(int vertexIndex)
-        {
-            throw new System.NotImplementedException();
-        }
+        public AaPoint3d GetPoint3dAt(int vertexIndex) => _listVertices[vertexIndex];
 
-        public bool IsLineSegment(int vertexIndex)
-        {
-            throw new System.NotImplementedException();
-        }
+        public IEnumerable<AaPoint3d> GetPointsOnExtentsOfSegmentAt(int vertexIndex) => throw new System.NotImplementedException();
+
+        public virtual bool IsArcSegment(int vertexIndex) => false;
+        public virtual bool IsLineSegment(int vertexIndex) => true;
     }
 }
