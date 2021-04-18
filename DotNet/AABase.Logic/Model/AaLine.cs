@@ -14,6 +14,9 @@ namespace AABase.Logic
           _pt2 = pt2;
         }
 
+        public AaPoint3d StartPoint { get { return _pt1; }}
+        public AaPoint3d EndPoint { get { return _pt2; }}
+        
         public override bool Equals(object obj) => Equals(obj as AaLine);
         public override int GetHashCode()
         {
