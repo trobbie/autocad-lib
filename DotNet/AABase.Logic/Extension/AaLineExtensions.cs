@@ -48,11 +48,11 @@ namespace AABase.Logic
                             }
                         }
                         break;
-                    case "CIRCLE": // add "quadrant" arcs of circle
+                    case "CIRCLE":
                         throw new NotImplementedException();
-                    case "ARC": // add start and end points, and any "full circle" extents also on its arc extents
+                    case "ARC":
                         throw new NotImplementedException();
-                    case "BLOCK":  // break first
+                    case "BLOCK":
                         throw new NotImplementedException();
                     default:
                         throw new NotImplementedException();
