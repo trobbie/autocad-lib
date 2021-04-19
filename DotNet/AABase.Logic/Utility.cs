@@ -11,7 +11,14 @@ namespace AABase.Logic
             if (decIndex == -1) return 0;
             return numString.Substring(decIndex + 1).TrimEnd('0').Length;
         }
-
+        public static bool EqualsWithEpsilon(double d1, double d2, double epsilon)
+        {
+            return (Math.Abs(d1 - d2) <= epsilon);
+        }
+        public static bool EqualsWithPrecision(double d1, double d2, int precision)
+        {
+            return EqualsWithEpsilon(d1, d2, Math.Pow(10, -1*precision));
+        }
         public static double GetNormalizedAngle(double rad)
         {
            double remainder = Math.IEEERemainder(rad, Math.PI * 2.0);
@@ -21,7 +28,6 @@ namespace AABase.Logic
             else
                 return remainder;
          }
-
         public static double GetNextCoterminalAngle(double angle)
         {
             return angle + Math.PI * 2.0;
