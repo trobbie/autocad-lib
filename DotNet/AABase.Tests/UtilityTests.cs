@@ -14,13 +14,6 @@ namespace AABase.Tests
                 Assert.Fail($"Arg {arg} returned {test}.  Expected {expected}.");
         }
 
-        static void TestIsAngleExclusivelyBetwStartAndEndAngles(double thisAngle, double startAngle, double endAngle, bool expected)
-        {
-            bool test = Utility.IsAngleExclusivelyBetwStartAndEndAngles(thisAngle, startAngle, endAngle);
-            if (test != expected)
-                Assert.Fail($"Arg ({thisAngle},{startAngle},{endAngle}) returned {test}.  Expected {expected}.");
-        }
-
         [TestMethod]
         public void FindPrecisionOfNumber_TEST1()
         {
@@ -67,6 +60,12 @@ namespace AABase.Tests
             TestFindPrecisionNumber(3.104333, 6);
         }
 
+        static void TestIsAngleExclusivelyBetwStartAndEndAngles(double thisAngle, double startAngle, double endAngle, bool expected)
+        {
+            bool test = Utility.IsAngleExclusivelyBetwStartAndEndAngles(thisAngle, startAngle, endAngle);
+            if (test != expected)
+                Assert.Fail($"Arg ({thisAngle},{startAngle},{endAngle}) returned {test}.  Expected {expected}.");
+        }
 
         [TestMethod] public void IsAngleExclusivelyBetwStartAndEndAngles_TEST01() { TestIsAngleExclusivelyBetwStartAndEndAngles(Math.PI*0.5, Math.PI*0.5, Math.PI*0.49, false); }
         [TestMethod] public void IsAngleExclusivelyBetwStartAndEndAngles_TEST02() { TestIsAngleExclusivelyBetwStartAndEndAngles(Math.PI*0.5, Math.PI*0.49, Math.PI*0.5, false); }
@@ -83,6 +82,18 @@ namespace AABase.Tests
         [TestMethod] public void IsAngleExclusivelyBetwStartAndEndAngles_TEST13() { TestIsAngleExclusivelyBetwStartAndEndAngles(Math.PI*0.5, Math.PI*1.99, Math.PI*0.49, false); }
         [TestMethod] public void IsAngleExclusivelyBetwStartAndEndAngles_TEST14() { TestIsAngleExclusivelyBetwStartAndEndAngles(Math.PI*0.5, Math.PI*1.99, Math.PI*0.51, true); }
         
-
+        static void TestEqualsWithPrecision(double d1, double d2, int precision, bool expected)
+        {
+            bool test = Utility.EqualsWithPrecision(d1, d2, precision);
+            if (test != expected)
+                Assert.Fail($"Arg ({d1},{d2},{precision}) returned {test}.  Expected {expected}.");
+        }
+        [TestMethod] public void EqualsWithPrecision_TEST1() { TestEqualsWithPrecision(2.000, 2.002, 2, true); }
+        [TestMethod] public void EqualsWithPrecision_TEST2() { TestEqualsWithPrecision(2.000, 2.002, 3, false); }
+        [TestMethod] public void EqualsWithPrecision_TEST3() { TestEqualsWithPrecision(2.000, 1.998, 2, true); }
+        [TestMethod] public void EqualsWithPrecision_TEST4() { TestEqualsWithPrecision(2.000, 1.998, 3, false); }
+        [TestMethod] public void EqualsWithPrecision_TEST5() { TestEqualsWithPrecision(2.000, 1.995, 3, false); }
+        [TestMethod] public void EqualsWithPrecision_TEST6() { TestEqualsWithPrecision(2.000, 1.995, 2, true); }
+        
     }
 }
