@@ -22,10 +22,8 @@ namespace AABase.Logic
         {
             return _pt1.GetHashCode() ^ _pt2.GetHashCode();
         }
-
         public bool Equals(AaLine line)
         {
-            // check both points, either order
             return line != null 
                 && _pt1.Equals(line._pt1)
                 && _pt2.Equals(line._pt2);
