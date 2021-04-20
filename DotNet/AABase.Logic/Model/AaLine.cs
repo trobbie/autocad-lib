@@ -35,18 +35,35 @@ namespace AABase.Logic
                 && ((_pt1.Equals(line._pt1) && _pt2.Equals(line._pt2))
                     || (_pt1.Equals(line._pt2) && _pt2.Equals(line._pt1)));
         }
+        public AaLine GetLineOrdered() {
+            if(_pt1.X.IsEqualTo(_pt2.X) || _pt1.X > _pt2.X)
+            {
+                if (_pt1.Y.IsEqualTo(_pt2.Y) || _pt1.Y < _pt2.Y)
+                {
+                    return this;
+                } 
+                else
+                {
+                    return new AaLine(_pt2, _pt1);
+                }
+            } else
+            {
+                return this;
+            }
+        }
         public int CompareTo(AaLine other)
         {
             // If other is not a valid object reference, this instance is greater.
             if (other == null) return 1;
-
-            int result = _pt1.X.CompareTo(_pt2.X);
-            return (result != 0) ? result : _pt1.Y.CompareTo(_pt2.Y);
+            AaLine orderedLine1 = this.GetLineOrdered();
+            AaLine orderedLine2 = other.GetLineOrdered();
+            int result = orderedLine1.StartPoint.CompareTo(orderedLine2.StartPoint);
+            return (result != 0) ? result : orderedLine1.EndPoint.CompareTo(orderedLine1.EndPoint);
         }
         
         public override string ToString()
         {
-        return $"[{_pt1.ToString()},{_pt2.ToString()}]";
+            return $"[{_pt1.ToString()},{_pt2.ToString()}]";
         }
 
     }
