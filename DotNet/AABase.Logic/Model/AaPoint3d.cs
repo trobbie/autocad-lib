@@ -2,7 +2,7 @@
 
 namespace AABase.Logic
 {
-    public class AaPoint3d
+    public class AaPoint3d : IEquatable<AaPoint3d>, IComparable<AaPoint3d>
     {
         public AaPoint3d(AaPoint3d pt) { X = pt.X; Y = pt.Y; Z = pt.Z; }
         public AaPoint3d(double x, double y, double z) { X = x; Y = y; Z = z; }
@@ -21,6 +21,7 @@ namespace AABase.Logic
         public double Y { get; private set; }
         public double Z { get; private set; }
 
+        public override bool Equals(object obj) => Equals(obj as AaPoint3d);
         public bool Equals(AaPoint3d otherPt)
         {
             return this.X.IsEqualTo(otherPt.X) && this.Y.IsEqualTo(otherPt.Y) && this.Z.IsEqualTo(otherPt.Z);
@@ -33,6 +34,13 @@ namespace AABase.Logic
             hash = 71 * hash + Math.Round(this.Y, AABaseLogicGlobal.MaxPointPrecision).GetHashCode();
             hash = 71 * hash + Math.Round(this.Z, AABaseLogicGlobal.MaxPointPrecision).GetHashCode();
             return hash;
+        }
+
+        public int CompareTo(AaPoint3d other)
+        {
+            if (other == null) return 1;
+            int result = this.X.CompareTo(other.X);
+            return (result != 0) ? result : this.Y.CompareTo(other.Y);
         }
 
         public double[] AsArray() {
