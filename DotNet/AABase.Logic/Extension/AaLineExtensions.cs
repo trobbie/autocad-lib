@@ -47,6 +47,7 @@ namespace AABase.Logic
                             }
                             if (pl.IsArcSegment(i))
                             {
+                                // TODO: support arcs; add a CircularArc3d base type
                                 throw new NotImplementedException();
                             }
                             else
