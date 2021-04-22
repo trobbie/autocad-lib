@@ -1,6 +1,4 @@
 using System;
-using AABase.Logic;
-using System.Windows;
 
 namespace AABase.Logic.Model
 {
