@@ -4,6 +4,11 @@ namespace AABase.Logic
 {
     public static class Utility
     {
+        public static double DegreesToRadians(double degrees)
+        {
+            return (Math.PI / 180) * degrees;
+        }
+
         public static int FindPrecisionOfNumber(double num)
         {
             string numString = $"{ num}";
