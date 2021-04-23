@@ -153,7 +153,9 @@ namespace AABase.Logic
         
         public override string ToString()
         {
-            return $"[{_pt1.ToString()},{_pt2.ToString()}]";
+            return IsArc
+                ? $"[Arc:{Center.ToString()},{Radius.ToString()},{StartAngle.ToString()},{EndAngle.ToString()}]"
+                : $"[{_pt1.ToString()},{_pt2.ToString()}]";
         }
 
     }
