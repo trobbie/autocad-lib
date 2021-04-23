@@ -72,5 +72,45 @@ namespace AABase.Logic
 
             return result;
         }
+
+        public static List<AaGeCurve> GetCurveList(this IEnumerable<IEntity> listLines)
+        {
+            List<AaGeCurve> result = new List<AaGeCurve>();
+
+            // for each supported entity, add to the list of curves
+            foreach (IEntity entity in listLines)
+            {
+                switch (entity.GetDxfName())
+                {
+                    case "LINE":
+                        ICurve l = (ICurve)entity;
+                        result.Add(new AaGeCurve(l.StartPoint, l.EndPoint));
+                        break;
+                    case "LWPOLYLINE": // light-weight polyline
+                        IPolyline pl = (IPolyline)entity;
+                        int numVertices = pl.NumberOfVertices;
+                        for (int i = 0; i < numVertices; i++)
+                        {
+                            // if on last vertex and closed, we're done with adding curves
+                            if (((i+1) == numVertices) && (!pl.Closed)) continue;
+                            result.Add(pl.GetGeCurveAt(i));
+                        }
+                        break;
+                    case "CIRCLE":
+                        // TODO: support arcs; add a CircularArc3d base type
+                        throw new NotImplementedException();
+                    case "ARC":
+                        // TODO: support arcs; add a CircularArc3d base type
+                        throw new NotImplementedException();
+                    case "BLOCK":
+                        // TODO: support blocks
+                        throw new NotImplementedException();
+                    default:
+                        throw new NotImplementedException();
+                }
+            }
+
+            return result;
+        }
     }
 }
