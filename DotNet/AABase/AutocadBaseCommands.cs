@@ -92,7 +92,7 @@ namespace AABase
                 double ewid;
                 double bulge;
                 Point2d pt2d;
-                int startIndex = (int)acPL.GetParameterAtPoint(newOrigin.GetAutocadPoint3d());
+                int startIndex = (int)acPL.GetParameterAtPoint(newOrigin.GetAcPoint3d());
 
                 Active.Database.UsingTransaction((Transaction tr) =>
                 {

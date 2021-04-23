@@ -18,11 +18,11 @@ namespace AABase.Logic
         private Extents3d Create(AaPoint3d minPoint, AaPoint3d maxPoint) 
         {
             Extents3d ext = new Extents3d();
-            ext.AddPoint(minPoint.GetAutocadPoint3d());
-            ext.AddPoint(maxPoint.GetAutocadPoint3d());
+            ext.AddPoint(minPoint.GetAcPoint3d());
+            ext.AddPoint(maxPoint.GetAcPoint3d());
             return ext;
             //NOTE: the following was giving an Invalid Input message; not sure why
-            //return new Extents3d(minPoint.GetAutocadPoint3d(), maxPoint.GetAutocadPoint3d());
+            //return new Extents3d(minPoint.GetAcPoint3d(), maxPoint.GetAcPoint3d());
         }
 
         public static IExtents3d Create() { return new AaExtents3d(new Extents3d()); }
