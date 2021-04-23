@@ -1,6 +1,6 @@
 using System;
 
-namespace AABase.Logic.Model
+namespace AABase.Logic
 {
     /// <summary>
     /// Basic geometry curve.  A straight curve is a straight line.
@@ -32,14 +32,14 @@ namespace AABase.Logic.Model
         double Radius { get; }
         
         /// <summary>
-        /// The start angle (on unit circle) of the curve within the curve's plane
+        /// The start angle, in radians, (on unit circle) of the curve within the curve's plane
         /// </summary>
         /// <remarks>
         /// Arc is assumed to go counter-clockwise.
         /// </remarks>
         double StartAngle { get; }
         /// <summary>
-        /// The end angle (on unit circle) of the curve within the curve's plane.
+        /// The end angle, in radians, (on unit circle) of the curve within the curve's plane.
         /// </summary>
         /// <remarks>
         /// Arc is assumed to go counter-clockwise.
@@ -70,15 +70,15 @@ namespace AABase.Logic.Model
 
         public AaPoint3d StartPoint { get {
             return !IsArc ? _pt1 : 
-                Center + new AaPoint3d(Radius * Math.Cos(Utility.DegreesToRadians(StartAngle)),
-                                          Radius * Math.Sin(Utility.DegreesToRadians(StartAngle)),
+                Center + new AaPoint3d(Radius * Math.Cos(StartAngle),
+                                          Radius * Math.Sin(StartAngle),
                                           0);
         }}
 
         public AaPoint3d EndPoint { get {
             return !IsArc ? _pt2 : 
-                Center + new AaPoint3d(Radius * Math.Cos(Utility.DegreesToRadians(EndAngle)),
-                                          Radius * Math.Sin(Utility.DegreesToRadians(EndAngle)),
+                Center + new AaPoint3d(Radius * Math.Cos(EndAngle),
+                                          Radius * Math.Sin(EndAngle),
                                           0);
         }}
 
