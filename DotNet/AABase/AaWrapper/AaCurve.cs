@@ -10,9 +10,9 @@ namespace AABase.Logic
 
         private Curve GetCurve() { return (Curve)_dbobject; }
 
-        public AaPoint3d StartPoint { get { return GetCurve().StartPoint.GetPoint(); } }
+        public AaPoint3d StartPoint { get { return GetCurve().StartPoint.GetAaPoint(); } }
 
-        public AaPoint3d EndPoint { get { return GetCurve().EndPoint.GetPoint(); } }
+        public AaPoint3d EndPoint { get { return GetCurve().EndPoint.GetAaPoint(); } }
 
     }
 

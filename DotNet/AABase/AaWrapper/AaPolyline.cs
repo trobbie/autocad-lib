@@ -18,7 +18,7 @@ namespace AABase.Logic
 
         public AaPoint3d GetPoint3dAt(int vertexIndex)
         {
-            return GetPolyline().GetPoint3dAt(vertexIndex).GetPoint();
+            return GetPolyline().GetPoint3dAt(vertexIndex).GetAaPoint();
         }
         
         /// <summary>
@@ -43,7 +43,7 @@ namespace AABase.Logic
             if (IsArcSegment(vertexIndexStart))
             {
                 CircularArc3d arc = GetPolyline().GetArcSegmentAt(vertexIndexStart);
-                return new AaGeCurve(arc.Center.GetPoint(), arc.Radius, arc.StartAngle, arc.EndAngle,
+                return new AaGeCurve(arc.Center.GetAaPoint(), arc.Radius, arc.StartAngle, arc.EndAngle,
                     (arc.Normal.Z < 0));
             }
             else

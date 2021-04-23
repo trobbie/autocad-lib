@@ -134,7 +134,7 @@ namespace Autodesk.AutoCAD.ApplicationServices.Core
                     cancel = true;
                 } else
                 {
-                    ptSelected = ptResult.Value.GetPoint();
+                    ptSelected = ptResult.Value.GetAaPoint();
                 }
             }
             return ptSelected;

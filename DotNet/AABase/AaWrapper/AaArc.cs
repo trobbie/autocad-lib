@@ -9,7 +9,7 @@ namespace AABase.Logic
         public AaArc(IEntity entity) : base((Arc)entity.GetAcEntity()) { }
 
         private Arc GetArc() { return (Arc)_dbobject; }
-        public AaPoint3d Center { get { return GetArc().Center.GetPoint(); } }
+        public AaPoint3d Center { get { return GetArc().Center.GetAaPoint(); } }
         public double Radius { get { return GetArc().Radius; } }
 
     }

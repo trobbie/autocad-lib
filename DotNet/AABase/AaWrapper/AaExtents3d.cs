@@ -11,7 +11,7 @@ namespace AABase.Logic
 
         public AaExtents3d(Extents3d extents) { _extents = extents; }
 
-        public AaExtents3d(BoundBlock3d boundBlock) { _extents = Create(boundBlock.GetMinimumPoint().GetPoint(), boundBlock.GetMaximumPoint().GetPoint()); }
+        public AaExtents3d(BoundBlock3d boundBlock) { _extents = Create(boundBlock.GetMinimumPoint().GetAaPoint(), boundBlock.GetMaximumPoint().GetAaPoint()); }
 
         public AaExtents3d(AaPoint3d minPoint, AaPoint3d maxPoint) { _extents = Create(minPoint, maxPoint); }
 
@@ -27,8 +27,8 @@ namespace AABase.Logic
 
         public static IExtents3d Create() { return new AaExtents3d(new Extents3d()); }
 
-        public AaPoint3d MinPoint { get => _extents.MinPoint.GetPoint(); }
-        public AaPoint3d MaxPoint { get => _extents.MaxPoint.GetPoint(); }
+        public AaPoint3d MinPoint { get => _extents.MinPoint.GetAaPoint(); }
+        public AaPoint3d MaxPoint { get => _extents.MaxPoint.GetAaPoint(); }
 
         public void AddExtents(IExtents3d source)
         {
