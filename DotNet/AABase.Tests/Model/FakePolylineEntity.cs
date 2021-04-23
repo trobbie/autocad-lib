@@ -22,6 +22,8 @@ namespace AABase.Tests
 
         public AaPoint3d GetPoint3dAt(int vertexIndex) => _listVertices[vertexIndex];
 
+        public AaGeCurve GetGeCurveAt(int vertexIndexStart) => throw new System.NotImplementedException();
+
         public IEnumerable<AaPoint3d> GetPointsOnExtentsOfSegmentAt(int vertexIndex) => throw new System.NotImplementedException();
 
         public virtual bool IsArcSegment(int vertexIndex) => false;

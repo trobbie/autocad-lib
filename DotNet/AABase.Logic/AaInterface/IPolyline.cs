@@ -7,6 +7,8 @@ namespace AABase.Logic
         int NumberOfVertices { get; }
         AaPoint3d GetPoint3dAt(int vertexIndex);
 
+        AaGeCurve GetGeCurveAt(int vertexIndexStart);
+
         bool Closed { get; }
         bool IsLineSegment(int vertexIndex);
         bool IsArcSegment(int vertexIndex);

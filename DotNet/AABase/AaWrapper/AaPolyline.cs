@@ -20,8 +20,41 @@ namespace AABase.Logic
         {
             return GetPolyline().GetPoint3dAt(vertexIndex).GetPoint();
         }
+        
+        /// <summary>
+        /// Get Curve at specified start index. This could be a line.
+        /// </summary>
+        /// <returns>
+        /// Returns the AaGeCurve of the segment at the start index. If index is out of bounds, returns null.
+        /// </returns>
+        /// <param name="vertexIndexStart"></param>
+        /// <returns></returns>
+        public AaGeCurve GetGeCurveAt(int vertexIndexStart)
+        {
+            if (vertexIndexStart >= NumberOfVertices) return null;
+            int vertexIndexEnd = vertexIndexStart + 1;
+            if (vertexIndexEnd >= NumberOfVertices)
+            {
+                if (Closed)
+                    vertexIndexEnd = 0;
+                else
+                    return null;
+            }
+            if (IsArcSegment(vertexIndexStart))
+            {
+                CircularArc3d arc = GetPolyline().GetArcSegmentAt(vertexIndexStart);
+                return new AaGeCurve(arc.Center.GetPoint(), arc.Radius, arc.StartAngle, arc.EndAngle,
+                    (arc.Normal.Z < 0));
+            }
+            else
+            {
 
+                return new AaGeCurve(GetPoint3dAt(vertexIndexStart), GetPoint3dAt(vertexIndexEnd));
+            }
+        }
+        
         public bool IsLineSegment(int vertexIndex) { return GetPolyline().GetSegmentType(vertexIndex).Equals(SegmentType.Line); }
+        
         public bool IsArcSegment(int vertexIndex) { return GetPolyline().GetSegmentType(vertexIndex).Equals(SegmentType.Arc); }
 
         public IEnumerable<AaPoint3d> GetPointsOnExtentsOfSegmentAt(int vertexIndex)
