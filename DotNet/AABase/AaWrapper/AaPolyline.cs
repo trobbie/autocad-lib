@@ -43,6 +43,7 @@ namespace AABase.Logic
             if (IsArcSegment(vertexIndexStart))
             {
                 CircularArc3d arc = GetPolyline().GetArcSegmentAt(vertexIndexStart);
+                // TODO: Angles still need to consider ReferenceVector
                 return new AaGeCurve(arc.Center.GetAaPoint(), arc.Radius, arc.StartAngle, arc.EndAngle,
                     (arc.Normal.Z < 0));
             }
