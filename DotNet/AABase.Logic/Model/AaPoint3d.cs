@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace AABase.Logic
 {
@@ -7,6 +8,14 @@ namespace AABase.Logic
         public AaPoint3d(AaPoint3d pt) { X = pt.X; Y = pt.Y; Z = pt.Z; }
         public AaPoint3d(double x, double y, double z) { X = x; Y = y; Z = z; }
         public AaPoint3d(double x, double y) { X = x; Y = y; Z = 0; }
+
+        public AaPoint3d(double[] arrayDouble) { 
+            if ((arrayDouble.Count() < 2) || (arrayDouble.Count() > 3))
+                throw new ArgumentException();
+            X = arrayDouble[0]; 
+            Y = arrayDouble[1]; 
+            if (arrayDouble.Count() == 3) Z = arrayDouble[2]; 
+        }
 
         public static AaPoint3d operator+ (AaPoint3d a, AaPoint3d b)
         {
