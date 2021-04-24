@@ -35,17 +35,22 @@ namespace AABase.Logic
         /// The start angle, in radians, (on unit circle) of the curve within the curve's plane
         /// </summary>
         /// <remarks>
-        /// Arc is assumed to go counter-clockwise.
+        /// Arc is assumed to go counter-clockwise when viewed from it's plane's normal toward origin.
         /// </remarks>
         double StartAngle { get; }
         /// <summary>
         /// The end angle, in radians, (on unit circle) of the curve within the curve's plane.
         /// </summary>
         /// <remarks>
-        /// Arc is assumed to go counter-clockwise.
+        /// Arc is assumed to go counter-clockwise when viewed from it's plane's normal toward origin.
         /// </remarks>
         double EndAngle { get; }
-        
+
+        /// <summary>
+        /// The normal vector of the plane containing the curve
+        /// </summary>
+        AaPoint3d PlaneNormal;
+
         public AaGeCurve(AaPoint3d pt1, AaPoint3d pt2)
         {
             IsArc = false;
@@ -53,17 +58,19 @@ namespace AABase.Logic
             Radius = 0;
             StartAngle = 0;
             EndAngle = 0;
+            PlaneNormal = null;
             _pt1 = pt1;
             _pt2 = pt2;
         }
         
-        public AaGeCurve(AaPoint3d center, double radius, double startAngle, double endAngle, bool isClockwise)
+        public AaGeCurve(AaPoint3d center, double radius, double startAngle, double endAngle, AaPoint3d planeNormal)
         {
             IsArc = true;
             Center = center;
             Radius = radius;
-            StartAngle = isClockwise ? endAngle : startAngle;
-            EndAngle = isClockwise ? startAngle : endAngle;
+            PlaneNormal = planeNormal;
+            StartAngle = (PlaneNormal.Z < 0) ? endAngle : startAngle;
+            EndAngle = (PlaneNormal.Z < 0) ? startAngle : endAngle;
             _pt1 = null;
             _pt2 = null;
         }
