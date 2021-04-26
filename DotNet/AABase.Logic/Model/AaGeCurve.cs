@@ -16,7 +16,7 @@ namespace AABase.Logic
         /// Is the curve an arc.  If not, it is a line.
         /// </summary>
         /// <value></value>
-        bool IsArc { get; }
+        public bool IsArc { get; }
 
         private readonly AaPoint3d _pt1;
         private readonly AaPoint3d _pt2;
@@ -24,12 +24,12 @@ namespace AABase.Logic
         /// <summary>
         /// The center point of curve.
         /// </summary>
-        AaPoint3d Center { get; }
+        public AaPoint3d Center { get; }
 
         /// <summary>
         /// The radius of curve.
         /// </summary>
-        double Radius { get; }
+        public double Radius { get; }
         
         /// <summary>
         /// The start angle, in radians, (on unit circle) of the curve within the curve's plane
@@ -37,19 +37,19 @@ namespace AABase.Logic
         /// <remarks>
         /// Arc is assumed to go counter-clockwise when viewed from it's plane's normal toward origin.
         /// </remarks>
-        double StartAngle { get; }
+        public double StartAngle { get; }
         /// <summary>
         /// The end angle, in radians, (on unit circle) of the curve within the curve's plane.
         /// </summary>
         /// <remarks>
         /// Arc is assumed to go counter-clockwise when viewed from it's plane's normal toward origin.
         /// </remarks>
-        double EndAngle { get; }
+        public double EndAngle { get; }
 
         /// <summary>
         /// The normal vector of the plane containing the curve
         /// </summary>
-        AaPoint3d PlaneNormal;
+        public AaPoint3d PlaneNormal;
 
         public AaGeCurve(AaPoint3d pt1, AaPoint3d pt2)
         {
