@@ -43,17 +43,9 @@ namespace AABase.Logic
             if (IsArcSegment(vertexIndexStart))
             {
                 CircularArc3d arc = GetPolyline().GetArcSegmentAt(vertexIndexStart);
-                Point3d origin = new Point3d(0,0,0);
-                // find where reference vector is on XY-Plane
-                Vector3d refVectorXYPlane = arc.ReferenceVector.TransformBy(Matrix3d.AlignCoordinateSystem(origin, 
-                    arc.ReferenceVector, 
-                    arc.Normal.CrossProduct(arc.ReferenceVector),
-                    arc.Normal,
-                    origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis));
                 // find angle that was the reference point for angle=0 used for StartAngle/EndAngle
-                Vector3d xAxis = new Vector3d(1,0,0);
-                double angleRef = xAxis.GetAngleTo(refVectorXYPlane, new Vector3d(0,0,1)); // returns [0,2PI]
-                // TODO: test results
+                // arc's referenceVector is unit vector that points to angle=0 on unit circle
+                double angleRef = new Vector3d(1,0,0).GetAngleTo(arc.ReferenceVector, new Vector3d(0,0,1));  // returns [0,2PI]
                 return new AaGeCurve(arc.Center.GetAaPoint(), arc.Radius, angleRef+arc.StartAngle, angleRef+arc.EndAngle, 
                     new AaPoint3d(arc.Normal.ToArray()));
             }

@@ -68,9 +68,10 @@ namespace AABase.Logic
             IsArc = true;
             Center = center;
             Radius = radius;
-            PlaneNormal = planeNormal;
-            StartAngle = (PlaneNormal.Z < 0) ? endAngle : startAngle;
-            EndAngle = (PlaneNormal.Z < 0) ? startAngle : endAngle;
+            StartAngle = (planeNormal.Z < 0) ? endAngle : startAngle;
+            EndAngle = (planeNormal.Z < 0) ? startAngle : endAngle;
+            // since flipping angles if negative-Z normal, also adjust the new plane normal
+            PlaneNormal = (planeNormal.Z >= 0) ? planeNormal : new AaPoint3d(-planeNormal.X, -planeNormal.Y, -planeNormal.Z);
             _pt1 = null;
             _pt2 = null;
         }
