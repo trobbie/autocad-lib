@@ -6,7 +6,7 @@ namespace AABase.Logic
 {
     public static class AaLineExtensions
     {
-        private static IEnumerable<string> _supportedDxfNamesForGetLineList = new List<string> { "LINE", "LWPOLYLINE" };
+        private static IEnumerable<string> _supportedDxfNamesForGetLineList = new List<string> { "LINE", "LWPOLYLINE", "ARC", "CIRCLE" };
 
         public static bool IsDxfNameSupportedForGetLineList(string dxfName) 
         {
@@ -83,8 +83,8 @@ namespace AABase.Logic
                 switch (entity.GetDxfName())
                 {
                     case "LINE":
-                        ICurve l = (ICurve)entity;
-                        result.Add(new AaGeCurve(l.StartPoint, l.EndPoint));
+                        ICurve line = (ICurve)entity;
+                        result.Add(new AaGeCurve(line.StartPoint, line.EndPoint));
                         break;
                     case "LWPOLYLINE": // light-weight polyline
                         IPolyline pl = (IPolyline)entity;
@@ -97,11 +97,13 @@ namespace AABase.Logic
                         }
                         break;
                     case "CIRCLE":
-                        // TODO: support arcs; add a CircularArc3d base type
-                        throw new NotImplementedException();
+                        ICircle circle = (ICircle)entity;
+                        result.Add(new AaGeCurve(circle.Center, circle.Radius, 0, 2*Math.PI, circle.PlaneNormal));
+                        break;
                     case "ARC":
-                        // TODO: support arcs; add a CircularArc3d base type
-                        throw new NotImplementedException();
+                        IArc arc = (IArc)entity;
+                        result.Add(new AaGeCurve(arc.Center, arc.Radius, arc.StartAngle, arc.EndAngle, arc.PlaneNormal));
+                        break;
                     case "BLOCK":
                         // TODO: support blocks
                         throw new NotImplementedException();
