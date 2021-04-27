@@ -24,56 +24,56 @@ namespace AABase.Tests
             rectangleOpenPolyline1.Add(new FakeRectangle(new AaPoint3d(5,5), 7, 8, true));
         }
         
-        static void TestGetLineList(IEnumerable<IEntity>listObjects, List<AaLine> expected)
+        static void TestGetCurveList(IEnumerable<IEntity>listObjects, List<AaGeCurve> expected)
         {
             // Act
-            IEnumerable<AaLine> test = listObjects.GetLineList();
+            IEnumerable<AaGeCurve> test = listObjects.GetCurveList();
             // Assert
-            if (!test.OrderBy(t => t).SequenceEqual<AaLine>(expected.OrderBy(e => e)))
+            if (!test.OrderBy(t => t).SequenceEqual<AaGeCurve>(expected.OrderBy(e => e)))
                 Assert.Fail($"Failed args {listObjects}.\nReturned {test.ToStringDebug()}.\nExpected {expected.ToStringDebug()}.");
         }
 
         [TestMethod]
-        public void GetLineList_EmptyList_ReturnEmptyList()
+        public void GetCurveList_EmptyList_ReturnEmptyList()
         { 
-            List<AaLine> listLinesExpected = new List<AaLine>();
+            List<AaGeCurve> listLinesExpected = new List<AaGeCurve>();
 
-            TestGetLineList(emptyList, listLinesExpected);
+            TestGetCurveList(emptyList, listLinesExpected);
         }
 
         [TestMethod]
-        public void GetLineList_MultipleLines_ReturnValid()
+        public void GetCurveList_MultipleLines_ReturnValid()
         { 
-            List<AaLine> listLinesExpected = new List<AaLine>();
-            listLinesExpected.Add(new AaLine(new AaPoint3d(0,0), new AaPoint3d(10,0)));
-            listLinesExpected.Add(new AaLine(new AaPoint3d(10,0), new AaPoint3d(10,10)));
-            listLinesExpected.Add(new AaLine(new AaPoint3d(10,10), new AaPoint3d(0,0)));
+            List<AaGeCurve> listLinesExpected = new List<AaGeCurve>();
+            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(0,0), new AaPoint3d(10,0)));
+            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(10,0), new AaPoint3d(10,10)));
+            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(10,10), new AaPoint3d(0,0)));
 
-            TestGetLineList(triangleLines1, listLinesExpected);
+            TestGetCurveList(triangleLines1, listLinesExpected);
         }
 
         [TestMethod]
-        public void GetLineList_OneClosedPolyline_ReturnValid()
+        public void GetCurveList_OneClosedPolyline_ReturnValid()
         {
-            List<AaLine> listLinesExpected = new List<AaLine>();
-            listLinesExpected.Add(new AaLine(new AaPoint3d(5,5), new AaPoint3d(12,5)));
-            listLinesExpected.Add(new AaLine(new AaPoint3d(12,5), new AaPoint3d(12,13)));
-            listLinesExpected.Add(new AaLine(new AaPoint3d(12,13), new AaPoint3d(5,13)));
-            listLinesExpected.Add(new AaLine(new AaPoint3d(5,13), new AaPoint3d(5,5)));
+            List<AaGeCurve> listLinesExpected = new List<AaGeCurve>();
+            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(5,5), new AaPoint3d(12,5)));
+            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(12,5), new AaPoint3d(12,13)));
+            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(12,13), new AaPoint3d(5,13)));
+            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(5,13), new AaPoint3d(5,5)));
 
-            TestGetLineList(rectangleClosedPolyline1, listLinesExpected);
+            TestGetCurveList(rectangleClosedPolyline1, listLinesExpected);
         }
 
         [TestMethod]
-        public void GetLineList_OneOpenPolyline_ReturnValid()
+        public void GetCurveList_OneOpenPolyline_ReturnValid()
         {
-            List<AaLine> listLinesExpected = new List<AaLine>();
-            listLinesExpected.Add(new AaLine(new AaPoint3d(5,5), new AaPoint3d(12,5)));
-            listLinesExpected.Add(new AaLine(new AaPoint3d(12,5), new AaPoint3d(12,13)));
-            listLinesExpected.Add(new AaLine(new AaPoint3d(12,13), new AaPoint3d(5,13)));
-            listLinesExpected.Add(new AaLine(new AaPoint3d(5,13), new AaPoint3d(5,5)));
+            List<AaGeCurve> listLinesExpected = new List<AaGeCurve>();
+            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(5,5), new AaPoint3d(12,5)));
+            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(12,5), new AaPoint3d(12,13)));
+            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(12,13), new AaPoint3d(5,13)));
+            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(5,13), new AaPoint3d(5,5)));
 
-            TestGetLineList(rectangleOpenPolyline1, listLinesExpected);
+            TestGetCurveList(rectangleOpenPolyline1, listLinesExpected);
         }
 
     }
