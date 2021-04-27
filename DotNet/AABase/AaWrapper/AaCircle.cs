@@ -2,18 +2,16 @@
 
 namespace AABase.Logic
 {
-    public class AaArc : AaCurve, IArc
+    public class AaCircle : AaCurve, ICircle
     {
-        public AaArc(Arc arc) : base(arc) { }
+        public AaCircle(Circle arc) : base(arc) { }
 
-        public AaArc(IEntity entity) : base((Arc)entity.GetAcEntity()) { }
+        public AaCircle(IEntity entity) : base((Circle)entity.GetAcEntity()) { }
 
-        private Arc GetArc() { return (Arc)_dbobject; }
-        public AaPoint3d Center { get { return GetArc().Center.GetAaPoint(); } }
-        public double Radius { get { return GetArc().Radius; } }
-        public double StartAngle { get { return GetArc().StartAngle; } }
-        public double EndAngle { get { return GetArc().EndAngle; } }
-        public AaPoint3d PlaneNormal { get { return new AaPoint3d(GetArc().Normal.ToArray()); } }
+        private Circle GetCircle() { return (Circle)_dbobject; }
+        public AaPoint3d Center { get { return GetCircle().Center.GetAaPoint(); } }
+        public double Radius { get { return GetCircle().Radius; } }
+        public AaPoint3d PlaneNormal { get { return new AaPoint3d(GetCircle().Normal.ToArray()); } }
 
     }
 
