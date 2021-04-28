@@ -99,6 +99,15 @@ namespace AABase
                     BlockTable acBlkTbl = (BlockTable)tr.GetObject(Active.Database.BlockTableId, OpenMode.ForRead);
                     BlockTableRecord acBlkTblRec = (BlockTableRecord)tr.GetObject(acBlkTbl[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
 
+                    // the selected point, could have two indices (one in middle of polyline, and one at the front/end)
+                    // always choose the front/end point over a selected index in middle of polyline
+                    if (acPL.GetPoint2dAt(startIndex).IsEqualTo(acPL.GetPoint2dAt(0)))
+                        startIndex = 0;
+                    if (acPL.GetPoint2dAt(startIndex).IsEqualTo(acPL.GetPoint2dAt(pl.NumberOfVertices-1)))
+                        startIndex = pl.NumberOfVertices-1;
+                    // if old poly is not closed, and we start at end, we need to traverse it backwards
+                    bool traverseBackwards = !pl.Closed && startIndex == pl.NumberOfVertices-1;
+
                     Polyline acNewPoly = new Polyline();
                     acNewPoly.SetDatabaseDefaults();
                     int indexOldPoly = startIndex;
@@ -113,8 +122,16 @@ namespace AABase
                         acNewPoly.AddVertexAt(indexNewPoly, pt2d, bulge, swid, ewid);
 
                         acNewPoly.ColorIndex = acPL.ColorIndex;
-                        indexOldPoly++;
-                        if (indexOldPoly >= acPL.NumberOfVertices) indexOldPoly = 0;
+                        if (traverseBackwards)
+                        {
+                            indexOldPoly--;
+                            if (indexOldPoly < 0) indexOldPoly = pl.NumberOfVertices-1;
+                        }
+                        else
+                        {
+                            indexOldPoly++;
+                            if (indexOldPoly >= acPL.NumberOfVertices) indexOldPoly = 0;
+                        }
                     }
                     acNewPoly.Closed = acPL.Closed;
                     acNewPoly.Layer = acPL.Layer;
