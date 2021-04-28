@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace AABase.Logic
 {
@@ -10,7 +11,7 @@ namespace AABase.Logic
     /// A (0,0,1) plane normal vector would produce a counter-clockwise arc.
     /// A (0,0,-1) plane normal vector would produce a clockwise arc.
     /// </remarks>
-    public class AaGeCurve : IEquatable<AaGeCurve>, IComparable<AaGeCurve>
+    public class AaGeCurve : IComparable<AaGeCurve> //, IEquatable<AaGeCurve>
     {
         /// <summary>
         /// Is the curve an arc.  If not, it is a line.
@@ -116,15 +117,18 @@ namespace AABase.Logic
             }
         }
 
+        /*
         public override bool Equals(object obj) => Equals(obj as AaGeCurve);
         public override int GetHashCode()
         {
             return IsArc ? Center.GetHashCode() ^ Radius.GetHashCode() ^ StartAngle.GetHashCode() ^ EndAngle.GetHashCode()
                          : _pt1.GetHashCode() ^ _pt2.GetHashCode();
         }
-        public bool Equals(AaGeCurve curve)
+        */
+        public bool IsEqualTo(AaGeCurve curve)
         {
             return !(curve is null )
+                && IsArc.Equals(curve.IsArc)
                 && (IsArc || _pt1.Equals(curve._pt1))
                 && (IsArc || _pt2.Equals(curve._pt2))
                 && (!IsArc || Center.Equals(curve.Center))
@@ -159,6 +163,19 @@ namespace AABase.Logic
             }
         }
         
+        public IEnumerable<AaGeCurve> FindOverlappingCurves(IEnumerable<AaGeCurve> listCurves)
+        {
+            List<AaGeCurve> overlappingCurves = new List<AaGeCurve>();
+            foreach (AaGeCurve curve in listCurves)
+            {
+                // if overlaps this curve, then find the overlapping curve region and add to overlappingCurves
+                // TODO: find overlapping area
+                if (this.IsEqualTo(curve))
+                    overlappingCurves.Add(curve);
+            }
+            return overlappingCurves;
+        }
+
         public override string ToString()
         {
             return IsArc
