@@ -52,6 +52,24 @@ namespace AABase.Logic
         /// </summary>
         public AaPoint3d PlaneNormal;
 
+        public enum OverlapResult
+        {
+            NoOverlap = 0,
+            Equals,
+            ContainsOther,
+            ContainedByOther,
+            EndOverlapsOtherEnd
+        }
+
+        /// <summary>
+        /// The slope of the curve, if a simple line. If an arc, return NaN
+        /// </summary>
+        public double Slope { get { return IsArc ? Double.NaN : (EndPoint.Y - StartPoint.Y) / (EndPoint.X - StartPoint.X); } }
+        /// <summary>
+        /// The y-intercept of the curve, if a simple line. If an arc, return NaN
+        /// </summary>
+        public double Yintercept { get { return IsArc ? Double.NaN : (EndPoint.Y - Slope * EndPoint.X); } }
+        
         public AaGeCurve(AaPoint3d pt1, AaPoint3d pt2)
         {
             IsArc = false;
@@ -163,6 +181,13 @@ namespace AABase.Logic
             }
         }
         
+        public bool ContainsPoint(AaPoint3d pt) { 
+            // TODO: calculate for arcs
+            return IsArc
+                ? false 
+                : pt.Y.IsEqualTo(Slope*pt.X + Yintercept);
+        }
+
         public IEnumerable<AaGeCurve> FindOverlappingCurves(IEnumerable<AaGeCurve> listCurves)
         {
             List<AaGeCurve> overlappingCurves = new List<AaGeCurve>();
@@ -170,10 +195,60 @@ namespace AABase.Logic
             {
                 // if overlaps this curve, then find the overlapping curve region and add to overlappingCurves
                 // TODO: find overlapping area
-                if (this.IsEqualTo(curve))
+                if (!this.Overlaps(curve).Equals(OverlapResult.NoOverlap))
                     overlappingCurves.Add(curve);
             }
             return overlappingCurves;
+        }
+
+        public OverlapResult Overlaps(AaGeCurve other)
+        {
+            if ((other is null) || !IsArc.Equals(other.IsArc)) return OverlapResult.NoOverlap;
+
+            if (this.IsEqualTo(other)) return OverlapResult.Equals;
+
+            if (IsArc)
+            {
+                // overlapping arcs must have same center, radius, and plane normal
+                if (!this.Center.Equals(other.Center)) return OverlapResult.NoOverlap;
+                if (!this.Radius.Equals(other.Radius)) return OverlapResult.NoOverlap;
+                if (!this.PlaneNormal.Equals(other.PlaneNormal)) return OverlapResult.NoOverlap;
+                
+            }
+            else // is simple line
+            {
+                // overlapping lines must have same slope
+                if (!Slope.IsEqualTo(other.Slope)) return OverlapResult.NoOverlap;
+
+                AaGeCurve thisOrdered = this.GetCurveOrdered();
+                AaGeCurve otherOrdered = other.GetCurveOrdered();
+                // curves' start/end points are now ordered; guarantee: start.x <= end.x, and if start.x=end.x, then start.y <= end.y
+
+                if (thisOrdered.StartPoint.X <= otherOrdered.StartPoint.X) // TODO: add fuzz?
+                {
+                    if (thisOrdered.ContainsPoint(otherOrdered.StartPoint))
+                    {
+                        if (thisOrdered.ContainsPoint(otherOrdered.EndPoint))
+                            return OverlapResult.ContainsOther;
+                        else
+                            return OverlapResult.EndOverlapsOtherEnd;
+                    }
+                }
+
+                if (otherOrdered.StartPoint.X <= thisOrdered.StartPoint.X) // TODO: add fuzz?
+                {
+                    if (otherOrdered.ContainsPoint(thisOrdered.StartPoint))
+                    {
+                        if (otherOrdered.ContainsPoint(thisOrdered.EndPoint))
+                            return OverlapResult.ContainedByOther;
+                        else
+                            return OverlapResult.EndOverlapsOtherEnd;
+                    }
+                }
+            }    
+
+
+            return OverlapResult.NoOverlap;
         }
 
         public override string ToString()
