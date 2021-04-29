@@ -17,6 +17,9 @@ namespace AABase.Logic
         public AaPoint3d StartPoint { get { return _pt1; }}
         public AaPoint3d EndPoint { get { return _pt2; }}
         
+        public double Slope { get { return (EndPoint.Y - StartPoint.Y) / (EndPoint.X - StartPoint.X); } }
+        public double Yintercept { get { return EndPoint.Y - Slope * EndPoint.X; } }
+
         public override bool Equals(object obj) => Equals(obj as AaLine);
         public override int GetHashCode()
         {
@@ -60,6 +63,8 @@ namespace AABase.Logic
             int result = orderedLine1.StartPoint.CompareTo(orderedLine2.StartPoint);
             return (result != 0) ? result : orderedLine1.EndPoint.CompareTo(orderedLine1.EndPoint);
         }
+        
+        public bool ContainsPoint(AaPoint3d pt) { return pt.Y.IsEqualTo(Slope*pt.X + Yintercept); }
         
         public override string ToString()
         {
