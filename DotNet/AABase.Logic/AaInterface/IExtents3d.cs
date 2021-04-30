@@ -41,6 +41,6 @@ namespace AABase.Logic
 
         bool EnclosesExtents(IExtents3d extents);
 
-        bool EnclosesPoint(AaPoint3d pt);
+        bool EnclosesPoint(AaPoint3d pt, bool includesPointsOnEdge);
     }
 }

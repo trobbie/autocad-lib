@@ -139,14 +139,14 @@ namespace AABase.Logic
                     && (this.GetTop() >= extents.GetTop()));
         }
 
-        public bool EnclosesPoint(AaPoint3d pt)
+        public bool EnclosesPoint(AaPoint3d pt, bool includesPointsOnEdge)
         {
-            return ((this.GetLeft() <= pt.X)
-                    && (this.GetRight() >= pt.X)
-                    && (this.GetBottom() <= pt.Y)
-                    && (this.GetTop() >= pt.Y)
-                    && (this.GetBack() <= pt.Z)
-                    && (this.GetFront() >= pt.Z));
+            return (((this.GetLeft() < pt.X) || (includesPointsOnEdge && this.GetLeft().IsEqualTo(pt.X)))
+                    && ((this.GetRight() > pt.X) || (includesPointsOnEdge && this.GetRight().IsEqualTo(pt.X)))
+                    && ((this.GetBottom() < pt.Y) || (includesPointsOnEdge && this.GetBottom().IsEqualTo(pt.Y)))
+                    && ((this.GetTop() > pt.Y) || (includesPointsOnEdge && this.GetTop().IsEqualTo(pt.Y)))
+                    && ((this.GetBack() < pt.Z) || (includesPointsOnEdge && this.GetBack().IsEqualTo(pt.Z)))
+                    && ((this.GetFront() > pt.Z) || (includesPointsOnEdge && this.GetFront().IsEqualTo(pt.Z))));
         }
 
         public override string ToString()
