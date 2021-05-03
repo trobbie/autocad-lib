@@ -139,14 +139,15 @@ namespace AABase.Logic
                     && (this.GetTop() >= extents.GetTop()));
         }
 
-        public bool EnclosesPoint(AaPoint3d pt, bool includesPointsOnEdge)
+        public bool EnclosesPoint(AaPoint3d pt, bool includesPointsOnXYEdge)
         {
-            return (((this.GetLeft() < pt.X) || (includesPointsOnEdge && this.GetLeft().IsEqualTo(pt.X)))
-                    && ((this.GetRight() > pt.X) || (includesPointsOnEdge && this.GetRight().IsEqualTo(pt.X)))
-                    && ((this.GetBottom() < pt.Y) || (includesPointsOnEdge && this.GetBottom().IsEqualTo(pt.Y)))
-                    && ((this.GetTop() > pt.Y) || (includesPointsOnEdge && this.GetTop().IsEqualTo(pt.Y)))
-                    && ((this.GetBack() < pt.Z) || (includesPointsOnEdge && this.GetBack().IsEqualTo(pt.Z)))
-                    && ((this.GetFront() > pt.Z) || (includesPointsOnEdge && this.GetFront().IsEqualTo(pt.Z))));
+            // TODO: add separate extents for 2d and 3d, to better handle the Z-dimension exception below
+            return (((this.GetLeft() < pt.X) || (includesPointsOnXYEdge && this.GetLeft().IsEqualTo(pt.X)))
+                    && ((this.GetRight() > pt.X) || (includesPointsOnXYEdge && this.GetRight().IsEqualTo(pt.X)))
+                    && ((this.GetBottom() < pt.Y) || (includesPointsOnXYEdge && this.GetBottom().IsEqualTo(pt.Y)))
+                    && ((this.GetTop() > pt.Y) || (includesPointsOnXYEdge && this.GetTop().IsEqualTo(pt.Y)))
+                    && (this.GetBack() <= pt.Z)
+                    && (this.GetFront() >= pt.Z));
         }
 
         public override string ToString()
