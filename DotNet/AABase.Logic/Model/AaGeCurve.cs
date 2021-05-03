@@ -182,10 +182,24 @@ namespace AABase.Logic
         }
         
         public bool ContainsPoint(AaPoint3d pt) { 
-            // TODO: calculate for arcs
-            return IsArc
-                ? false 
-                : pt.Y.IsEqualTo(Slope*pt.X + Yintercept);
+
+            if (IsArc)
+            {
+                // TODO: calculate for arcs
+                return false;
+            }
+            else
+            {
+                if (pt.Y.IsEqualTo(Slope*pt.X + Yintercept))
+                {
+                    // it is on "infinite" line, so now check if within domain
+                    if (pt.X.IsEqualTo(StartPoint.X) || pt.X.IsEqualTo(EndPoint.X)) return true;
+                    if (pt.X < StartPoint.X) return false;
+                    if (pt.X > EndPoint.X) return false;
+                    return true;
+                }
+                return false;
+            }
         }
 
         public IEnumerable<AaGeCurve> FindOverlappingCurves(IEnumerable<AaGeCurve> listCurves)
@@ -224,22 +238,38 @@ namespace AABase.Logic
                 AaGeCurve otherOrdered = other.GetCurveOrdered();
                 // curves' start/end points are now ordered; guarantee: start.x <= end.x, and if start.x=end.x, then start.y <= end.y
 
-                if (thisOrdered.StartPoint.X <= otherOrdered.StartPoint.X) // TODO: add fuzz?
+                // Note: at this moment, curves are guaranteed not equal
+                if (thisOrdered.StartPoint.X.IsEqualTo(otherOrdered.StartPoint.X))
+                {
+                    if (thisOrdered.ContainsPoint(otherOrdered.EndPoint))
+                        return OverlapResult.ContainsOther;
+                    else
+                        return OverlapResult.ContainedByOther;
+                }
+                if (thisOrdered.StartPoint.X < otherOrdered.StartPoint.X)
                 {
                     if (thisOrdered.ContainsPoint(otherOrdered.StartPoint))
                     {
-                        if (thisOrdered.ContainsPoint(otherOrdered.EndPoint))
+                        if (thisOrdered.EndPoint.X.IsEqualTo(otherOrdered.StartPoint.X))
+                            return OverlapResult.NoOverlap;
+                        else if (thisOrdered.ContainsPoint(otherOrdered.EndPoint))
                             return OverlapResult.ContainsOther;
                         else
                             return OverlapResult.EndOverlapsOtherEnd;
                     }
+                    else
+                    {
+                        return OverlapResult.NoOverlap;
+                    }
                 }
-
-                if (otherOrdered.StartPoint.X <= thisOrdered.StartPoint.X) // TODO: add fuzz?
+                // knowns: curves not equal,  this.start > other.start
+                //if (thisOrdered.StartPoint.X > otherOrdered.StartPoint.X)
                 {
                     if (otherOrdered.ContainsPoint(thisOrdered.StartPoint))
                     {
-                        if (otherOrdered.ContainsPoint(thisOrdered.EndPoint))
+                        if (otherOrdered.EndPoint.X.IsEqualTo(thisOrdered.StartPoint.X))
+                            return OverlapResult.NoOverlap;
+                        else if (otherOrdered.ContainsPoint(thisOrdered.EndPoint))
                             return OverlapResult.ContainedByOther;
                         else
                             return OverlapResult.EndOverlapsOtherEnd;
