@@ -47,5 +47,19 @@ namespace AABase.Logic
                     ||
                     (thisAngleCoterminal > startAngle) && (thisAngleCoterminal < endAngle));
         }
+
+        /// <summary>
+        /// Returns whether to accept a value within a range, considering the parameters dealing with border cases (extents).
+        /// </summary>
+        /// <param name="isInsideExtents">Value was found technically within range, i.e. x between (a,b) (exclusive range) </param>
+        /// <param name="isAtExtent">Value was found on an extent, considering within an acceptable epsilon fuzz</param>
+        /// <param name="acceptIfAtExtent">Whether to accept if value is at an extent.  If false, do _not_ accept if at extent.</param>
+        /// <param name="alwaysIncludeInsideValues">Whether to always accept, ignoring acceptIfAtExtent calculation.</param>
+        /// <returns></returns>
+        public static bool AcceptValueWithinExtents(bool isInsideExtents, bool isAtExtent, bool acceptIfAtExtent, bool alwaysIncludeInsideValues)
+        {
+            return (isAtExtent && (acceptIfAtExtent || alwaysIncludeInsideValues)
+                || (isInsideExtents && (!isAtExtent || acceptIfAtExtent || alwaysIncludeInsideValues)));
+        }
     }
 }

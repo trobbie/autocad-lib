@@ -1,7 +1,6 @@
 ﻿using System;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
-
 namespace AABase.Logic
 {
     public class AaExtents3d : IExtents3d
@@ -142,24 +141,13 @@ namespace AABase.Logic
         public bool EnclosesPoint(AaPoint3d pt, bool includesPointsOnXYEdge)
         {
             // TODO: add separate extents for 2d and 3d, to better handle the Z-dimension exception below
-            if (includesPointsOnXYEdge)
-            {
-                return ((this.GetLeft() < pt.X) || this.GetLeft().IsEqualTo(pt.X))
-                       && ((this.GetRight() > pt.X) || this.GetRight().IsEqualTo(pt.X))
-                       && ((this.GetBottom() < pt.Y) ||  this.GetBottom().IsEqualTo(pt.Y))
-                       && ((this.GetTop() > pt.Y) || this.GetTop().IsEqualTo(pt.Y))
-                       && (this.GetBack() <= pt.Z)
-                       && (this.GetFront() >= pt.Z);
-            }
-            else
-            {
-                return ((this.GetLeft() < pt.X) && !this.GetLeft().IsEqualTo(pt.X))
-                       && ((this.GetRight() > pt.X) && !this.GetRight().IsEqualTo(pt.X))
-                       && ((this.GetBottom() < pt.Y) && !this.GetBottom().IsEqualTo(pt.Y))
-                       && ((this.GetTop() > pt.Y) && !this.GetTop().IsEqualTo(pt.Y))
-                       && (this.GetBack() <= pt.Z)
-                       && (this.GetFront() >= pt.Z);
-            }
+            return Utility.AcceptValueWithinExtents(this.GetLeft() < pt.X, this.GetLeft().IsEqualTo(pt.X), includesPointsOnXYEdge, false)
+                && Utility.AcceptValueWithinExtents(this.GetRight() > pt.X, this.GetRight().IsEqualTo(pt.X), includesPointsOnXYEdge, false)
+                && Utility.AcceptValueWithinExtents(this.GetBottom() < pt.Y, this.GetBottom().IsEqualTo(pt.Y), includesPointsOnXYEdge, false)
+                && Utility.AcceptValueWithinExtents(this.GetTop() > pt.Y, this.GetTop().IsEqualTo(pt.Y), includesPointsOnXYEdge, false)
+                && (this.GetBack() <= pt.Z)
+                && (this.GetFront() >= pt.Z);
+        
         }
 
         public override string ToString()
