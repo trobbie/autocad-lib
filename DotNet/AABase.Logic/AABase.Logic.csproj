@@ -3,8 +3,12 @@
   <PropertyGroup>
     <TargetFramework Condition="'$(OS)' == 'Windows_NT'">net461</TargetFramework>
     <TargetFramework Condition="'$(OS)' != 'Windows_NT'">netstandard1.3</TargetFramework>
-    
+
     <IsPackable>false</IsPackable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
+  </ItemGroup>
 
 </Project>

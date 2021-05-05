@@ -64,7 +64,13 @@ namespace AABase.Logic
         /// <summary>
         /// The slope of the curve, if a simple line. If an arc, return NaN
         /// </summary>
-        public double Slope { get { return IsArc ? Double.NaN : (EndPoint.Y - StartPoint.Y) / (EndPoint.X - StartPoint.X); } }
+        public double Slope { get { 
+                if (IsArc) return Double.NaN;
+                return (EndPoint.X - StartPoint.X).IsEqualTo(0) ?
+                     Double.PositiveInfinity :
+                     (EndPoint.Y - StartPoint.Y) / (EndPoint.X - StartPoint.X); 
+            } 
+        }
         /// <summary>
         /// The y-intercept of the curve, if a simple line. If an arc, return NaN
         /// </summary>
@@ -202,15 +208,20 @@ namespace AABase.Logic
             }
         }
 
-        public IEnumerable<AaGeCurve> FindOverlappingCurves(IEnumerable<AaGeCurve> listCurves)
+        public IEnumerable<(AaGeCurve, OverlapResult)> FindOverlappingCurves(IEnumerable<AaGeCurve> listCurves)
         {
-            List<AaGeCurve> overlappingCurves = new List<AaGeCurve>();
+            List<(AaGeCurve, OverlapResult)> overlappingCurves = new List<(AaGeCurve, OverlapResult)>();
+            OverlapResult result;
             foreach (AaGeCurve curve in listCurves)
             {
+                if (curve == this) continue;
                 // if overlaps this curve, then find the overlapping curve region and add to overlappingCurves
                 // TODO: find overlapping area
-                if (!this.Overlaps(curve).Equals(OverlapResult.NoOverlap))
-                    overlappingCurves.Add(curve);
+                result = this.Overlaps(curve);
+                if (!result.Equals(OverlapResult.NoOverlap))
+                {
+                    overlappingCurves.Add((curve, result));
+                }                    
             }
             return overlappingCurves;
         }
@@ -231,8 +242,9 @@ namespace AABase.Logic
             }
             else // is simple line
             {
-                // overlapping lines must have same slope
+                // overlapping lines must have same slope and y-intercept in their infinite-extentions
                 if (!Slope.IsEqualTo(other.Slope)) return OverlapResult.NoOverlap;
+                if (!Yintercept.IsEqualTo(other.Yintercept)) return OverlapResult.NoOverlap;
 
                 AaGeCurve thisOrdered = this.GetCurveOrdered();
                 AaGeCurve otherOrdered = other.GetCurveOrdered();
