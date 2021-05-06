@@ -105,6 +105,19 @@ namespace AABase.Logic
             _pt2 = null;
         }
 
+        private class ValuesEqualityComparer : IEqualityComparer<AaGeCurve>
+        {
+            public bool Equals(AaGeCurve x, AaGeCurve y)
+            {
+                return x.IsEqualTo(y);
+            }
+            public int GetHashCode(AaGeCurve curve)
+            {
+                return curve.GetHashCode();
+            }
+        }
+        public static IEqualityComparer<AaGeCurve> EqualValuesComparer = new ValuesEqualityComparer();
+
         public AaPoint3d StartPoint { get {
             return !IsArc ? _pt1 : 
                 Center + new AaPoint3d(Radius * Math.Cos(StartAngle),
