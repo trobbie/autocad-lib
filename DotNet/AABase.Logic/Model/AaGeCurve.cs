@@ -296,8 +296,8 @@ namespace AABase.Logic
         public override string ToString()
         {
             return IsArc
-                ? $"[Arc:{Center.ToString()},{Radius.ToString()},{StartAngle.ToString()},{EndAngle.ToString()}]"
-                : $"[{_pt1.ToString()},{_pt2.ToString()}]";
+                ? $"[{base.GetHashCode()}:Arc:{Center.ToString()},{Radius.ToString()},{StartAngle.ToString()},{EndAngle.ToString()}]"
+                : $"[{base.GetHashCode()}:Line:{_pt1.ToString()},{_pt2.ToString()}]";
         }
 
     }
