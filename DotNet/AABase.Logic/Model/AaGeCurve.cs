@@ -52,7 +52,7 @@ namespace AABase.Logic
         /// </summary>
         public AaPoint3d PlaneNormal;
 
-        public enum OverlapResult
+        public enum OverlapResultSummary
         {
             NoOverlap = 0,
             Equals,
@@ -248,17 +248,17 @@ namespace AABase.Logic
             }
         }
 
-        public IEnumerable<(AaGeCurve, OverlapResult)> FindOverlappingCurves(IEnumerable<AaGeCurve> listCurves)
+        public IEnumerable<(AaGeCurve, OverlapResultSummary)> FindOverlappingCurves(IEnumerable<AaGeCurve> listCurves)
         {
-            List<(AaGeCurve, OverlapResult)> overlappingCurves = new List<(AaGeCurve, OverlapResult)>();
-            OverlapResult result;
+            List<(AaGeCurve, OverlapResultSummary)> overlappingCurves = new List<(AaGeCurve, OverlapResultSummary)>();
+            OverlapResultSummary result;
             foreach (AaGeCurve curve in listCurves)
             {
                 if (curve == this) continue;
                 // if overlaps this curve, then find the overlapping curve region and add to overlappingCurves
                 // TODO: find overlapping area
                 result = this.Overlaps(curve);
-                if (!result.Equals(OverlapResult.NoOverlap))
+                if (!result.Equals(OverlapResultSummary.NoOverlap))
                 {
                     overlappingCurves.Add((curve, result));
                 }                    
@@ -266,23 +266,23 @@ namespace AABase.Logic
             return overlappingCurves;
         }
 
-        public OverlapResult Overlaps(AaGeCurve other)
+        public OverlapResultSummary Overlaps(AaGeCurve other)
         {
-            if ((other is null) || !IsArc.Equals(other.IsArc)) return OverlapResult.NoOverlap;
+            if ((other is null) || !IsArc.Equals(other.IsArc)) return OverlapResultSummary.NoOverlap;
 
-            if (this.IsEqualTo(other)) return OverlapResult.Equals;
+            if (this.IsEqualTo(other)) return OverlapResultSummary.Equals;
 
             if (IsArc)
             {
                 // overlapping arcs must have same center, radius, and plane normal
-                if (!this.Center.Equals(other.Center)) return OverlapResult.NoOverlap;
-                if (!this.Radius.Equals(other.Radius)) return OverlapResult.NoOverlap;
-                if (!this.PlaneNormal.Equals(other.PlaneNormal)) return OverlapResult.NoOverlap;
+                if (!this.Center.Equals(other.Center)) return OverlapResultSummary.NoOverlap;
+                if (!this.Radius.Equals(other.Radius)) return OverlapResultSummary.NoOverlap;
+                if (!this.PlaneNormal.Equals(other.PlaneNormal)) return OverlapResultSummary.NoOverlap;
                 
             }
             else // is simple line
             {
-                if (!OnSameInfiniteCurve(other)) return OverlapResult.NoOverlap;
+                if (!OnSameInfiniteCurve(other)) return OverlapResultSummary.NoOverlap;
                 
                 AaGeCurve thisOrdered = this.GetCurveOrdered();
                 AaGeCurve otherOrdered = other.GetCurveOrdered();
@@ -294,59 +294,59 @@ namespace AABase.Logic
                     if (thisOrdered.StartPoint.Y.IsEqualTo(otherOrdered.StartPoint.Y))
                     {
                         if (thisOrdered.ContainsPoint(otherOrdered.EndPoint))
-                            return OverlapResult.ContainsOther;
+                            return OverlapResultSummary.ContainsOther;
                         else
-                            return OverlapResult.ContainedByOther;
+                            return OverlapResultSummary.ContainedByOther;
                     }
                     if (thisOrdered.StartPoint.Y < otherOrdered.StartPoint.Y)
                     {
                         if (thisOrdered.ContainsPoint(otherOrdered.StartPoint))
                         {
                             if (thisOrdered.EndPoint.Y.IsEqualTo(otherOrdered.StartPoint.Y))
-                                return OverlapResult.NoOverlap;
+                                return OverlapResultSummary.NoOverlap;
                             else if (thisOrdered.ContainsPoint(otherOrdered.EndPoint))
-                                return OverlapResult.ContainsOther;
+                                return OverlapResultSummary.ContainsOther;
                             else
-                                return OverlapResult.EndOverlapsOtherEnd;
+                                return OverlapResultSummary.EndOverlapsOtherEnd;
                         }
                         else
                         {
-                            return OverlapResult.NoOverlap;
+                            return OverlapResultSummary.NoOverlap;
                         }
                     }
                     // knowns: curves not equal,  this.start > other.start
                     if (otherOrdered.ContainsPoint(thisOrdered.StartPoint))
                     {
                         if (otherOrdered.EndPoint.Y.IsEqualTo(thisOrdered.StartPoint.Y))
-                            return OverlapResult.NoOverlap;
+                            return OverlapResultSummary.NoOverlap;
                         else if (otherOrdered.ContainsPoint(thisOrdered.EndPoint))
-                            return OverlapResult.ContainedByOther;
+                            return OverlapResultSummary.ContainedByOther;
                         else
-                            return OverlapResult.EndOverlapsOtherEnd;
+                            return OverlapResultSummary.EndOverlapsOtherEnd;
                     }
-                    return OverlapResult.NoOverlap;
+                    return OverlapResultSummary.NoOverlap;
                 }
                 if (thisOrdered.StartPoint.X.IsEqualTo(otherOrdered.StartPoint.X))
                 {
                     if (thisOrdered.ContainsPoint(otherOrdered.EndPoint))
-                        return OverlapResult.ContainsOther;
+                        return OverlapResultSummary.ContainsOther;
                     else
-                        return OverlapResult.ContainedByOther;
+                        return OverlapResultSummary.ContainedByOther;
                 }
                 if (thisOrdered.StartPoint.X < otherOrdered.StartPoint.X)
                 {
                     if (thisOrdered.ContainsPoint(otherOrdered.StartPoint))
                     {
                         if (thisOrdered.EndPoint.X.IsEqualTo(otherOrdered.StartPoint.X))
-                            return OverlapResult.NoOverlap;
+                            return OverlapResultSummary.NoOverlap;
                         else if (thisOrdered.ContainsPoint(otherOrdered.EndPoint))
-                            return OverlapResult.ContainsOther;
+                            return OverlapResultSummary.ContainsOther;
                         else
-                            return OverlapResult.EndOverlapsOtherEnd;
+                            return OverlapResultSummary.EndOverlapsOtherEnd;
                     }
                     else
                     {
-                        return OverlapResult.NoOverlap;
+                        return OverlapResultSummary.NoOverlap;
                     }
                 }
                 // knowns: curves not equal,  this.start > other.start
@@ -355,17 +355,17 @@ namespace AABase.Logic
                     if (otherOrdered.ContainsPoint(thisOrdered.StartPoint))
                     {
                         if (otherOrdered.EndPoint.X.IsEqualTo(thisOrdered.StartPoint.X))
-                            return OverlapResult.NoOverlap;
+                            return OverlapResultSummary.NoOverlap;
                         else if (otherOrdered.ContainsPoint(thisOrdered.EndPoint))
-                            return OverlapResult.ContainedByOther;
+                            return OverlapResultSummary.ContainedByOther;
                         else
-                            return OverlapResult.EndOverlapsOtherEnd;
+                            return OverlapResultSummary.EndOverlapsOtherEnd;
                     }
                 }
             }    
 
 
-            return OverlapResult.NoOverlap;
+            return OverlapResultSummary.NoOverlap;
         }
 
         public override string ToString()

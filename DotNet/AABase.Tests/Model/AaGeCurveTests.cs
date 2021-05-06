@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AABase.Logic;
-using OverlapResult = AABase.Logic.AaGeCurve.OverlapResult;
+using OverlapResultSummary = AABase.Logic.AaGeCurve.OverlapResultSummary;
 
 namespace AABase.Tests
 {
@@ -9,10 +9,10 @@ namespace AABase.Tests
     {
         static readonly double a = 0.0001; // slight shift in points that are _outside_ tolerance (should be seen as different)
         static readonly double b = 0.0000001; // slight shift in points that are _within_ tolerance (should be seen as same)
-        static void TestOverlaps(string descTest, AaGeCurve thisCurve, AaGeCurve otherCurve, OverlapResult expected)
+        static void TestOverlaps(string descTest, AaGeCurve thisCurve, AaGeCurve otherCurve, OverlapResultSummary expected)
         {
             // Act
-            OverlapResult test = thisCurve.Overlaps(otherCurve);
+            OverlapResultSummary test = thisCurve.Overlaps(otherCurve);
             // Assert
             if (!test.Equals(expected))
                 Assert.Fail($"Failed test: {descTest}.\nReturned {test.ToString()}.\nExpected {expected.ToString()}.");
@@ -24,7 +24,7 @@ namespace AABase.Tests
             TestOverlaps("Exact_X_Same",
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(10,0,0)),
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(10,0,0)),
-                        OverlapResult.Equals);
+                        OverlapResultSummary.Equals);
         }
         [TestMethod]
         public void Exact_X_SameWithFuzzX()
@@ -32,7 +32,7 @@ namespace AABase.Tests
             TestOverlaps("Exact_X_SameWithFuzzX",
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(10,0,0)),
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(10+b,0,0)),
-                        OverlapResult.Equals);
+                        OverlapResultSummary.Equals);
         }
         [TestMethod]
         public void Exact_X_SameWithFuzzY()
@@ -40,7 +40,7 @@ namespace AABase.Tests
             TestOverlaps("Exact_X_SameWithFuzzY",
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(10,0,0)),
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(10,b,0)),
-                        OverlapResult.Equals);
+                        OverlapResultSummary.Equals);
         }
         [TestMethod]
         public void NoOverlap_X_AlmostX()
@@ -48,7 +48,7 @@ namespace AABase.Tests
             TestOverlaps("NoOverlap_X_AlmostX",
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(10,0,0)),
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(10+a,a)),
-                        OverlapResult.NoOverlap);
+                        OverlapResultSummary.NoOverlap);
         }
         [TestMethod]
         public void NoOverlap_X_AlmostY()
@@ -56,7 +56,7 @@ namespace AABase.Tests
             TestOverlaps("NoOverlap_X_AlmostY",
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(10,0,0)),
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(10,a,0)),
-                        OverlapResult.NoOverlap);
+                        OverlapResultSummary.NoOverlap);
         }
         [TestMethod]
         public void NoOverlap_X_TouchingLines()
@@ -64,7 +64,7 @@ namespace AABase.Tests
             TestOverlaps("NoOverlap_X_TouchingLines",
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(10,0,0)),
                         new AaGeCurve(new AaPoint3d(10,0,0), new AaPoint3d(20,0,0)),
-                        OverlapResult.NoOverlap);
+                        OverlapResultSummary.NoOverlap);
         }
 
         [TestMethod]
@@ -73,7 +73,7 @@ namespace AABase.Tests
             TestOverlaps("NoOverlap_X_Fuzz_Gap",
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(10,0,0)),
                         new AaGeCurve(new AaPoint3d(10+a,0,0), new AaPoint3d(20,0,0)),
-                        OverlapResult.NoOverlap);
+                        OverlapResultSummary.NoOverlap);
         }
         [TestMethod]
         public void EndOverlaps_X_Fuzz_Overlap()
@@ -81,7 +81,7 @@ namespace AABase.Tests
             TestOverlaps("EndOverlaps_X_Fuzz_Overlap",
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(10,0,0)),
                         new AaGeCurve(new AaPoint3d(10-a,0,0), new AaPoint3d(20,0,0)),
-                        OverlapResult.EndOverlapsOtherEnd);
+                        OverlapResultSummary.EndOverlapsOtherEnd);
         }
         [TestMethod]
         public void ContainsOther_X_Fuzz1()
@@ -89,7 +89,7 @@ namespace AABase.Tests
             TestOverlaps("ContainsOther_X_Fuzz1",
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(20,0,0)),
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(20-a,0,0)),
-                        OverlapResult.ContainsOther);
+                        OverlapResultSummary.ContainsOther);
         }
         [TestMethod]
         public void ContainsOther_X_Fuzz2()
@@ -97,7 +97,7 @@ namespace AABase.Tests
             TestOverlaps("ContainsOther_X_Fuzz2",
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(20,0,0)),
                         new AaGeCurve(new AaPoint3d(a,0,0), new AaPoint3d(20,0,0)),
-                        OverlapResult.ContainsOther);
+                        OverlapResultSummary.ContainsOther);
         }
         [TestMethod]
         public void ContainedByOther_X_Fuzz1()
@@ -105,7 +105,7 @@ namespace AABase.Tests
             TestOverlaps("ContainedByOther_X_Fuzz1",
                         new AaGeCurve(new AaPoint3d(a,0,0), new AaPoint3d(20,0,0)),
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(20,0,0)),
-                        OverlapResult.ContainedByOther);
+                        OverlapResultSummary.ContainedByOther);
         }
         [TestMethod]
         public void ContainedByOther_X_Fuzz2()
@@ -113,7 +113,7 @@ namespace AABase.Tests
             TestOverlaps("ContainedByOther_X_Fuzz2",
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(20-a,0,0)),
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(20,0,0)),
-                        OverlapResult.ContainedByOther);
+                        OverlapResultSummary.ContainedByOther);
         }
     }
     
