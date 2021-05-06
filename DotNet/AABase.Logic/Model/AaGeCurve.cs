@@ -65,16 +65,20 @@ namespace AABase.Logic
         /// The slope of the curve, if a simple line. If an arc, return NaN
         /// </summary>
         public double Slope { get { 
-                if (IsArc) return Double.NaN;
-                return (EndPoint.X - StartPoint.X).IsEqualTo(0) ?
-                     Double.PositiveInfinity :
-                     (EndPoint.Y - StartPoint.Y) / (EndPoint.X - StartPoint.X); 
-            } 
-        }
+            if (IsArc) return Double.NaN;
+            return (EndPoint.X - StartPoint.X).IsEqualTo(0) ?
+                    Double.PositiveInfinity :
+                    (EndPoint.Y - StartPoint.Y) / (EndPoint.X - StartPoint.X); 
+        } }
         /// <summary>
         /// The y-intercept of the curve, if a simple line. If an arc, return NaN
         /// </summary>
-        public double Yintercept { get { return IsArc ? Double.NaN : (EndPoint.Y - Slope * EndPoint.X); } }
+        public double Yintercept { get { 
+            if (IsArc) return Double.NaN;
+            return (Slope == Double.PositiveInfinity) ?
+                Double.NaN :
+                (EndPoint.Y - Slope * EndPoint.X); 
+        } }
         
         public AaGeCurve(AaPoint3d pt1, AaPoint3d pt2)
         {
@@ -187,6 +191,25 @@ namespace AABase.Logic
             }
         }
         
+        private bool OnSameInfiniteCurve(AaGeCurve other)
+        {
+            if (IsArc)
+            {
+                // TODO: implement for arcs
+                return false;
+            } 
+            else if (Slope == Double.PositiveInfinity) // then vertical line
+            {
+                return (other.Slope == Double.PositiveInfinity)
+                       && StartPoint.X.IsEqualTo(other.StartPoint.X);
+            } 
+            else
+            {
+                return Slope.IsEqualTo(other.Slope)
+                       && Yintercept.IsEqualTo(other.Yintercept);
+            }
+        }
+
         public bool ContainsPoint(AaPoint3d pt) { 
 
             if (IsArc)
@@ -196,13 +219,30 @@ namespace AABase.Logic
             }
             else
             {
-                if (pt.Y.IsEqualTo(Slope*pt.X + Yintercept))
+                if (Slope == Double.PositiveInfinity)
+                {
+                    if (!pt.X.IsEqualTo(StartPoint.X)) return false;
+                    if (StartPoint.Y < EndPoint.Y)
+                    {
+                        if ((pt.Y > StartPoint.Y) && (pt.Y < EndPoint.Y)) return true;
+                    }
+                    else
+                    {
+                        if ((pt.Y > EndPoint.Y) && (pt.Y < StartPoint.Y)) return true;
+                    }
+                }
+                else if (pt.Y.IsEqualTo(Slope*pt.X + Yintercept))
                 {
                     // it is on "infinite" line, so now check if within domain
                     if (pt.X.IsEqualTo(StartPoint.X) || pt.X.IsEqualTo(EndPoint.X)) return true;
-                    if (pt.X < StartPoint.X) return false;
-                    if (pt.X > EndPoint.X) return false;
-                    return true;
+                    if (StartPoint.X < EndPoint.X)
+                    {
+                        if ((pt.X > StartPoint.X) && (pt.X < EndPoint.X)) return true;
+                    }
+                    else
+                    {
+                        if ((pt.X > EndPoint.X) && (pt.X < StartPoint.X)) return true;
+                    }
                 }
                 return false;
             }
@@ -242,15 +282,50 @@ namespace AABase.Logic
             }
             else // is simple line
             {
-                // overlapping lines must have same slope and y-intercept in their infinite-extentions
-                if (!Slope.IsEqualTo(other.Slope)) return OverlapResult.NoOverlap;
-                if (!Yintercept.IsEqualTo(other.Yintercept)) return OverlapResult.NoOverlap;
-
+                if (!OnSameInfiniteCurve(other)) return OverlapResult.NoOverlap;
+                
                 AaGeCurve thisOrdered = this.GetCurveOrdered();
                 AaGeCurve otherOrdered = other.GetCurveOrdered();
                 // curves' start/end points are now ordered; guarantee: start.x <= end.x, and if start.x=end.x, then start.y <= end.y
 
                 // Note: at this moment, curves are guaranteed not equal
+                if (thisOrdered.Slope == Double.PositiveInfinity) // then they're vertical lines
+                {
+                    if (thisOrdered.StartPoint.Y.IsEqualTo(otherOrdered.StartPoint.Y))
+                    {
+                        if (thisOrdered.ContainsPoint(otherOrdered.EndPoint))
+                            return OverlapResult.ContainsOther;
+                        else
+                            return OverlapResult.ContainedByOther;
+                    }
+                    if (thisOrdered.StartPoint.Y < otherOrdered.StartPoint.Y)
+                    {
+                        if (thisOrdered.ContainsPoint(otherOrdered.StartPoint))
+                        {
+                            if (thisOrdered.EndPoint.Y.IsEqualTo(otherOrdered.StartPoint.Y))
+                                return OverlapResult.NoOverlap;
+                            else if (thisOrdered.ContainsPoint(otherOrdered.EndPoint))
+                                return OverlapResult.ContainsOther;
+                            else
+                                return OverlapResult.EndOverlapsOtherEnd;
+                        }
+                        else
+                        {
+                            return OverlapResult.NoOverlap;
+                        }
+                    }
+                    // knowns: curves not equal,  this.start > other.start
+                    if (otherOrdered.ContainsPoint(thisOrdered.StartPoint))
+                    {
+                        if (otherOrdered.EndPoint.Y.IsEqualTo(thisOrdered.StartPoint.Y))
+                            return OverlapResult.NoOverlap;
+                        else if (otherOrdered.ContainsPoint(thisOrdered.EndPoint))
+                            return OverlapResult.ContainedByOther;
+                        else
+                            return OverlapResult.EndOverlapsOtherEnd;
+                    }
+                    return OverlapResult.NoOverlap;
+                }
                 if (thisOrdered.StartPoint.X.IsEqualTo(otherOrdered.StartPoint.X))
                 {
                     if (thisOrdered.ContainsPoint(otherOrdered.EndPoint))
