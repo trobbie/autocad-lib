@@ -115,6 +115,63 @@ namespace AABase.Tests
                         new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(20,0,0)),
                         OverlapResultSummary.ContainedByOther);
         }
+        [TestMethod]
+        public void Exact_Y_Same()
+        { 
+            TestOverlaps("Exact_Y_Same",
+                        new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(0,10,0)),
+                        new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(0,10,0)),
+                        OverlapResultSummary.Equals);
+        }
+        [TestMethod]
+        public void Exact_Y_SameWithFuzzX()
+        { 
+            TestOverlaps("Exact_Y_SameWithFuzzX",
+                        new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(0,10,0)),
+                        new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(b,10,0)),
+                        OverlapResultSummary.Equals);
+        }
+        [TestMethod]
+        public void Exact_Y_SameWithFuzzY()
+        { 
+            TestOverlaps("Exact_Y_SameWithFuzzY",
+                        new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(0,10,0)),
+                        new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(0,10+b,0)),
+                        OverlapResultSummary.Equals);
+        }
+        [TestMethod]
+        public void NoOverlap_Y_AlmostX()
+        { 
+            TestOverlaps("NoOverlap_Y_AlmostX",
+                        new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(0,10,0)),
+                        new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(a,10,0)),
+                        OverlapResultSummary.NoOverlap);
+        }
+        [TestMethod]
+        public void NoOverlap_Y_AlmostY()
+        { 
+            TestOverlaps("NoOverlapY_AlmostY",
+                        new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(0,10,0)),
+                        new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(a,10+a,0)),
+                        OverlapResultSummary.NoOverlap);
+        }
+        [TestMethod]
+        public void NoOverlap_Y_TouchingLines()
+        { 
+            TestOverlaps("NoOverlap_Y_TouchingLines",
+                        new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(0,10,0)),
+                        new AaGeCurve(new AaPoint3d(0,10,0), new AaPoint3d(0,20,0)),
+                        OverlapResultSummary.NoOverlap);
+        }
+
+        [TestMethod]
+        public void NoOverlap_Y_Fuzz_Gap()
+        { 
+            TestOverlaps("NoOverlap_Y_Fuzz_Gap",
+                        new AaGeCurve(new AaPoint3d(0,0,0), new AaPoint3d(0,10,0)),
+                        new AaGeCurve(new AaPoint3d(0,10+a,0), new AaPoint3d(0,20,0)),
+                        OverlapResultSummary.NoOverlap);
+        }
     }
     
 }
