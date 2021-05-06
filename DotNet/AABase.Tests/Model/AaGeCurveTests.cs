@@ -9,13 +9,13 @@ namespace AABase.Tests
     {
         static readonly double a = 0.0001; // slight shift in points that are _outside_ tolerance (should be seen as different)
         static readonly double b = 0.0000001; // slight shift in points that are _within_ tolerance (should be seen as same)
-        static void TestOverlaps(string descTest, AaGeCurve thisCurve, AaGeCurve otherCurve, OverlapResultSummary expected)
+        static void TestOverlaps(string descTest, AaGeCurve thisCurve, AaGeCurve otherCurve, OverlapResultSummary expectedSummary)
         {
             // Act
-            OverlapResultSummary test = thisCurve.Overlaps(otherCurve);
+            AaGeCurveOverlapResult test = thisCurve.Overlaps(otherCurve);
             // Assert
-            if (!test.Equals(expected))
-                Assert.Fail($"Failed test: {descTest}.\nReturned {test.ToString()}.\nExpected {expected.ToString()}.");
+            if (!test.Summary.Equals(expectedSummary))
+                Assert.Fail($"Failed test: {descTest}.\nReturned {test.ToString()}.\nExpected {expectedSummary.ToString()}.");
         }
 
         [TestMethod]
