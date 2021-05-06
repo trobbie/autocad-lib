@@ -29,7 +29,7 @@ namespace AABase.Tests
             // Act
             IEnumerable<AaGeCurve> test = listObjects.GetCurveList();
             // Assert
-            if (!test.OrderBy(t => t).SequenceEqual<AaGeCurve>(expected.OrderBy(e => e)))
+            if (!test.OrderBy(t => t).SequenceEqual<AaGeCurve>(expected.OrderBy(e => e), AaGeCurve.EqualValuesComparer))
                 Assert.Fail($"Failed args {listObjects}.\nReturned {test.ToStringDebug()}.\nExpected {expected.ToStringDebug()}.");
         }
 
