@@ -64,7 +64,34 @@ namespace AABase.Logic
             return (result != 0) ? result : orderedLine1.EndPoint.CompareTo(orderedLine1.EndPoint);
         }
         
-        public bool ContainsPoint(AaPoint3d pt) { return pt.Y.IsEqualTo(Slope*pt.X + Yintercept); }
+        public bool ContainsPoint(AaPoint3d pt) {
+            if (Slope == Double.PositiveInfinity)
+            {
+                if (!pt.X.IsEqualTo(StartPoint.X)) return false;
+                if (StartPoint.Y < EndPoint.Y)
+                {
+                    if ((pt.Y > StartPoint.Y) && (pt.Y < EndPoint.Y)) return true;
+                }
+                else
+                {
+                    if ((pt.Y > EndPoint.Y) && (pt.Y < StartPoint.Y)) return true;
+                }
+            }
+            else if (pt.Y.IsEqualTo(Slope*pt.X + Yintercept))
+            {
+                // it is on "infinite" line, so now check if within domain
+                if (pt.X.IsEqualTo(StartPoint.X) || pt.X.IsEqualTo(EndPoint.X)) return true;
+                if (StartPoint.X < EndPoint.X)
+                {
+                    if ((pt.X > StartPoint.X) && (pt.X < EndPoint.X)) return true;
+                }
+                else
+                {
+                    if ((pt.X > EndPoint.X) && (pt.X < StartPoint.X)) return true;
+                }
+            }
+            return false;
+        }
         
         public override string ToString()
         {
