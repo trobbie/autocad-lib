@@ -7,6 +7,7 @@ namespace Autodesk.AutoCAD.DatabaseServices
         public static AaEntity AsAaEntity(this Entity e)
         {
             // Note: make sure more specific types are checked before parent types
+            if (e is Circle) return new AaCircle((Circle)e);
             if (e is Arc) return new AaArc((Arc)e);
             else if (e is Polyline) return new AaPolyline((Polyline)e);
             else if (e is Curve) return new AaCurve((Curve)e);
