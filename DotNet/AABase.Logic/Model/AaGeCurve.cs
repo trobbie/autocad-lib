@@ -291,8 +291,28 @@ namespace AABase.Logic
 
             if (IsArc)
             {
-                // TODO: implement
-                return result.AssignResult(OverlapResultSummary.NoOverlap, null);
+                // arcs' center, radius, and normal all the same, but arcs are not equal
+                // see overlap between StartAngle and EndAngle
+                OverlapResultSummary summary = OverlapResultSummary.NoOverlap;
+                if (StartAngle <= other.StartAngle)
+                {
+                    if (EndAngle >= other.EndAngle)
+                        summary = OverlapResultSummary.ContainsOther;
+                    else
+                        summary = OverlapResultSummary.EndOverlapsOtherEnd;
+                }
+                else
+                {
+                    if (other.EndAngle >= EndAngle)
+                        summary = OverlapResultSummary.ContainedByOther;
+                    else
+                        summary = OverlapResultSummary.EndOverlapsOtherEnd;
+                }
+                if (summary.Equals(OverlapResultSummary.NoOverlap))
+                    return result.AssignResult(OverlapResultSummary.NoOverlap, null);
+                else
+                    return result.AssignResult(summary, 
+                        new AaGeCurve(Center, Radius, Math.Max(StartAngle,other.StartAngle), Math.Min(EndAngle, other.EndAngle), PlaneNormal));
             }
             else // is simple line
             {
