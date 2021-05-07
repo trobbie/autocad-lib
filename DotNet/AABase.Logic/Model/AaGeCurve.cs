@@ -208,8 +208,7 @@ namespace AABase.Logic
         {
             if (IsArc)
             {
-                // TODO: implement for arcs
-                return false;
+                return this.Center.Equals(other.Center) && this.Radius.Equals(other.Radius) && this.PlaneNormal.Equals(other.PlaneNormal);
             } 
             else if (Slope == Double.PositiveInfinity) // then vertical line
             {
@@ -232,6 +231,7 @@ namespace AABase.Logic
             }
             else
             {
+                // TODO: refactor code shared with AaLine
                 if (Slope == Double.PositiveInfinity)
                 {
                     if (!pt.X.IsEqualTo(StartPoint.X)) return false;
@@ -269,7 +269,6 @@ namespace AABase.Logic
             {
                 if (curve == this) continue;
                 // if overlaps this curve, then find the overlapping curve region and add to overlappingCurves
-                // TODO: find overlapping area
                 result = this.Overlaps(curve);
                 if (!result.Summary.Equals(OverlapResultSummary.NoOverlap))
                 {
@@ -285,22 +284,19 @@ namespace AABase.Logic
             if ((other is null) || !IsArc.Equals(other.IsArc)) return result.AssignResult(OverlapResultSummary.NoOverlap, null);
 
             if (this.IsEqualTo(other)) return result.AssignResult(OverlapResultSummary.Equals, this);
+            if (!OnSameInfiniteCurve(other)) return result.AssignResult(OverlapResultSummary.NoOverlap, null);
+            
+            AaGeCurve thisOrdered = this.GetCurveOrdered();
+            AaGeCurve otherOrdered = other.GetCurveOrdered();
 
             if (IsArc)
             {
-                // overlapping arcs must have same center, radius, and plane normal
-                if (!this.Center.Equals(other.Center)) return result.AssignResult(OverlapResultSummary.NoOverlap, null);
-                if (!this.Radius.Equals(other.Radius)) return result.AssignResult(OverlapResultSummary.NoOverlap, null);
-                if (!this.PlaneNormal.Equals(other.PlaneNormal)) return result.AssignResult(OverlapResultSummary.NoOverlap, null);
-                
+                // TODO: implement
+                return result.AssignResult(OverlapResultSummary.NoOverlap, null);
             }
             else // is simple line
             {
-                if (!OnSameInfiniteCurve(other)) return result.AssignResult(OverlapResultSummary.NoOverlap, null);
-                
-                AaGeCurve thisOrdered = this.GetCurveOrdered();
-                AaGeCurve otherOrdered = other.GetCurveOrdered();
-                // curves' start/end points are now ordered; guarantee: start.x <= end.x, and if start.x=end.x, then start.y <= end.y
+                // lines' start/end points are now ordered; guarantee: start.x <= end.x, and if start.x=end.x, then start.y <= end.y
                 double thisStartValue, thisEndValue, otherStartValue, otherEndValue;
                 if (thisOrdered.Slope == Double.PositiveInfinity) // then they're vertical lines
                 {
