@@ -301,60 +301,37 @@ namespace AABase.Logic
                 AaGeCurve thisOrdered = this.GetCurveOrdered();
                 AaGeCurve otherOrdered = other.GetCurveOrdered();
                 // curves' start/end points are now ordered; guarantee: start.x <= end.x, and if start.x=end.x, then start.y <= end.y
-
-                // Note: at this moment, curves are guaranteed not equal
+                double thisStartValue, thisEndValue, otherStartValue, otherEndValue;
                 if (thisOrdered.Slope == Double.PositiveInfinity) // then they're vertical lines
                 {
-                    if (thisOrdered.StartPoint.Y.IsEqualTo(otherOrdered.StartPoint.Y))
-                    {
-                        if (thisOrdered.ContainsPoint(otherOrdered.EndPoint))
-                            return result.AssignResult(OverlapResultSummary.ContainsOther, null);
-                        else
-                            return result.AssignResult(OverlapResultSummary.ContainedByOther, null);
-                    }
-                    if (thisOrdered.StartPoint.Y < otherOrdered.StartPoint.Y)
-                    {
-                        if (thisOrdered.ContainsPoint(otherOrdered.StartPoint))
-                        {
-                            if (thisOrdered.EndPoint.Y.IsEqualTo(otherOrdered.StartPoint.Y))
-                                return result.AssignResult(OverlapResultSummary.NoOverlap, null);
-                            else if (thisOrdered.ContainsPoint(otherOrdered.EndPoint))
-                                return result.AssignResult(OverlapResultSummary.ContainsOther, null);
-                            else
-                                return result.AssignResult(OverlapResultSummary.EndOverlapsOtherEnd, null);
-                        }
-                        else
-                        {
-                            return result.AssignResult(OverlapResultSummary.NoOverlap, null);
-                        }
-                    }
-                    // knowns: curves not equal,  this.start > other.start
-                    if (otherOrdered.ContainsPoint(thisOrdered.StartPoint))
-                    {
-                        if (otherOrdered.EndPoint.Y.IsEqualTo(thisOrdered.StartPoint.Y))
-                            return result.AssignResult(OverlapResultSummary.NoOverlap, null);
-                        else if (otherOrdered.ContainsPoint(thisOrdered.EndPoint))
-                            return result.AssignResult(OverlapResultSummary.ContainedByOther, null);
-                        else
-                            return result.AssignResult(OverlapResultSummary.EndOverlapsOtherEnd, null);
-                    }
-                    return result.AssignResult(OverlapResultSummary.NoOverlap, null);
+                    thisStartValue = thisOrdered.StartPoint.Y;
+                    thisEndValue = thisOrdered.EndPoint.Y;
+                    otherStartValue = otherOrdered.StartPoint.Y;
+                    otherEndValue = otherOrdered.EndPoint.Y;
                 }
-                if (thisOrdered.StartPoint.X.IsEqualTo(otherOrdered.StartPoint.X))
+                else
+                {
+                    thisStartValue = thisOrdered.StartPoint.X;
+                    thisEndValue = thisOrdered.EndPoint.X;
+                    otherStartValue = otherOrdered.StartPoint.X;
+                    otherEndValue = otherOrdered.EndPoint.X;
+                }
+
+                if (thisStartValue.IsEqualTo(otherStartValue))
                 {
                     if (thisOrdered.ContainsPoint(otherOrdered.EndPoint))
-                        return result.AssignResult(OverlapResultSummary.ContainsOther, null);
+                        return result.AssignResult(OverlapResultSummary.ContainsOther, other);
                     else
-                        return result.AssignResult(OverlapResultSummary.ContainedByOther, null);
+                        return result.AssignResult(OverlapResultSummary.ContainedByOther, this);
                 }
-                if (thisOrdered.StartPoint.X < otherOrdered.StartPoint.X)
+                if (thisStartValue < otherStartValue)
                 {
                     if (thisOrdered.ContainsPoint(otherOrdered.StartPoint))
                     {
-                        if (thisOrdered.EndPoint.X.IsEqualTo(otherOrdered.StartPoint.X))
+                        if (thisEndValue.IsEqualTo(otherStartValue))
                             return result.AssignResult(OverlapResultSummary.NoOverlap, null);
                         else if (thisOrdered.ContainsPoint(otherOrdered.EndPoint))
-                            return result.AssignResult(OverlapResultSummary.ContainsOther, null);
+                            return result.AssignResult(OverlapResultSummary.ContainsOther, other);
                         else
                             return result.AssignResult(OverlapResultSummary.EndOverlapsOtherEnd, null);
                     }
@@ -364,14 +341,14 @@ namespace AABase.Logic
                     }
                 }
                 // knowns: curves not equal,  this.start > other.start
-                //if (thisOrdered.StartPoint.X > otherOrdered.StartPoint.X)
+                //if (thisStartValue > otherStartValue)
                 {
                     if (otherOrdered.ContainsPoint(thisOrdered.StartPoint))
                     {
-                        if (otherOrdered.EndPoint.X.IsEqualTo(thisOrdered.StartPoint.X))
+                        if (otherEndValue.IsEqualTo(thisStartValue))
                             return result.AssignResult(OverlapResultSummary.NoOverlap, null);
                         else if (otherOrdered.ContainsPoint(thisOrdered.EndPoint))
-                            return result.AssignResult(OverlapResultSummary.ContainedByOther, null);
+                            return result.AssignResult(OverlapResultSummary.ContainedByOther, this);
                         else
                             return result.AssignResult(OverlapResultSummary.EndOverlapsOtherEnd, null);
                     }
