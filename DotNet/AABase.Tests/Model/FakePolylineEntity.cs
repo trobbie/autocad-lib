@@ -22,7 +22,14 @@ namespace AABase.Tests
 
         public AaPoint3d GetPoint3dAt(int vertexIndex) => _listVertices[vertexIndex];
 
-        public AaGeCurve GetGeCurveAt(int vertexIndexStart) => throw new System.NotImplementedException();
+        public AaGeCurve GetGeCurveAt(int vertexIndexStart)
+        {
+            if (IsArcSegment(vertexIndexStart)) throw new System.NotImplementedException();
+            int vertexIndexNext = vertexIndexStart+1;
+            if (Closed && (vertexIndexNext >= NumberOfVertices))
+                vertexIndexNext = Closed ?  0 : throw new System.InvalidOperationException(); // (Exception: should not have been called)
+            return new AaGeCurve(GetPoint3dAt(vertexIndexStart), GetPoint3dAt(vertexIndexNext));
+        }
 
         public IEnumerable<AaPoint3d> GetPointsOnExtentsOfSegmentAt(int vertexIndex) => throw new System.NotImplementedException();
 
