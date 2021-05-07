@@ -1,9 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup Condition="'$(OS)' == 'Windows_NT'">
+    <TargetFramework >net461</TargetFramework>
+    <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(OS)' != 'Windows_NT'">
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
   <PropertyGroup>
-    <TargetFramework Condition="'$(OS)' == 'Windows_NT'">net461</TargetFramework>
-    <TargetFramework Condition="'$(OS)' != 'Windows_NT'">net5.0</TargetFramework>
-  
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
