@@ -333,7 +333,7 @@ namespace AABase.Logic
                         else if (thisOrdered.ContainsPoint(otherOrdered.EndPoint))
                             return result.AssignResult(OverlapResultSummary.ContainsOther, other);
                         else
-                            return result.AssignResult(OverlapResultSummary.EndOverlapsOtherEnd, null);
+                            return result.AssignResult(OverlapResultSummary.EndOverlapsOtherEnd, new AaGeCurve(otherOrdered.StartPoint, thisOrdered.EndPoint));
                     }
                     else
                     {
@@ -350,7 +350,7 @@ namespace AABase.Logic
                         else if (otherOrdered.ContainsPoint(thisOrdered.EndPoint))
                             return result.AssignResult(OverlapResultSummary.ContainedByOther, this);
                         else
-                            return result.AssignResult(OverlapResultSummary.EndOverlapsOtherEnd, null);
+                            return result.AssignResult(OverlapResultSummary.EndOverlapsOtherEnd, new AaGeCurve(thisOrdered.StartPoint, otherOrdered.EndPoint));
                     }
                 }
             }    
