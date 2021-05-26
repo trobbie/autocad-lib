@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using System.Collections.Generic;
@@ -77,18 +78,19 @@ namespace AABase.Logic
                 startAngle = endAngle;
                 endAngle = newEndAngle;
             }
+            // TODO: why is ClosestPointToPlane returning two points?  Until figure out, just use one point.  The 2nd was giving bad results.
             // add topmost points
             if (Utility.IsAngleExclusivelyBetwStartAndEndAngles(Math.PI * 0.5, startAngle, endAngle))
-                ptList.AddRange(arcDef.ClosestPointToPlane(new Plane(arcDef.BoundBlock.GetMaximumPoint(), new Vector3d(0, 1, 0))).GetPoints());
+                ptList.AddRange(arcDef.ClosestPointToPlane(new Plane(arcDef.BoundBlock.GetMaximumPoint(), new Vector3d(0, 1, 0))).GetPoints().Take(1));
             // add leftmost points
             if (Utility.IsAngleExclusivelyBetwStartAndEndAngles(Math.PI * 1.0, startAngle, endAngle))
-                ptList.AddRange(arcDef.ClosestPointToPlane(new Plane(arcDef.BoundBlock.GetMinimumPoint(), new Vector3d(1, 0, 0))).GetPoints());
+                ptList.AddRange(arcDef.ClosestPointToPlane(new Plane(arcDef.BoundBlock.GetMinimumPoint(), new Vector3d(1, 0, 0))).GetPoints().Take(1));
             // add bottommost points
             if (Utility.IsAngleExclusivelyBetwStartAndEndAngles(Math.PI * 1.5, startAngle, endAngle))
-                ptList.AddRange(arcDef.ClosestPointToPlane(new Plane(arcDef.BoundBlock.GetMinimumPoint(), new Vector3d(0,1,0))).GetPoints());
+                ptList.AddRange(arcDef.ClosestPointToPlane(new Plane(arcDef.BoundBlock.GetMinimumPoint(), new Vector3d(0,1,0))).GetPoints().Take(1));
             // add rightmost points
             if (Utility.IsAngleExclusivelyBetwStartAndEndAngles(Math.PI * 2.0, startAngle, endAngle))
-                ptList.AddRange(arcDef.ClosestPointToPlane(new Plane(arcDef.BoundBlock.GetMaximumPoint(), new Vector3d(1,0,0))).GetPoints());
+                ptList.AddRange(arcDef.ClosestPointToPlane(new Plane(arcDef.BoundBlock.GetMaximumPoint(), new Vector3d(1,0,0))).GetPoints().Take(1));
             return ptList;
         }
 
