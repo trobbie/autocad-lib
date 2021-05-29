@@ -12,9 +12,11 @@ namespace AABase
 
     public static class AutocadBaseCommands
     {
+        public static ILogWriter _logger = new AaLogWriter();
+
         public static void PerformAutocadCommand(string commandName, string commandDesc, Func<bool> action)
         {
-            Active.WriteDebugMessage(2, "START "+commandName+": "+commandDesc);
+            _logger.WriteLine(LogLevel.Debug, "START "+commandName+": "+commandDesc);
 
             // enclose everything in one transaction, so that one "Undo" will undo everything
             // other transactions will be nested
@@ -23,7 +25,7 @@ namespace AABase
                 return action();
             });
 
-            Active.WriteDebugMessage(2, "END "+commandName);
+            _logger.WriteLine(LogLevel.Debug, "END "+commandName);
         }
         
         [CommandMethod("AAC-COUNT-OBJECTS", CommandFlags.UsePickSet)]
@@ -84,7 +86,7 @@ namespace AABase
                 AaPoint3d newOrigin = Active.Document.GetSelectedPoint();
                 if (newOrigin == null)
                 {
-                    Active.WriteMessage($"No point selected.  Cancelling...");
+                    _logger.WriteLine(LogLevel.Information, $"No point selected.  Cancelling...");
                     return false;
                 }
                 Polyline acPL = ((Polyline)pl.GetAcEntity());
@@ -144,7 +146,7 @@ namespace AABase
                     return true;
                 });
 
-                Active.WriteDebugMessage(1, $"Polyline origin reassigned to: {newOrigin.ToString()}");
+                _logger.WriteLine(LogLevel.Debug, $"Polyline origin reassigned to: {newOrigin.ToString()}");
                 return true;
             });
         }
