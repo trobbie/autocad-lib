@@ -26,6 +26,7 @@
   
   <ItemGroup Condition="'$(OS)' != 'Windows_NT'">
     <PackageReference Include="AutoCAD-2017.Net.Base" Version="1.0.0" />
+    <!-- <PackageReference Include="AutoCAD.NET.Core" Version="24.1.51000" /> -->
   </ItemGroup>
 
   <ItemGroup>
