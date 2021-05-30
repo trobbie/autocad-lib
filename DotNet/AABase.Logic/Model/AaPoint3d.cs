@@ -30,6 +30,9 @@ namespace AABase.Logic
         public double Y { get; private set; }
         public double Z { get; private set; }
 
+        /// <summary>
+        /// Equals, considering allowed fuzz 
+        /// </summary>
         public override bool Equals(object obj) => Equals(obj as AaPoint3d);
         public bool Equals(AaPoint3d otherPt)
         {
