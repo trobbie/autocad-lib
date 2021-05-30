@@ -271,7 +271,7 @@ namespace AABase.Logic
             {
                 if (curve == this) continue;
                 // if overlaps this curve, then find the overlapping curve region and add to overlappingCurves
-                result = this.Overlaps(curve);
+                result = this.FindOverlap(curve);
                 if (!result.Summary.Equals(OverlapResultSummary.NoOverlap))
                 {
                     overlappingCurves.Add(result);
@@ -280,7 +280,14 @@ namespace AABase.Logic
             return overlappingCurves;
         }
 
-        public AaGeCurveOverlapResult Overlaps(AaGeCurve other)
+        /// <summary>
+        /// Find overlap results between this simple curve and another.  Results includes description and any overlapping curve.
+        /// </summary>
+        /// <remarks>
+        /// The results also contain this curve and the other, unaltered.
+        /// </remarks>
+        /// 
+        public AaGeCurveOverlapResult FindOverlap(AaGeCurve other)
         {
             AaGeCurveOverlapResult result = new AaGeCurveOverlapResult(this, other);
             if ((other is null) || !IsArc.Equals(other.IsArc)) return result.AssignResult(OverlapResultSummary.NoOverlap, null);
