@@ -26,10 +26,10 @@ namespace AABase.Tests
             rectangleOpenPolyline1.Add(new FakeRectangle(new AaPoint3d(5,5), 7, 8, true));
         }
         
-        static void TestConvertEntitiesToCurveList(IEnumerable<IEntity>listObjects, List<AaGeCurve> expected)
+        static void TestConvertEntitiesToSimpleCurves(IEnumerable<IEntity>listObjects, List<AaGeCurve> expected)
         {
             // Act
-            IEnumerable<AaGeCurve> test = listObjects.ConvertEntitiesToCurveList(_logger);
+            IEnumerable<AaGeCurve> test = listObjects.ConvertEntitiesToSimpleCurves(_logger);
             // Assert
             if (!test.OrderBy(t => t).SequenceEqual<AaGeCurve>(expected.OrderBy(e => e), AaGeCurve.EqualValuesComparer))
                 Assert.Fail($"Failed args {listObjects}.\nReturned {AaGeCurve.EnumerableToString(test)}.\nExpected {AaGeCurve.EnumerableToString(expected)}.");
@@ -40,7 +40,7 @@ namespace AABase.Tests
         { 
             List<AaGeCurve> listLinesExpected = new List<AaGeCurve>();
 
-            TestConvertEntitiesToCurveList(emptyList, listLinesExpected);
+            TestConvertEntitiesToSimpleCurves(emptyList, listLinesExpected);
         }
 
         [TestMethod]
@@ -51,7 +51,7 @@ namespace AABase.Tests
             listLinesExpected.Add(new AaGeCurve(new AaPoint3d(10,0), new AaPoint3d(10,10)));
             listLinesExpected.Add(new AaGeCurve(new AaPoint3d(10,10), new AaPoint3d(0,0)));
 
-            TestConvertEntitiesToCurveList(triangleLines1, listLinesExpected);
+            TestConvertEntitiesToSimpleCurves(triangleLines1, listLinesExpected);
         }
 
         [TestMethod]
@@ -63,7 +63,7 @@ namespace AABase.Tests
             listLinesExpected.Add(new AaGeCurve(new AaPoint3d(12,13), new AaPoint3d(5,13)));
             listLinesExpected.Add(new AaGeCurve(new AaPoint3d(5,13), new AaPoint3d(5,5)));
 
-            TestConvertEntitiesToCurveList(rectangleClosedPolyline1, listLinesExpected);
+            TestConvertEntitiesToSimpleCurves(rectangleClosedPolyline1, listLinesExpected);
         }
 
         [TestMethod]
@@ -75,7 +75,7 @@ namespace AABase.Tests
             listLinesExpected.Add(new AaGeCurve(new AaPoint3d(12,13), new AaPoint3d(5,13)));
             listLinesExpected.Add(new AaGeCurve(new AaPoint3d(5,13), new AaPoint3d(5,5)));
 
-            TestConvertEntitiesToCurveList(rectangleOpenPolyline1, listLinesExpected);
+            TestConvertEntitiesToSimpleCurves(rectangleOpenPolyline1, listLinesExpected);
         }
 
     }

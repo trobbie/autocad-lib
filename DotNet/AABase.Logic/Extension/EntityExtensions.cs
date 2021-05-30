@@ -6,7 +6,7 @@ namespace AABase.Logic
 {
     public static class IEntityExtensions
     {
-        public static List<AaGeCurve> ConvertEntitiesToCurveList(this IEnumerable<IEntity> entities, ILogWriter logger)
+        public static List<AaGeCurve> ConvertEntitiesToSimpleCurves(this IEnumerable<IEntity> entities, ILogWriter logger)
         {
             List<AaGeCurve> result = new List<AaGeCurve>();
 
