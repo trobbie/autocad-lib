@@ -8,6 +8,8 @@ namespace AABase.Tests
   [TestClass]
     public class AaLineExtensionsTests
     {
+        public static ILogWriter _logger = new TestLogWriter();
+        
         private static readonly List<FakeEntity> emptyList = new List<FakeEntity>();
         private static readonly List<FakeEntity> triangleLines1 = new List<FakeEntity>();
         private static readonly List<FakeEntity> rectangleClosedPolyline1 = new List<FakeEntity>();
@@ -27,7 +29,7 @@ namespace AABase.Tests
         static void TestConvertEntitiesToCurveList(IEnumerable<IEntity>listObjects, List<AaGeCurve> expected)
         {
             // Act
-            IEnumerable<AaGeCurve> test = AaGeCurve.ConvertEntitiesToCurveList(listObjects);
+            IEnumerable<AaGeCurve> test = listObjects.ConvertEntitiesToCurveList(_logger);
             // Assert
             if (!test.OrderBy(t => t).SequenceEqual<AaGeCurve>(expected.OrderBy(e => e), AaGeCurve.EqualValuesComparer))
                 Assert.Fail($"Failed args {listObjects}.\nReturned {AaGeCurve.EnumerableToString(test)}.\nExpected {AaGeCurve.EnumerableToString(expected)}.");
