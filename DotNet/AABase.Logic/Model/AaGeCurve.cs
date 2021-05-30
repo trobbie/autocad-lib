@@ -263,6 +263,12 @@ namespace AABase.Logic
             }
         }
 
+        /// <summary>
+        /// Return all overlap results between this simple curve and list of curves.
+        /// </summary>
+        /// <remarks>
+        /// Each result includes this curve, the other curve (unaltered), description and any overlapping curve portions.
+        /// </remarks>
         public IEnumerable<AaGeCurveOverlapResult> FindOverlapResults(IEnumerable<AaGeCurve> listCurves)
         {
             List<AaGeCurveOverlapResult> overlappingCurves = new List<AaGeCurveOverlapResult>();
@@ -281,12 +287,11 @@ namespace AABase.Logic
         }
 
         /// <summary>
-        /// Find overlap results between this simple curve and another.  Results includes description and any overlapping curve.
+        /// Find overlap results between this simple curve and another.  Results includes description and any overlapping curve portion.
         /// </summary>
         /// <remarks>
         /// The results also contain this curve and the other, unaltered.
         /// </remarks>
-        /// 
         public AaGeCurveOverlapResult FindOverlap(AaGeCurve other)
         {
             AaGeCurveOverlapResult result = new AaGeCurveOverlapResult(this, other);
