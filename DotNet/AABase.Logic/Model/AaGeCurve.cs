@@ -263,7 +263,7 @@ namespace AABase.Logic
             }
         }
 
-        public IEnumerable<AaGeCurveOverlapResult> FindOverlappingSimpleCurves(IEnumerable<AaGeCurve> listCurves)
+        public IEnumerable<AaGeCurveOverlapResult> FindOverlapResults(IEnumerable<AaGeCurve> listCurves)
         {
             List<AaGeCurveOverlapResult> overlappingCurves = new List<AaGeCurveOverlapResult>();
             AaGeCurveOverlapResult result;
