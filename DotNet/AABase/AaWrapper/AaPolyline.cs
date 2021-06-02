@@ -36,6 +36,14 @@ namespace AABase.Logic
             });
             return new AaPolyline(acPolyline);
         }
+        public static AaPolyline AddCurveToStart(AaGeCurve newFirstVertex, ILogWriter logger)
+        {
+            throw new NotImplementedException();
+        }
+        public static AaPolyline AddCurveToEnd(AaGeCurve lastVertex, ILogWriter logger)
+        {
+            throw new NotImplementedException();
+        }
 
         private Polyline GetPolyline() { return (Polyline)_dbobject; }
 
