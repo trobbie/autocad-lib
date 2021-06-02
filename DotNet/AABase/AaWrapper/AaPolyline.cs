@@ -36,15 +36,24 @@ namespace AABase.Logic
             });
             return new AaPolyline(acPolyline);
         }
-        public static AaPolyline AddCurveToStart(AaGeCurve newFirstVertex, ILogWriter logger)
+        public void AddCurveToStart(AaPoint3d ptEnd, double bulge)
         {
-            throw new NotImplementedException();
+            Database db = Active.Database;
+            db.UsingTransaction((Transaction tr) =>
+            {
+                GetPolyline().AddVertexAt(0, ptEnd.GetAcPoint2d(), bulge, 0, 0);
+                return true;
+            });
         }
-        public static AaPolyline AddCurveToEnd(AaGeCurve lastVertex, ILogWriter logger)
+        public void AddCurveToEnd(AaPoint3d ptStart, double bulge)
         {
-            throw new NotImplementedException();
+            Database db = Active.Database;
+            db.UsingTransaction((Transaction tr) =>
+            {
+                GetPolyline().AddVertexAt(NumberOfVertices, ptStart.GetAcPoint2d(), bulge, 0, 0);
+                return true;
+            });
         }
-
         private Polyline GetPolyline() { return (Polyline)_dbobject; }
 
         public bool Closed { get { return GetPolyline().Closed; } }
