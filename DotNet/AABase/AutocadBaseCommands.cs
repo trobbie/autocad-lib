@@ -35,6 +35,7 @@ namespace AABase
             {
                 int totalObjects = 0;
                 IEnumerable<IEntity> entities = Active.Document.GetSelectedSetObjects();
+                if (entities == null) return false;
                 totalObjects = entities.Count();
                 Application.ShowAlertDialog("Number of objects in Pickfirst selection: " +
                                                 totalObjects.ToString());
@@ -51,6 +52,8 @@ namespace AABase
             {
                 double totalLength = 0; 
                 IEnumerable<IEntity> entities = Active.Document.GetSelectedSetObjects();
+                if (entities == null) return false;
+                
                 foreach (IEntity ent in entities)
                   Active.WriteDebugMessage(2,$"isCurve? {(ent.GetAcEntity() is Curve)}");
                 string unsupportedTypes = entities
