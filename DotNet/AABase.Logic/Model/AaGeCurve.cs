@@ -137,7 +137,7 @@ namespace AABase.Logic
         public double Bulge { get {
             // Bulge factor is the tangent of one fourth the included angle for an arc segment, made negative if arc goes clockwise
             if (!IsArc) return 0;
-            return Math.Tan((Utility.GetNormalizedAngle(EndAngle) - Utility.GetNormalizedAngle(StartAngle))/4);
+            return Math.Tan((EndAngle - StartAngle)/4);
         }}
 
         public AaGeCurve GetCurveOrdered() {
