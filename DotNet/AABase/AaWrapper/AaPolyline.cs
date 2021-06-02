@@ -12,6 +12,31 @@ namespace AABase.Logic
 
         public AaPolyline(IEntity entity) : base((Polyline)entity.GetAcEntity()) { }
 
+        public static AaPolyline Create(AaGeCurve firstCurve, AaLogWriter logger)
+        {
+            Database db = Active.Database;
+            Polyline acPolyline = null;
+            
+            db.UsingTransaction((Transaction tr) =>
+            {
+                BlockTable acBlkTbl = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
+                BlockTableRecord modelspace = (BlockTableRecord)tr.GetObject(acBlkTbl[BlockTableRecord.ModelSpace], OpenMode.ForWrite);
+                
+                acPolyline = new Polyline();
+                acPolyline.SetDatabaseDefaults();
+                acPolyline.AddVertexAt(0, firstCurve.StartPoint.GetAcPoint2d(), firstCurve.Bulge, 0, 0);
+                acPolyline.AddVertexAt(1, firstCurve.EndPoint.GetAcPoint2d(), 0, 0, 0);
+                
+                // Add the new object to Model space and the transaction
+                modelspace.AppendEntity(acPolyline);
+                tr.AddNewlyCreatedDBObject(acPolyline, true);
+
+                logger.WriteLine(LogLevel.Debug, $"Created Polyline with first curve: {firstCurve.ToString()}");
+                return true;
+            });
+            return new AaPolyline(acPolyline);
+        }
+
         private Polyline GetPolyline() { return (Polyline)_dbobject; }
 
         public bool Closed { get { return GetPolyline().Closed; } }
