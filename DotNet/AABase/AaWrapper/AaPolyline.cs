@@ -12,7 +12,7 @@ namespace AABase.Logic
 
         public AaPolyline(IEntity entity) : base((Polyline)entity.GetAcEntity()) { }
 
-        public static AaPolyline Create(AaGeCurve firstCurve, AaLogWriter logger)
+        public static AaPolyline Create(AaGeCurve firstCurve, ILogWriter logger)
         {
             Database db = Active.Database;
             Polyline acPolyline = null;
@@ -26,7 +26,7 @@ namespace AABase.Logic
                 acPolyline.SetDatabaseDefaults();
                 acPolyline.AddVertexAt(0, firstCurve.StartPoint.GetAcPoint2d(), firstCurve.Bulge, 0, 0);
                 acPolyline.AddVertexAt(1, firstCurve.EndPoint.GetAcPoint2d(), 0, 0, 0);
-                
+
                 // Add the new object to Model space and the transaction
                 modelspace.AppendEntity(acPolyline);
                 tr.AddNewlyCreatedDBObject(acPolyline, true);
