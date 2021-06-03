@@ -36,24 +36,7 @@ namespace AABase.Logic
             });
             return new AaPolyline(acPolyline);
         }
-        public void AddCurveToStart(AaPoint3d ptEnd, double bulge)
-        {
-            Database db = Active.Database;
-            db.UsingTransaction((Transaction tr) =>
-            {
-                GetPolyline().AddVertexAt(0, ptEnd.GetAcPoint2d(), bulge, 0, 0);
-                return true;
-            });
-        }
-        public void AddCurveToEnd(AaPoint3d ptStart, double bulge)
-        {
-            Database db = Active.Database;
-            db.UsingTransaction((Transaction tr) =>
-            {
-                GetPolyline().AddVertexAt(NumberOfVertices, ptStart.GetAcPoint2d(), bulge, 0, 0);
-                return true;
-            });
-        }
+
         private Polyline GetPolyline() { return (Polyline)_dbobject; }
 
         public bool Closed { get { return GetPolyline().Closed; } }
@@ -136,6 +119,41 @@ namespace AABase.Logic
             return ptList;
         }
 
-    }
+        public void AddCurveToStart(AaGeCurve curve)
+        {
+            Database db = Active.Database;
+            db.UsingTransaction((Transaction tr) =>
+            {
+                // TODO: check that end vertex matches?
+                GetPolyline().UpgradeOpen();
+                GetPolyline().AddVertexAt(0, curve.StartPoint.GetAcPoint2d(), curve.Bulge, 0, 0);
+                return true;
+            });
+        }
+        public void AddCurveToEnd(AaGeCurve curve)
+        {
+            if (NumberOfVertices == 0) {
+                AddCurveToStart(curve);
+                return;
+            }
 
+            Database db = Active.Database;
+            db.UsingTransaction((Transaction tr) =>
+            {
+                // TODO: check that start vertex matches?
+                GetPolyline().UpgradeOpen();
+                GetPolyline().SetBulgeAt(NumberOfVertices-1, curve.Bulge);
+                GetPolyline().AddVertexAt(NumberOfVertices, curve.EndPoint.GetAcPoint2d(), 0, 0, 0);
+                return true;
+            });
+        }
+        public bool Join(AaPolyline pl)
+        {
+            GetPolyline().UpgradeOpen();
+            GetPolyline().JoinEntity(pl.GetPolyline());
+            pl.Erase();
+            return true;
+        }
+
+    }
 }
