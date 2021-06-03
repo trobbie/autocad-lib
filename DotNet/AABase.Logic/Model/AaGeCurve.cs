@@ -151,7 +151,7 @@ namespace AABase.Logic
                 // an ordered line ensures that pt1's X is less than pt2's X, and if equal that the Y value is less
                 if(_pt1.X.IsEqualTo(_pt2.X) || _pt1.X > _pt2.X)
                 {
-                    if (_pt1.Y.IsEqualTo(_pt2.Y) && _pt1.Y < _pt2.Y)
+                    if (_pt1.Y.IsEqualTo(_pt2.Y) || _pt1.Y < _pt2.Y)
                     {
                         return this;
                     } 
