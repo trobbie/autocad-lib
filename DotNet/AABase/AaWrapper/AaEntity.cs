@@ -22,5 +22,12 @@ namespace AABase.Logic
             ((Entity)_dbobject).Layer = layerName;
         }
 
+        public void Erase()
+        {
+            Entity thisEntity = (Entity)_dbobject;
+            thisEntity.UpgradeOpen();
+            thisEntity.Erase();
+        }
+
     }
 }
