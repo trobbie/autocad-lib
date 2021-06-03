@@ -212,6 +212,14 @@ namespace AABase.Logic
             }
         }
         
+        public AaGeCurve AsReverseCurve()
+        {
+            if (IsArc)
+                return new AaGeCurve(Center, Radius, EndAngle, StartAngle, PlaneNormal);
+            else
+                return new AaGeCurve(EndPoint, StartPoint);
+        }
+
         private bool OnSameInfiniteCurve(AaGeCurve other)
         {
             if (IsArc)
