@@ -119,6 +119,47 @@ namespace AABase.Logic
             return ptList;
         }
 
+        /// <summary>
+        /// Add simple curve to this polyline if the curve can connect to an edge point of this polyline that is not on a list of non-join points
+        /// </summary>
+        public bool AddCurveIfAtEdge(AaGeCurve curveConsidered, bool reverseCurveDirection, IEnumerable<AaPoint3d> pointsNonJoin)
+        {
+            AaGeCurve curve = reverseCurveDirection ? curveConsidered : curveConsidered.AsReverseCurve();
+                
+            if (!pointsNonJoin.Contains(StartPoint) && StartPoint.Equals(curve.EndPoint))
+            {
+                AddCurveToStart(curve);
+                return true;
+            }
+            if (!pointsNonJoin.Contains(EndPoint) && EndPoint.Equals(curve.StartPoint))
+            {
+                AddCurveToEnd(curve);
+                return true;
+            }
+            return false;
+        }
+
+
+        public bool JoinPolylineIfAtEdge(AaPolyline plConsidered, bool reverseCurveDirection, IEnumerable<AaPoint3d> pointsNonJoin)
+        {
+            AaPoint3d startPointOther = reverseCurveDirection ? plConsidered.EndPoint : plConsidered.StartPoint;
+            AaPoint3d endPointOther = reverseCurveDirection ? plConsidered.StartPoint : plConsidered.EndPoint;
+                                    
+            // don't "travel" through any point in pointsOnMultipleCurves
+            // consider appending to a polyline's edge only if that edge point is not in pointsOnMultipleCurves
+            if (!pointsNonJoin.Contains(StartPoint) && StartPoint.Equals(endPointOther))
+            {
+                Join(plConsidered);
+                return true;
+            }
+            if (!pointsNonJoin.Contains(EndPoint) && EndPoint.Equals(startPointOther))
+            {
+                Join(plConsidered);
+                return true;
+            }
+            return false;
+        }
+        
         public void AddCurveToStart(AaGeCurve curve)
         {
             Database db = Active.Database;
