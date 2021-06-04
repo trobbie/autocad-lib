@@ -42,9 +42,9 @@ namespace AABase.Logic
         public override int GetHashCode()
         {
             int hash = 7;
-            hash = 71 * hash + Math.Round(this.X, AABaseLogicGlobal.MaxPointPrecision).GetHashCode();
-            hash = 71 * hash + Math.Round(this.Y, AABaseLogicGlobal.MaxPointPrecision).GetHashCode();
-            hash = 71 * hash + Math.Round(this.Z, AABaseLogicGlobal.MaxPointPrecision).GetHashCode();
+            hash = 71 * hash + Math.Round(this.X, AaBaseLogic.MaxPointPrecision).GetHashCode();
+            hash = 71 * hash + Math.Round(this.Y, AaBaseLogic.MaxPointPrecision).GetHashCode();
+            hash = 71 * hash + Math.Round(this.Z, AaBaseLogic.MaxPointPrecision).GetHashCode();
             return hash;
         }
 

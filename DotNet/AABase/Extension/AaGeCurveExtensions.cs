@@ -26,7 +26,7 @@ namespace AABase.Logic
         /// <summary>
         /// Create polylines from these simple curves such that any ambiguous (multi-path) paths are not followed and left un-joined.
         /// </summary>
-        public static List<AaPolyline> CreateSinglePathPolylines(this IEnumerable<AaGeCurve> simpleCurves, ILogWriter logger)
+        public static List<AaPolyline> CreateSinglePathPolylines(this IEnumerable<AaGeCurve> simpleCurves)
         {
             // points found on more than two curves are on the edges of multi-paths 
             IEnumerable<AaPoint3d> pointsOnMultipleCurves = simpleCurves
@@ -67,7 +67,7 @@ namespace AABase.Logic
                 else
                 {
                     // if still not added, create a new polyline
-                    AaPolyline newPL = AaPolyline.Create(curve, logger);
+                    AaPolyline newPL = AaPolyline.Create(curve);
                     joinedPolylines.Add(newPL);
                 }
             }

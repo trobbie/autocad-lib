@@ -6,7 +6,7 @@ namespace AABase.Logic
 {
     public static class IEntityExtensions
     {
-        public static List<AaGeCurve> ConvertEntitiesToSimpleCurves(this IEnumerable<IEntity> entities, ILogWriter logger)
+        public static List<AaGeCurve> ConvertEntitiesToSimpleCurves(this IEnumerable<IEntity> entities)
         {
             List<AaGeCurve> result = new List<AaGeCurve>();
 
@@ -18,7 +18,7 @@ namespace AABase.Logic
                 } 
                 else 
                 {
-                    logger.WriteLine(LogLevel.Warning, $"Found object type {ent.GetDxfName()}.  Completely ignoring this unsupported type.");
+                    AaBaseLogic.Logger.WriteLine(LogLevel.Warning, $"Found object type {ent.GetDxfName()}.  Completely ignoring this unsupported type.");
                     return false;
                 }
             });

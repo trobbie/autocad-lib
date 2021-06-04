@@ -1,7 +1,9 @@
-namespace AABase.Logic
+using System.IO;
+
+namespace AABase.Logic.Logging
 {
     public interface ILogWriter
-    {    
+    {   
         /// <summary>
         /// Sends a log message using logLevel to designate its importance.
         /// </summary>

@@ -12,18 +12,24 @@ using AABase.Logic.Logging;
 namespace AABase
 {
 
-    public static class AutocadBaseCommands
+    public class AutocadBaseCommands : Autodesk.AutoCAD.Runtime.IExtensionApplication
     {
-        public static ILogWriter _logger = new AaLogWriter();
 
-        static AutocadBaseCommands()
+        public void Initialize()
         {
-            System.Diagnostics.Trace.Listeners.Add(new TextWriterTraceListener(new AutocadEditorTextWriter()));
+            Console.WriteLine("Loading AutocadBaseCommands...");
+
+            AaBaseLogic.Logger.AddTextWriter(new AutocadEditorTextWriter());
+        }
+
+        public void Terminate()
+        {
+            Console.WriteLine("Unloading AutocadBaseCommands...");  // Note: AutoCAD would be in process of closing
         }
 
         public static void PerformAutocadCommand(string commandName, string commandDesc, Func<bool> action)
         {
-            _logger.WriteLine(LogLevel.Debug, "START "+commandName+": "+commandDesc);
+            AaBaseLogic.Logger.WriteLine(LogLevel.Debug, "START "+commandName+": "+commandDesc);
 
             // enclose everything in one transaction, so that one "Undo" will undo everything
             // other transactions will be nested
@@ -32,7 +38,7 @@ namespace AABase
                 return action();
             });
 
-            _logger.WriteLine(LogLevel.Debug, "END "+commandName);
+            AaBaseLogic.Logger.WriteLine(LogLevel.Debug, "END "+commandName);
         }
         
         [CommandMethod("AAC-COUNT-OBJECTS", CommandFlags.UsePickSet)]
@@ -62,7 +68,7 @@ namespace AABase
                 if (entities == null) return false;
                 
                 foreach (IEntity ent in entities)
-                   _logger.WriteLine(LogLevel.Debug, $"isCurve? {(ent.GetAcEntity() is Curve)}");
+                   AaBaseLogic.Logger.WriteLine(LogLevel.Debug, $"isCurve? {(ent.GetAcEntity() is Curve)}");
                 string unsupportedTypes = entities
                     .Where(ent => !(ent.GetAcEntity() is Curve))
                     .Select(ent => ent.GetDxfName())
@@ -96,7 +102,7 @@ namespace AABase
                 AaPoint3d newOrigin = Active.Document.GetSelectedPoint();
                 if (newOrigin == null)
                 {
-                    _logger.WriteLine(LogLevel.Information, $"No point selected.  Cancelling...");
+                    AaBaseLogic.Logger.WriteLine(LogLevel.Information, $"No point selected.  Cancelling...");
                     return false;
                 }
                 Polyline acPL = ((Polyline)pl.GetAcEntity());
@@ -156,7 +162,7 @@ namespace AABase
                     return true;
                 });
 
-                _logger.WriteLine(LogLevel.Debug, $"Polyline origin reassigned to: {newOrigin.ToString()}");
+                AaBaseLogic.Logger.WriteLine(LogLevel.Debug, $"Polyline origin reassigned to: {newOrigin.ToString()}");
                 return true;
             });
         }

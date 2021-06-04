@@ -61,28 +61,5 @@ namespace AABase
             Editor.WriteMessage(message+"\n", parameter);
         }
 
-        /// <summary>
-        /// Sends a debug string to the command line in the active Editor, if supplied
-        /// level is lower than or equal to the global debug level.
-        /// </summary>
-        /// <param name="message">The message to send.</param>
-        public static void WriteDebugMessage(int level, string message)
-        {
-            if (level <= DebugLevel)
-                WriteLine("DEBUG"+level.ToString()+": "+message);
-        }
-
-        /// <summary>
-        /// Sends a debug string to the command line in the active Editor, if supplied
-        /// level is lower than or equal to the global debug level.
-        /// </summary>
-        /// <param name="message">The message to send.</param>
-        /// <param name="parameter">The variables to substitute into the format string.</param>
-        public static void WriteDebugMessage(int level, string message, params object[] parameter)
-        {
-            if (level <= DebugLevel)
-                WriteLine("DEBUG"+level.ToString()+": "+message, parameter);
-        }
-
     }
 }

@@ -12,7 +12,7 @@ namespace AABase.Logic
 
         public AaPolyline(IEntity entity) : base((Polyline)entity.GetAcEntity()) { }
 
-        public static AaPolyline Create(AaGeCurve firstCurve, ILogWriter logger)
+        public static AaPolyline Create(AaGeCurve firstCurve)
         {
             Database db = Active.Database;
             Polyline acPolyline = null;
@@ -31,7 +31,7 @@ namespace AABase.Logic
                 modelspace.AppendEntity(acPolyline);
                 tr.AddNewlyCreatedDBObject(acPolyline, true);
 
-                logger.WriteLine(LogLevel.Debug, $"Created Polyline with first curve: {firstCurve.ToString()}");
+                AaBaseLogic.Logger.WriteLine(LogLevel.Debug, $"Created Polyline with first curve: {firstCurve.ToString()}");
                 return true;
             });
             return new AaPolyline(acPolyline);

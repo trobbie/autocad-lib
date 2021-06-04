@@ -1,13 +1,21 @@
 using AABase.Logic;
 using System;
+using System.IO;
 using System.Diagnostics;
 
-namespace AABase
+namespace AABase.Logic.Logging
 {
     public class AaLogWriter : ILogWriter
     {
-        // TODO: move this to AutoCad environment variable
-        private const LogLevel DebugLevel = LogLevel.Debug; 
+        private const LogLevel DebugLevel = LogLevel.Debug; // TODO: move this to AutoCad environment variable
+        /// <summary>
+        /// Add TextWriter object as a listener to logs
+        /// </summary>
+        public void AddTextWriter(TextWriter textWriter)
+        {
+            Trace.WriteLine($"Adding listener: {textWriter.ToString()}");
+            System.Diagnostics.Trace.Listeners.Add(new TextWriterTraceListener(textWriter));
+        }
 
         /// <summary>
         /// Sends a log message to the command line in the active Editor; ignore if supplied
@@ -45,7 +53,6 @@ namespace AABase
                     return;
             }
             Trace.WriteLine($"{prefix}: "+String.Format(message, parameters));
-            // Active.WriteLine($"{prefix}: "+message, parameter);
         }
     }
 }
