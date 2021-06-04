@@ -191,7 +191,13 @@ namespace AABase.Logic
         public bool Join(AaPolyline pl)
         {
             GetPolyline().UpgradeOpen();
-            GetPolyline().JoinEntity(pl.GetPolyline());
+            try {
+                GetPolyline().JoinEntity(pl.GetPolyline());
+            }
+            catch (Autodesk.AutoCAD.Runtime.Exception)
+            {
+                // TODO: add error printout
+            }
             pl.Erase();
             return true;
         }
