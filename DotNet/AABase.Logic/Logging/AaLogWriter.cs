@@ -1,4 +1,6 @@
 using AABase.Logic;
+using System;
+using System.Diagnostics;
 
 namespace AABase
 {
@@ -13,8 +15,8 @@ namespace AABase
         /// </summary>
         /// <param name="logLevel">The log level of the message</param>
         /// <param name="message">The message to send.</param>
-        /// <param name="parameter">The variables to substitute into the format string.</param>
-        public void WriteLine(LogLevel logLevel, string message, params object[] parameter)
+        /// <param name="parameters">The variables to substitute into the format string.</param>
+        public void WriteLine(LogLevel logLevel, string message, params object[] parameters)
         {
             if (logLevel < DebugLevel) return;
                 
@@ -42,7 +44,8 @@ namespace AABase
                 case LogLevel.None:
                     return;
             }
-            Active.WriteLine($"{prefix}: "+message, parameter);
+            Trace.WriteLine($"{prefix}: "+String.Format(message, parameters));
+            // Active.WriteLine($"{prefix}: "+message, parameter);
         }
     }
 }
