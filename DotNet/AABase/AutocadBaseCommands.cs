@@ -5,7 +5,9 @@ using Autodesk.AutoCAD.Geometry;
 using System.Linq;
 using System.Collections.Generic;
 using System;
+using System.Diagnostics;
 using AABase.Logic;
+using AABase.Logic.Logging;
 
 namespace AABase
 {
@@ -13,6 +15,11 @@ namespace AABase
     public static class AutocadBaseCommands
     {
         public static ILogWriter _logger = new AaLogWriter();
+
+        static AutocadBaseCommands()
+        {
+            System.Diagnostics.Trace.Listeners.Add(new TextWriterTraceListener(new AutocadEditorTextWriter()));
+        }
 
         public static void PerformAutocadCommand(string commandName, string commandDesc, Func<bool> action)
         {
@@ -55,7 +62,7 @@ namespace AABase
                 if (entities == null) return false;
                 
                 foreach (IEntity ent in entities)
-                  Active.WriteDebugMessage(2,$"isCurve? {(ent.GetAcEntity() is Curve)}");
+                   _logger.WriteLine(LogLevel.Debug, $"isCurve? {(ent.GetAcEntity() is Curve)}");
                 string unsupportedTypes = entities
                     .Where(ent => !(ent.GetAcEntity() is Curve))
                     .Select(ent => ent.GetDxfName())
