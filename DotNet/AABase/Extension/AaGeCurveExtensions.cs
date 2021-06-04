@@ -24,7 +24,7 @@ namespace AABase.Logic
         }
 
         /// <summary>
-        /// Create polylines from these simple curves such any ambiguous (multi-path) paths are not followed and left un-joined.
+        /// Create polylines from these simple curves such that any ambiguous (multi-path) paths are not followed and left un-joined.
         /// </summary>
         public static List<AaPolyline> CreateSinglePathPolylines(this IEnumerable<AaGeCurve> simpleCurves, ILogWriter logger)
         {
