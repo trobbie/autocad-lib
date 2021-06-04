@@ -28,7 +28,7 @@ namespace Autodesk.AutoCAD.DatabaseServices
                 } catch(Runtime.Exception ex)
                 {
                     tr.Abort();
-                    Active.Document.Editor.WriteMessage("\nError: {0}\nTrace: {1}", ex.Message, ex.StackTrace);
+                    Active.WriteLine("Error: {0}\nTrace: {1}\n", ex.Message, ex.StackTrace);
                 }
             }
         }
@@ -55,7 +55,7 @@ namespace Autodesk.AutoCAD.DatabaseServices
                 catch (Runtime.Exception ex)
                 {
                     tr.Abort();
-                    Active.Document.Editor.WriteMessage(ex.ToString());
+                    Active.WriteLine(ex.ToString());
                 }
 
             }

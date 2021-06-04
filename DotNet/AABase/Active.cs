@@ -38,18 +38,27 @@ namespace AABase
         /// Sends a string to the command line in the active Editor
         /// </summary>
         /// <param name="message">The message to send.</param>
-        public static void WriteMessage(string message)
+        public static void Write(string message)
         {
-            Editor.WriteMessage("\n"+message);
+            Editor.WriteMessage(message);
+        }
+
+        /// <summary>
+        /// Sends a string to the command line in the active Editor, followed by newline character
+        /// </summary>
+        /// <param name="message">The message to send.</param>
+        public static void WriteLine(string message)
+        {
+            Editor.WriteMessage(message+"\n");
         }
         /// <summary>
-        /// Sends a string to the command line in the active Editor using String.Format.
+        /// Sends a string to the command line in the active Editor using String.Format, followed by newline character
         /// </summary>
         /// <param name="message">The message containing format specifications.</param>
         /// <param name="parameter">The variables to substitute into the format string.</param>
-        public static void WriteMessage(string message, params object[] parameter)
+        public static void WriteLine(string message, params object[] parameter)
         {
-            Editor.WriteMessage("\n"+message, parameter);
+            Editor.WriteMessage(message+"\n", parameter);
         }
 
         /// <summary>
@@ -60,7 +69,7 @@ namespace AABase
         public static void WriteDebugMessage(int level, string message)
         {
             if (level <= DebugLevel)
-                WriteMessage("DEBUG"+level.ToString()+": "+message);
+                WriteLine("DEBUG"+level.ToString()+": "+message);
         }
 
         /// <summary>
@@ -72,7 +81,7 @@ namespace AABase
         public static void WriteDebugMessage(int level, string message, params object[] parameter)
         {
             if (level <= DebugLevel)
-                WriteMessage("DEBUG"+level.ToString()+": "+message, parameter);
+                WriteLine("DEBUG"+level.ToString()+": "+message, parameter);
         }
 
     }

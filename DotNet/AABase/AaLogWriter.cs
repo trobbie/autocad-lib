@@ -42,7 +42,7 @@ namespace AABase
                 case LogLevel.None:
                     return;
             }
-            Active.WriteMessage($"{prefix}: "+message, parameter);
+            Active.WriteLine($"{prefix}: "+message, parameter);
         }
     }
 }
