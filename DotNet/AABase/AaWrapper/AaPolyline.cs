@@ -165,7 +165,15 @@ namespace AABase.Logic
             Database db = Active.Database;
             db.UsingTransaction((Transaction tr) =>
             {
-                // TODO: check that end vertex matches?
+                if (GetPolyline().NumberOfVertices > 0)
+                {
+                    // TODO: confirm this check rejects w/o crash (temporarily negate logic)
+                    if (!GetPolyline().GetPoint3dAt(0).GetAaPoint().Equals(curve.EndPoint))
+                    {
+                        AaBaseLogic.Logger.WriteLine(LogLevel.Error, $"Could not add curve to start of polyline. Points do not match: {curve.EndPoint.ToString()} and {GetPolyline().GetPoint3dAt(0).GetAaPoint().ToString()}");
+                        return false;
+                    }
+                }
                 GetPolyline().UpgradeOpen();
                 GetPolyline().AddVertexAt(0, curve.StartPoint.GetAcPoint2d(), curve.Bulge, 0, 0);
                 return true;
@@ -181,7 +189,15 @@ namespace AABase.Logic
             Database db = Active.Database;
             db.UsingTransaction((Transaction tr) =>
             {
-                // TODO: check that start vertex matches?
+                if (GetPolyline().NumberOfVertices > 0)
+                {
+                    // TODO: confirm this check rejects w/o crash (temporarily negate logic)
+                    if (!GetPolyline().GetPoint3dAt(NumberOfVertices-1).GetAaPoint().Equals(curve.StartPoint))
+                    {
+                        AaBaseLogic.Logger.WriteLine(LogLevel.Error, $"Could not add curve to end of polyline. Points do not match: {curve.StartPoint.ToString()} and {GetPolyline().GetPoint3dAt(NumberOfVertices-1).GetAaPoint().ToString()}");
+                        return false;
+                    }
+                }
                 GetPolyline().UpgradeOpen();
                 GetPolyline().SetBulgeAt(NumberOfVertices-1, curve.Bulge);
                 GetPolyline().AddVertexAt(NumberOfVertices, curve.EndPoint.GetAcPoint2d(), 0, 0, 0);
