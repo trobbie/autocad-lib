@@ -14,13 +14,6 @@ namespace AABase.Logic
     /// </remarks>
     public abstract class AaGeCurve : IGeCurve
     {
-        /// <summary>
-        /// Is the curve an arc.  If not, it is a line.
-        /// </summary>
-        /// <value></value>
-        public bool IsArc { get; protected set; } // TODO: allow subclasses to override
-
-
         public enum OverlapResultSummary
         {
             NotAccessed = 0,
@@ -47,6 +40,8 @@ namespace AABase.Logic
             return new AaGeArc(center, radius, startAngle, endAngle, planeNormal);
         }
 
+        public abstract bool IsArc { get; }
+        
         public AaPoint3d Center { get; protected set; } // TODO: move into AaGeArc
         public double Radius { get; protected set;} // TODO: move into AaGeArc
         public double StartAngle { get; protected set; } // TODO: move into AaGeArc

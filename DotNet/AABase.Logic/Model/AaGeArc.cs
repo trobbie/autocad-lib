@@ -8,7 +8,6 @@ namespace AABase.Logic
         internal AaGeArc(AaPoint3d center, double radius, double startAngle, double endAngle, AaPoint3d planeNormal)
             : base(center, radius, startAngle, endAngle, planeNormal)
         {
-            IsArc = true;
             Center = center;
             Radius = radius;
             StartAngle = (planeNormal.Z < 0) ? endAngle : startAngle;
@@ -16,6 +15,8 @@ namespace AABase.Logic
             // since flipping angles if negative-Z normal, also adjust the new plane normal
             PlaneNormal = (planeNormal.Z >= 0) ? planeNormal : new AaPoint3d(-planeNormal.X, -planeNormal.Y, -planeNormal.Z);
         }
+
+        public override bool IsArc { get { return true; } }
 
         public override double Slope { get { 
             return Double.NaN;

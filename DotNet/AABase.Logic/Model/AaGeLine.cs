@@ -10,15 +10,17 @@ namespace AABase.Logic
 
         internal AaGeLine(AaPoint3d pt1, AaPoint3d pt2) : base(pt1, pt2)
         {
-            IsArc = false;
             Center = null;
             Radius = 0;
             StartAngle = 0;
             EndAngle = 0;
             PlaneNormal = null;
+            
             _pt1 = pt1;
             _pt2 = pt2;
         }
+
+        public override bool IsArc { get { return false; } }
 
         public override double Slope { get { 
             return (_pt2.X - _pt1.X).IsEqualTo(0) ?

@@ -5,6 +5,9 @@ namespace AABase.Logic
 {
     public interface IGeCurve : IComparable<IGeCurve> //, IEquatable<AaGeCurve>
     {
+        /// <summary>
+        /// Is the curve an arc.  If not, it is a line.
+        /// </summary>
         bool IsArc { get; }
 
         AaPoint3d StartPoint { get; }
