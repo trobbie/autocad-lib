@@ -19,9 +19,5 @@ namespace AABase.Logic.Service
                     .Select(curve => curve.GetLength())
                     .Sum();
         }
-
-        // TODO: iterate through each curve and return list of lines that are overlapping.
-        // Two segments overlap if either vertex of a segment lies directly on the other segment,
-        // or both vertices are coincident with the two vertices of the other segment.
     }
 }
