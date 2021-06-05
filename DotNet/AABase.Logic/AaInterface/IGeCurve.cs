@@ -1,8 +1,9 @@
+using System;
 using System.Collections.Generic;
 
 namespace AABase.Logic
 {
-    public interface IGeCurve
+    public interface IGeCurve : IComparable<IGeCurve> //, IEquatable<AaGeCurve>
     {
         bool IsArc { get; }
 
@@ -22,7 +23,6 @@ namespace AABase.Logic
         IGeCurve AsReverseCurve();
 
         bool IsEqualTo(IGeCurve curve, bool ignorePointOrder);
-        int CompareTo(IGeCurve other);
 
         bool ContainsPoint(AaPoint3d pt);
         IEnumerable<AaGeCurveOverlapResult> FindOverlapResults(IEnumerable<IGeCurve> listCurves);

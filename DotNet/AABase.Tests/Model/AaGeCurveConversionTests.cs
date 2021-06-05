@@ -30,7 +30,7 @@ namespace AABase.Tests
             // Act
             IEnumerable<IGeCurve> test = listObjects.ConvertEntitiesToSimpleCurves();
             // Assert
-            if (!test.OrderBy(t => t).SequenceEqual<IGeCurve>(expected.OrderBy(e => e), AaGeCurve.EqualValuesIgnoreOrderComparer))
+            if (!test.OrderBy(t => t).SequenceEqual<IGeCurve>(expected.OrderBy(e => e), AaGeCurve.EqualValuesComparer))
                 Assert.Fail($"Failed args {listObjects}.\nReturned {AaGeCurve.EnumerableToString(test)}.\nExpected {AaGeCurve.EnumerableToString(expected)}.");
         }
 

@@ -12,7 +12,7 @@ namespace AABase.Logic
     /// A (0,0,1) plane normal vector would produce a counter-clockwise arc.
     /// A (0,0,-1) plane normal vector would produce a clockwise arc.
     /// </remarks>
-    public class AaGeCurve : IGeCurve, IComparable<IGeCurve> //, IEquatable<AaGeCurve>
+    public class AaGeCurve : IGeCurve
     {
         /// <summary>
         /// Is the curve an arc.  If not, it is a line.
