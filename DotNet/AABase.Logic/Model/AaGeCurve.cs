@@ -108,11 +108,11 @@ namespace AABase.Logic
         }
         public static AaGeCurve Create(AaPoint3d pt1, AaPoint3d pt2)
         {
-            return AaGeCurve.Create(pt1, pt2);
+            return new AaGeCurve(pt1, pt2);
         }
         public static AaGeCurve Create(AaPoint3d center, double radius, double startAngle, double endAngle, AaPoint3d planeNormal)
         {
-            return AaGeCurve.Create(center, radius, startAngle, endAngle, planeNormal);
+            return new AaGeCurve(center, radius, startAngle, endAngle, planeNormal);
         }
 
         private class ValuesEqualityComparer : IEqualityComparer<AaGeCurve>
@@ -201,19 +201,15 @@ namespace AABase.Logic
             if (!IsArc.Equals(curve.IsArc)) return false;
             if (IsArc)
             {
-                return Center.Equals(curve.Center)
+                return (Center.Equals(curve.Center)
                     && Radius.Equals(curve.Radius)
-                    && StartAngle.Equals(curve.StartAngle)
-                    && EndAngle.Equals(curve.EndAngle)
-                    && (!ignorePointOrder || StartAngle.Equals(curve.EndAngle))
-                    && (!ignorePointOrder || EndAngle.Equals(curve.StartAngle));;
+                    && (StartAngle.Equals(curve.StartAngle) && EndAngle.Equals(curve.EndAngle))
+                    || (ignorePointOrder && StartAngle.Equals(curve.EndAngle) && EndAngle.Equals(curve.StartAngle)));
             }
             else
             {
-                return _pt1.Equals(curve._pt1)
-                    && _pt2.Equals(curve._pt2)
-                    && (!ignorePointOrder || _pt1.Equals(curve._pt2))
-                    && (!ignorePointOrder || _pt2.Equals(curve._pt1));
+                return (_pt1.Equals(curve._pt1) && _pt2.Equals(curve._pt2))
+                    || (ignorePointOrder && _pt1.Equals(curve._pt2) && _pt2.Equals(curve._pt1));
             }
         }
 
