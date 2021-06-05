@@ -9,7 +9,7 @@ namespace AABase.Tests
     {
         static readonly double a = 0.0001; // slight shift in points that are _outside_ tolerance (should be seen as different)
         static readonly double b = 0.0000001; // slight shift in points that are _within_ tolerance (should be seen as same)
-        static void TestFindOverlap(string descTest, AaGeCurve thisCurve, AaGeCurve otherCurve, OverlapResultSummary expectedSummary)
+        static void TestFindOverlap(string descTest, IGeCurve thisCurve, IGeCurve otherCurve, OverlapResultSummary expectedSummary)
         {
             // Act
             AaGeCurveOverlapResult test = thisCurve.FindOverlap(otherCurve);

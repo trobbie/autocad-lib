@@ -6,20 +6,20 @@ namespace AABase.Logic
 {
     public class AaGeCurveOverlapResult
     {
-        public AaGeCurve ThisCurve { get; set; }
-        public AaGeCurve OtherCurve { get; set; }
+        public IGeCurve ThisCurve { get; set; }
+        public IGeCurve OtherCurve { get; set; }
         public OverlapResultSummary Summary { get; set; }
-        public AaGeCurve OverlapRegion { get; set; }
+        public IGeCurve OverlapRegion { get; set; }
 
         public static IEqualityComparer<AaGeCurveOverlapResult> SameParentCurvesEqualityComparer { get; } = new _SameParentCurvesEqualityComparer();
         // Assumes thisCurve and otherCurve cannot be null
-        public AaGeCurveOverlapResult(AaGeCurve thisCurve, AaGeCurve otherCurve)
+        public AaGeCurveOverlapResult(IGeCurve thisCurve, IGeCurve otherCurve)
         {
             ThisCurve =  thisCurve;
             OtherCurve = otherCurve;
         }
 
-        public AaGeCurveOverlapResult AssignResult(OverlapResultSummary summary, AaGeCurve overlapRegion)
+        public AaGeCurveOverlapResult AssignResult(OverlapResultSummary summary, IGeCurve overlapRegion)
         {
             Summary = summary;
             OverlapRegion = overlapRegion;

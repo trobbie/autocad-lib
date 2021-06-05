@@ -6,9 +6,9 @@ namespace AABase.Logic
 {
     public static class IEntityExtensions
     {
-        public static List<AaGeCurve> ConvertEntitiesToSimpleCurves(this IEnumerable<IEntity> entities)
+        public static List<IGeCurve> ConvertEntitiesToSimpleCurves(this IEnumerable<IEntity> entities)
         {
-            List<AaGeCurve> result = new List<AaGeCurve>();
+            List<IGeCurve> result = new List<IGeCurve>();
 
             // filter out supported entities (perhaps later support)
             IEnumerable<IEntity> supportedEntities = entities.Where(ent => {

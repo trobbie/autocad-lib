@@ -12,7 +12,7 @@ namespace AABase.Logic
 
         public AaPolyline(IEntity entity) : base((Polyline)entity.GetAcEntity()) { }
 
-        public static AaPolyline Create(AaGeCurve firstCurve)
+        public static AaPolyline Create(IGeCurve firstCurve)
         {
             Database db = Active.Database;
             Polyline acPolyline = null;
@@ -51,11 +51,11 @@ namespace AABase.Logic
         /// Get Curve at specified start index. This could be a line.
         /// </summary>
         /// <returns>
-        /// Returns the AaGeCurve of the segment at the start index. If index is out of bounds, returns null.
+        /// Returns the IGeCurve of the segment at the start index. If index is out of bounds, returns null.
         /// </returns>
         /// <param name="vertexIndexStart"></param>
         /// <returns></returns>
-        public AaGeCurve GetGeCurveAt(int vertexIndexStart)
+        public IGeCurve GetGeCurveAt(int vertexIndexStart)
         {
             if (vertexIndexStart >= NumberOfVertices) return null;
             int vertexIndexEnd = vertexIndexStart + 1;
@@ -122,9 +122,9 @@ namespace AABase.Logic
         /// <summary>
         /// Add simple curve to this polyline if the curve can connect to an edge point of this polyline that is not on a list of non-join points
         /// </summary>
-        public bool AddCurveIfAtEdge(AaGeCurve curveConsidered, bool reverseCurveDirection, IEnumerable<AaPoint3d> pointsNonJoin)
+        public bool AddCurveIfAtEdge(IGeCurve curveConsidered, bool reverseCurveDirection, IEnumerable<AaPoint3d> pointsNonJoin)
         {
-            AaGeCurve curve = reverseCurveDirection ? curveConsidered : curveConsidered.AsReverseCurve();
+            IGeCurve curve = reverseCurveDirection ? curveConsidered : curveConsidered.AsReverseCurve();
                 
             if (!pointsNonJoin.Contains(StartPoint) && StartPoint.Equals(curve.EndPoint))
             {
@@ -160,7 +160,7 @@ namespace AABase.Logic
             return false;
         }
         
-        public void AddCurveToStart(AaGeCurve curve)
+        public void AddCurveToStart(IGeCurve curve)
         {
             Database db = Active.Database;
             db.UsingTransaction((Transaction tr) =>
@@ -179,7 +179,7 @@ namespace AABase.Logic
                 return true;
             });
         }
-        public void AddCurveToEnd(AaGeCurve curve)
+        public void AddCurveToEnd(IGeCurve curve)
         {
             if (NumberOfVertices == 0) {
                 AddCurveToStart(curve);

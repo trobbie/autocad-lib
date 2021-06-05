@@ -22,7 +22,7 @@ namespace AABase.Tests
 
         public AaPoint3d GetPoint3dAt(int vertexIndex) => _listVertices[vertexIndex];
 
-        public AaGeCurve GetGeCurveAt(int vertexIndexStart)
+        public IGeCurve GetGeCurveAt(int vertexIndexStart)
         {
             if (IsArcSegment(vertexIndexStart)) throw new System.NotImplementedException();
             int vertexIndexNext = vertexIndexStart+1;

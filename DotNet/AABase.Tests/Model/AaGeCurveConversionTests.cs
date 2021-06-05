@@ -25,19 +25,19 @@ namespace AABase.Tests
             rectangleOpenPolyline1.Add(new FakeRectangle(new AaPoint3d(5,5), 7, 8, true));
         }
         
-        static void TestConvertEntitiesToSimpleCurves(IEnumerable<IEntity>listObjects, List<AaGeCurve> expected)
+        static void TestConvertEntitiesToSimpleCurves(IEnumerable<IEntity>listObjects, List<IGeCurve> expected)
         {
             // Act
-            IEnumerable<AaGeCurve> test = listObjects.ConvertEntitiesToSimpleCurves();
+            IEnumerable<IGeCurve> test = listObjects.ConvertEntitiesToSimpleCurves();
             // Assert
-            if (!test.OrderBy(t => t).SequenceEqual<AaGeCurve>(expected.OrderBy(e => e), AaGeCurve.EqualValuesComparer))
+            if (!test.OrderBy(t => t).SequenceEqual<IGeCurve>(expected.OrderBy(e => e), AaGeCurve.EqualValuesIgnoreOrderComparer))
                 Assert.Fail($"Failed args {listObjects}.\nReturned {AaGeCurve.EnumerableToString(test)}.\nExpected {AaGeCurve.EnumerableToString(expected)}.");
         }
 
         [TestMethod]
         public void ConvertToCurveList_EmptyList_ReturnEmptyList()
         { 
-            List<AaGeCurve> listLinesExpected = new List<AaGeCurve>();
+            List<IGeCurve> listLinesExpected = new List<IGeCurve>();
 
             TestConvertEntitiesToSimpleCurves(emptyList, listLinesExpected);
         }
@@ -45,7 +45,7 @@ namespace AABase.Tests
         [TestMethod]
         public void ConvertToCurveList_MultipleLines_ReturnValid()
         { 
-            List<AaGeCurve> listLinesExpected = new List<AaGeCurve>();
+            List<IGeCurve> listLinesExpected = new List<IGeCurve>();
             listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(0,0), new AaPoint3d(10,0)));
             listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(10,0), new AaPoint3d(10,10)));
             listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(10,10), new AaPoint3d(0,0)));
@@ -56,7 +56,7 @@ namespace AABase.Tests
         [TestMethod]
         public void ConvertToCurveList_OneClosedPolyline_ReturnValid()
         {
-            List<AaGeCurve> listLinesExpected = new List<AaGeCurve>();
+            List<IGeCurve> listLinesExpected = new List<IGeCurve>();
             listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(5,5), new AaPoint3d(12,5)));
             listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(12,5), new AaPoint3d(12,13)));
             listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(12,13), new AaPoint3d(5,13)));
@@ -68,7 +68,7 @@ namespace AABase.Tests
         [TestMethod]
         public void ConvertToCurveList_OneOpenPolyline_ReturnValid()
         {
-            List<AaGeCurve> listLinesExpected = new List<AaGeCurve>();
+            List<IGeCurve> listLinesExpected = new List<IGeCurve>();
             listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(5,5), new AaPoint3d(12,5)));
             listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(12,5), new AaPoint3d(12,13)));
             listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(12,13), new AaPoint3d(5,13)));

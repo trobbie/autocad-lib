@@ -5,13 +5,13 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace AABase.Logic
 {
-    public static class AaGeCurveExtensions
+    public static class IGeCurveExtensions
     {
-        public static List<Curve> ToAcCurvesWithColor(this IEnumerable<AaGeCurve> thisEnumerable, int colorIndex)
+        public static List<Curve> ToAcCurvesWithColor(this IEnumerable<IGeCurve> thisEnumerable, int colorIndex)
         {
             List<Curve> acCurves = new List<Curve>();
             Curve acCurve;
-            foreach (AaGeCurve geCurve in thisEnumerable)
+            foreach (IGeCurve geCurve in thisEnumerable)
             {
                 if (geCurve.IsArc)
                     acCurve = new Arc(geCurve.Center.GetAcPoint3d(), new Vector3d(geCurve.PlaneNormal.AsArray()), geCurve.Radius, geCurve.StartAngle, geCurve.EndAngle);
@@ -26,11 +26,11 @@ namespace AABase.Logic
         /// <summary>
         /// Create polylines from these simple curves such that any ambiguous (multi-path) paths are not followed and left un-joined.
         /// </summary>
-        public static List<AaPolyline> CreateSinglePathPolylines(this IEnumerable<AaGeCurve> simpleCurves)
+        public static List<AaPolyline> CreateSinglePathPolylines(this IEnumerable<IGeCurve> simpleCurves)
         {
             // points found on more than two curves are on the edges of multi-paths 
             IEnumerable<AaPoint3d> pointsOnMultipleCurves = simpleCurves
-                    .SelectMany((AaGeCurve curve) => new List<AaPoint3d>() { curve.StartPoint, curve.EndPoint })
+                    .SelectMany((IGeCurve curve) => new List<AaPoint3d>() { curve.StartPoint, curve.EndPoint })
                     .GroupBy(x => x.GetHashCode())  // rely on HashCode for point "equality"
                     .Where(g => g.Count() > 2)
                     .SelectMany(g => g)  // .Select (g => g.Select(v => v.Value)) ???
@@ -41,7 +41,7 @@ namespace AABase.Logic
 
             List<AaPolyline> joinedPolylines = new List<AaPolyline>();
             bool curveAdded;
-            foreach (AaGeCurve curve in simpleCurves)
+            foreach (IGeCurve curve in simpleCurves)
             {
                 curveAdded = false;
                 AaPolyline plAddedTo = null;
