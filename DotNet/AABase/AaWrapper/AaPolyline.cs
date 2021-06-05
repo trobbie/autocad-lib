@@ -73,12 +73,12 @@ namespace AABase.Logic
                 // arc's referenceVector is unit vector that points to angle=0 on unit circle
                 double angleRef = new Vector3d(1,0,0).GetAngleTo(arc.ReferenceVector, new Vector3d(0,0,1));  // returns [0,2PI]
                 if (Utility.EqualsWithEpsilon(angleRef, 2*Math.PI, 0.00000001)) angleRef = 0;
-                return new AaGeCurve(arc.Center.GetAaPoint(), arc.Radius, angleRef+arc.StartAngle, angleRef+arc.EndAngle, 
+                return AaGeCurve.Create(arc.Center.GetAaPoint(), arc.Radius, angleRef+arc.StartAngle, angleRef+arc.EndAngle, 
                     new AaPoint3d(arc.Normal.ToArray()));
             }
             else
             {
-                return new AaGeCurve(GetPoint3dAt(vertexIndexStart), GetPoint3dAt(vertexIndexEnd));
+                return AaGeCurve.Create(GetPoint3dAt(vertexIndexStart), GetPoint3dAt(vertexIndexEnd));
             }
         }
         

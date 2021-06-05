@@ -46,9 +46,9 @@ namespace AABase.Tests
         public void ConvertToCurveList_MultipleLines_ReturnValid()
         { 
             List<AaGeCurve> listLinesExpected = new List<AaGeCurve>();
-            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(0,0), new AaPoint3d(10,0)));
-            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(10,0), new AaPoint3d(10,10)));
-            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(10,10), new AaPoint3d(0,0)));
+            listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(0,0), new AaPoint3d(10,0)));
+            listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(10,0), new AaPoint3d(10,10)));
+            listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(10,10), new AaPoint3d(0,0)));
 
             TestConvertEntitiesToSimpleCurves(triangleLines1, listLinesExpected);
         }
@@ -57,10 +57,10 @@ namespace AABase.Tests
         public void ConvertToCurveList_OneClosedPolyline_ReturnValid()
         {
             List<AaGeCurve> listLinesExpected = new List<AaGeCurve>();
-            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(5,5), new AaPoint3d(12,5)));
-            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(12,5), new AaPoint3d(12,13)));
-            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(12,13), new AaPoint3d(5,13)));
-            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(5,13), new AaPoint3d(5,5)));
+            listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(5,5), new AaPoint3d(12,5)));
+            listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(12,5), new AaPoint3d(12,13)));
+            listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(12,13), new AaPoint3d(5,13)));
+            listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(5,13), new AaPoint3d(5,5)));
 
             TestConvertEntitiesToSimpleCurves(rectangleClosedPolyline1, listLinesExpected);
         }
@@ -69,10 +69,10 @@ namespace AABase.Tests
         public void ConvertToCurveList_OneOpenPolyline_ReturnValid()
         {
             List<AaGeCurve> listLinesExpected = new List<AaGeCurve>();
-            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(5,5), new AaPoint3d(12,5)));
-            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(12,5), new AaPoint3d(12,13)));
-            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(12,13), new AaPoint3d(5,13)));
-            listLinesExpected.Add(new AaGeCurve(new AaPoint3d(5,13), new AaPoint3d(5,5)));
+            listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(5,5), new AaPoint3d(12,5)));
+            listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(12,5), new AaPoint3d(12,13)));
+            listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(12,13), new AaPoint3d(5,13)));
+            listLinesExpected.Add(AaGeCurve.Create(new AaPoint3d(5,13), new AaPoint3d(5,5)));
 
             TestConvertEntitiesToSimpleCurves(rectangleOpenPolyline1, listLinesExpected);
         }

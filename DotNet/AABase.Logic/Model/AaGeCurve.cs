@@ -82,7 +82,7 @@ namespace AABase.Logic
                 (EndPoint.Y - Slope * EndPoint.X); 
         } }
         
-        public AaGeCurve(AaPoint3d pt1, AaPoint3d pt2)
+        protected AaGeCurve(AaPoint3d pt1, AaPoint3d pt2)
         {
             IsArc = false;
             Center = null;
@@ -94,7 +94,7 @@ namespace AABase.Logic
             _pt2 = pt2;
         }
         
-        public AaGeCurve(AaPoint3d center, double radius, double startAngle, double endAngle, AaPoint3d planeNormal)
+        protected AaGeCurve(AaPoint3d center, double radius, double startAngle, double endAngle, AaPoint3d planeNormal)
         {
             IsArc = true;
             Center = center;
@@ -105,6 +105,14 @@ namespace AABase.Logic
             PlaneNormal = (planeNormal.Z >= 0) ? planeNormal : new AaPoint3d(-planeNormal.X, -planeNormal.Y, -planeNormal.Z);
             _pt1 = null;
             _pt2 = null;
+        }
+        public static AaGeCurve Create(AaPoint3d pt1, AaPoint3d pt2)
+        {
+            return AaGeCurve.Create(pt1, pt2);
+        }
+        public static AaGeCurve Create(AaPoint3d center, double radius, double startAngle, double endAngle, AaPoint3d planeNormal)
+        {
+            return AaGeCurve.Create(center, radius, startAngle, endAngle, planeNormal);
         }
 
         private class ValuesEqualityComparer : IEqualityComparer<AaGeCurve>
@@ -170,7 +178,7 @@ namespace AABase.Logic
                     } 
                     else
                     {
-                        return new AaGeCurve(_pt2, _pt1);
+                        return AaGeCurve.Create(_pt2, _pt1);
                     }
                 } else
                 {
@@ -238,9 +246,9 @@ namespace AABase.Logic
         public AaGeCurve AsReverseCurve()
         {
             if (IsArc)
-                return new AaGeCurve(Center, Radius, EndAngle, StartAngle, PlaneNormal);
+                return AaGeCurve.Create(Center, Radius, EndAngle, StartAngle, PlaneNormal);
             else
-                return new AaGeCurve(EndPoint, StartPoint);
+                return AaGeCurve.Create(EndPoint, StartPoint);
         }
 
         private bool OnSameInfiniteCurve(AaGeCurve other)
@@ -363,7 +371,7 @@ namespace AABase.Logic
                     return result.AssignResult(OverlapResultSummary.NoOverlap, null);
                 else
                     return result.AssignResult(summary, 
-                        new AaGeCurve(Center, Radius, Math.Max(StartAngle,other.StartAngle), Math.Min(EndAngle, other.EndAngle), PlaneNormal));
+                        AaGeCurve.Create(Center, Radius, Math.Max(StartAngle,other.StartAngle), Math.Min(EndAngle, other.EndAngle), PlaneNormal));
             }
             else // is simple line
             {
@@ -400,7 +408,7 @@ namespace AABase.Logic
                         else if (thisOrdered.ContainsPoint(otherOrdered.EndPoint))
                             return result.AssignResult(OverlapResultSummary.ContainsOther, other);
                         else
-                            return result.AssignResult(OverlapResultSummary.EndOverlapsOtherEnd, new AaGeCurve(otherOrdered.StartPoint, thisOrdered.EndPoint));
+                            return result.AssignResult(OverlapResultSummary.EndOverlapsOtherEnd, AaGeCurve.Create(otherOrdered.StartPoint, thisOrdered.EndPoint));
                     }
                     else
                     {
@@ -417,7 +425,7 @@ namespace AABase.Logic
                         else if (otherOrdered.ContainsPoint(thisOrdered.EndPoint))
                             return result.AssignResult(OverlapResultSummary.ContainedByOther, this);
                         else
-                            return result.AssignResult(OverlapResultSummary.EndOverlapsOtherEnd, new AaGeCurve(thisOrdered.StartPoint, otherOrdered.EndPoint));
+                            return result.AssignResult(OverlapResultSummary.EndOverlapsOtherEnd, AaGeCurve.Create(thisOrdered.StartPoint, otherOrdered.EndPoint));
                     }
                 }
             }    
