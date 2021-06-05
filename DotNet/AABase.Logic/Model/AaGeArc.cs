@@ -1,5 +1,6 @@
 
 using System;
+using OverlapResultSummary = AABase.Logic.AaGeCurveOverlapResult.SummaryType;
 
 namespace AABase.Logic
 {

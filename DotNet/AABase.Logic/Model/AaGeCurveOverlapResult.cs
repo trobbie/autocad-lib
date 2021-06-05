@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using OverlapResultSummary = AABase.Logic.AaGeCurve.OverlapResultSummary;
 
 namespace AABase.Logic
 {
@@ -8,7 +7,7 @@ namespace AABase.Logic
     {
         public IGeCurve ThisCurve { get; set; }
         public IGeCurve OtherCurve { get; set; }
-        public OverlapResultSummary Summary { get; set; }
+        public SummaryType Summary { get; set; }
         public IGeCurve OverlapRegion { get; set; }
 
         public static IEqualityComparer<AaGeCurveOverlapResult> SameParentCurvesEqualityComparer { get; } = new _SameParentCurvesEqualityComparer();
@@ -18,10 +17,20 @@ namespace AABase.Logic
             ThisCurve =  thisCurve;
             OtherCurve = otherCurve;
 
-            Summary = OverlapResultSummary.NotAccessed;
+            Summary = SummaryType.NotAccessed;
         }
 
-        public AaGeCurveOverlapResult AssignResult(OverlapResultSummary summary, IGeCurve overlapRegion)
+        public enum SummaryType
+        {
+            NotAccessed = 0,
+            NoOverlap,
+            Equals,
+            ContainsOther,
+            ContainedByOther,
+            EndOverlapsOtherEnd
+        }
+
+        public AaGeCurveOverlapResult AssignResult(SummaryType summary, IGeCurve overlapRegion)
         {
             Summary = summary;
             OverlapRegion = overlapRegion;

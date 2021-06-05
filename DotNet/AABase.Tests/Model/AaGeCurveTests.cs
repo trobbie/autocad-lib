@@ -1,6 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AABase.Logic;
-using OverlapResultSummary = AABase.Logic.AaGeCurve.OverlapResultSummary;
+using OverlapResultSummary = AABase.Logic.AaGeCurveOverlapResult.SummaryType;
 
 namespace AABase.Tests
 {

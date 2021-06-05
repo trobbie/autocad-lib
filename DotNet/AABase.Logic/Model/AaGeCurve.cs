@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OverlapResultSummary = AABase.Logic.AaGeCurveOverlapResult.SummaryType;
 
 namespace AABase.Logic
 {
@@ -14,15 +15,6 @@ namespace AABase.Logic
     /// </remarks>
     public abstract class AaGeCurve : IGeCurve
     {
-        public enum OverlapResultSummary
-        {
-            NotAccessed = 0,
-            NoOverlap,
-            Equals,
-            ContainsOther,
-            ContainedByOther,
-            EndOverlapsOtherEnd
-        }
         protected static IEnumerable<string> _supportedDxfNamesForCurveConversions = new List<string> { "LINE", "LWPOLYLINE", "ARC", "CIRCLE" };
 
         protected AaGeCurve(AaPoint3d pt1, AaPoint3d pt2)
@@ -41,7 +33,7 @@ namespace AABase.Logic
         }
 
         public abstract bool IsArc { get; }
-        
+
         public AaPoint3d Center { get; protected set; } // TODO: move into AaGeArc
         public double Radius { get; protected set;} // TODO: move into AaGeArc
         public double StartAngle { get; protected set; } // TODO: move into AaGeArc

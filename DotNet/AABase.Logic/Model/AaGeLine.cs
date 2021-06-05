@@ -1,5 +1,5 @@
-
 using System;
+using OverlapResultSummary = AABase.Logic.AaGeCurveOverlapResult.SummaryType;
 
 namespace AABase.Logic
 {
@@ -15,7 +15,7 @@ namespace AABase.Logic
             StartAngle = 0;
             EndAngle = 0;
             PlaneNormal = null;
-            
+
             _pt1 = pt1;
             _pt2 = pt2;
         }
