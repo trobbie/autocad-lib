@@ -137,8 +137,6 @@ namespace AABase.Logic
             else
                 return result.AssignResult(summary, 
                     AaGeCurve.Create(Center, Radius, Math.Max(StartAngle,other.StartAngle), Math.Min(EndAngle, other.EndAngle), PlaneNormal));
-
-            return result.AssignResult(OverlapResultSummary.NoOverlap, null);
         }
 
     }
