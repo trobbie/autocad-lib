@@ -17,6 +17,8 @@ namespace AABase.Logic
         {
             ThisCurve =  thisCurve;
             OtherCurve = otherCurve;
+
+            Summary = OverlapResultSummary.NotAccessed;
         }
 
         public AaGeCurveOverlapResult AssignResult(OverlapResultSummary summary, IGeCurve overlapRegion)
