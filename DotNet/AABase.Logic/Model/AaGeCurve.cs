@@ -111,7 +111,7 @@ namespace AABase.Logic
         {
             public bool Equals(AaGeCurve x, AaGeCurve y)
             {
-                return x.IsEqualTo(y);
+                return x.IsEqualTo(y, false);
             }
             public int GetHashCode(AaGeCurve curve)
             {
@@ -119,6 +119,19 @@ namespace AABase.Logic
             }
         }
         public static IEqualityComparer<AaGeCurve> EqualValuesComparer = new ValuesEqualityComparer();
+
+        private class ValuesIgnoreOrderEqualityComparer : IEqualityComparer<AaGeCurve>
+        {
+            public bool Equals(AaGeCurve x, AaGeCurve y)
+            {
+                return x.IsEqualTo(y, true);
+            }
+            public int GetHashCode(AaGeCurve curve)
+            {
+                return curve.GetHashCode();
+            }
+        }
+        public static IEqualityComparer<AaGeCurve> EqualValuesIgnoreOrderComparer = new ValuesIgnoreOrderEqualityComparer();
 
         public AaPoint3d StartPoint { get {
             return !IsArc ? _pt1 : 
@@ -174,16 +187,26 @@ namespace AABase.Logic
                          : _pt1.GetHashCode() ^ _pt2.GetHashCode();
         }
         */
-        public bool IsEqualTo(AaGeCurve curve)
+        public bool IsEqualTo(AaGeCurve curve, bool ignorePointOrder)
         {
-            return !(curve is null )
-                && IsArc.Equals(curve.IsArc)
-                && (IsArc || _pt1.Equals(curve._pt1))
-                && (IsArc || _pt2.Equals(curve._pt2))
-                && (!IsArc || Center.Equals(curve.Center))
-                && (!IsArc || Radius.Equals(curve.Radius))
-                && (!IsArc || StartAngle.Equals(curve.StartAngle))
-                && (!IsArc || EndAngle.Equals(curve.EndAngle));
+            if (curve is null) return false;
+            if (!IsArc.Equals(curve.IsArc)) return false;
+            if (IsArc)
+            {
+                return Center.Equals(curve.Center)
+                    && Radius.Equals(curve.Radius)
+                    && StartAngle.Equals(curve.StartAngle)
+                    && EndAngle.Equals(curve.EndAngle)
+                    && (!ignorePointOrder || StartAngle.Equals(curve.EndAngle))
+                    && (!ignorePointOrder || EndAngle.Equals(curve.StartAngle));;
+            }
+            else
+            {
+                return _pt1.Equals(curve._pt1)
+                    && _pt2.Equals(curve._pt2)
+                    && (!ignorePointOrder || _pt1.Equals(curve._pt2))
+                    && (!ignorePointOrder || _pt2.Equals(curve._pt1));
+            }
         }
 
         public int CompareTo(AaGeCurve other)
@@ -311,7 +334,7 @@ namespace AABase.Logic
             AaGeCurveOverlapResult result = new AaGeCurveOverlapResult(this, other);
             if ((other is null) || !IsArc.Equals(other.IsArc)) return result.AssignResult(OverlapResultSummary.NoOverlap, null);
 
-            if (this.IsEqualTo(other)) return result.AssignResult(OverlapResultSummary.Equals, this);
+            if (this.IsEqualTo(other, true)) return result.AssignResult(OverlapResultSummary.Equals, this);
             if (!OnSameInfiniteCurve(other)) return result.AssignResult(OverlapResultSummary.NoOverlap, null);
             
             AaGeCurve thisOrdered = this.GetCurveOrdered();
