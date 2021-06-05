@@ -7,7 +7,7 @@ using System.Linq;
 namespace AABase.Tests
 {
   [TestClass]
-    public class AaLineExtensionsTests
+    public class AaGeCurveConversionTests
     {
         private static readonly List<FakeEntity> emptyList = new List<FakeEntity>();
         private static readonly List<FakeEntity> triangleLines1 = new List<FakeEntity>();
