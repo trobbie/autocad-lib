@@ -13,14 +13,6 @@ namespace AABase.Logic
         AaPoint3d StartPoint { get; }
         AaPoint3d EndPoint { get; }
 
-        /// <summary>
-        /// The slope of the curve, if a simple line. If an arc, return NaN
-        /// </summary>
-        double Slope { get; }
-        /// <summary>
-        /// The y-intercept of the curve, if a simple line. If an arc, return NaN
-        /// </summary>
-        double Yintercept { get; }
         double Bulge { get; }
 
         IGeCurve GetCurveOrdered();

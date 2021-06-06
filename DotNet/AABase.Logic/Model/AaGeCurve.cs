@@ -36,9 +36,6 @@ namespace AABase.Logic
 
         public abstract AaPoint3d StartPoint { get; }
         public abstract AaPoint3d EndPoint { get; }
-        
-        public abstract double Slope { get; }
-        public abstract double Yintercept { get; }
 
         public abstract double Bulge { get; }
 

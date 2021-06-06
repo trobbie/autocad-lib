@@ -50,14 +50,6 @@ namespace AABase.Logic
 
         public override bool IsArc { get { return true; } }
 
-        public override double Slope { get { 
-            return Double.NaN;
-        }}
-
-        public override double Yintercept { get { 
-            return Double.NaN;
-        }}
-
         public override AaPoint3d StartPoint { get {
             return Center + new AaPoint3d(Radius * Math.Cos(StartAngle),
                                           Radius * Math.Sin(StartAngle),

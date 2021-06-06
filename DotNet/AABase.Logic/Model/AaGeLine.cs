@@ -16,13 +16,20 @@ namespace AABase.Logic
 
         public override bool IsArc { get { return false; } }
 
-        public override double Slope { get { 
+        
+        /// <summary>
+        /// The slope of the curve, if a simple line. If an arc, return NaN
+        /// </summary>
+        public double Slope { get { 
             return (_pt2.X - _pt1.X).IsEqualTo(0) ?
                     Double.PositiveInfinity :
                     (_pt2.Y - _pt1.Y) / (_pt2.X - _pt1.X); 
         }}
 
-        public override double Yintercept { get { 
+        /// <summary>
+        /// The y-intercept of the curve, if a simple line. If an arc, return NaN
+        /// </summary>
+        public double Yintercept { get { 
             return (Slope == Double.PositiveInfinity) ?
                 Double.NaN :
                 (_pt2.Y - Slope * _pt2.X); 
@@ -92,8 +99,11 @@ namespace AABase.Logic
             return AaGeCurve.Create(EndPoint, StartPoint);
         }
 
-        protected override bool OnSameInfiniteCurve(IGeCurve other)
+        protected override bool OnSameInfiniteCurve(IGeCurve otherCurve)
         {
+            if (!(otherCurve is AaGeLine)) return false;
+            AaGeLine other = (AaGeLine)otherCurve;
+
             if (Slope == Double.PositiveInfinity) // then vertical line
             {
                 return (other.Slope == Double.PositiveInfinity)
@@ -143,8 +153,8 @@ namespace AABase.Logic
 
             if (!result.Summary.Equals(OverlapResultSummary.NotAccessed)) return result;
                         
-            IGeCurve thisOrdered = this.GetCurveOrdered();
-            IGeCurve otherOrdered = other.GetCurveOrdered();
+            AaGeLine thisOrdered = (AaGeLine)this.GetCurveOrdered();
+            AaGeLine otherOrdered = (AaGeLine)other.GetCurveOrdered();
 
             // lines' start/end points are now ordered; guarantee: start.x <= end.x, and if start.x=end.x, then start.y <= end.y
             double thisStartValue, thisEndValue, otherStartValue, otherEndValue;
