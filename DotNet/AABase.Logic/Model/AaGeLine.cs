@@ -44,7 +44,7 @@ namespace AABase.Logic
         }}
 
         public override double Bulge { get {
-            // Bulge factor is the tangent of one fourth the included angle for an arc segment, made negative if arc goes clockwise
+            // bulge factor of line is 0
             return 0;
         }}
 
@@ -87,7 +87,7 @@ namespace AABase.Logic
                 } 
                 else
                 {
-                    return AaGeCurve.Create(_pt2, _pt1);
+                    return this.AsReverseCurve();
                 }
             } else
             {
@@ -117,7 +117,6 @@ namespace AABase.Logic
         }
 
         public override bool ContainsPoint(AaPoint3d pt) { 
-            // TODO: refactor code shared with AaLine
             if (Slope == Double.PositiveInfinity)
             {
                 if (!pt.X.IsEqualTo(StartPoint.X)) return false;

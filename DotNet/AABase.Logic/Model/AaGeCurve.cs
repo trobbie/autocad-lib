@@ -5,14 +5,6 @@ using OverlapResultSummary = AABase.Logic.AaGeCurveOverlapResult.SummaryType;
 
 namespace AABase.Logic
 {
-    /// <summary>
-    /// Basic geometry curve.  A straight curve is a straight line.
-    /// </summary>
-    /// <remarks>
-    /// This assumes curve is on XY-plane, i.e. curve's plane normal is (0,0,1) or (0,0,-1).
-    /// A (0,0,1) plane normal vector would produce a counter-clockwise arc.
-    /// A (0,0,-1) plane normal vector would produce a clockwise arc.
-    /// </remarks>
     public abstract class AaGeCurve : IGeCurve
     {
         protected static IEnumerable<string> _supportedDxfNamesForCurveConversions = new List<string> { "LINE", "LWPOLYLINE", "ARC", "CIRCLE" };
@@ -33,10 +25,8 @@ namespace AABase.Logic
         }
 
         public abstract bool IsArc { get; }
-
         public abstract AaPoint3d StartPoint { get; }
         public abstract AaPoint3d EndPoint { get; }
-
         public abstract double Bulge { get; }
 
         private class ValuesEqualityComparer : IEqualityComparer<IGeCurve>
