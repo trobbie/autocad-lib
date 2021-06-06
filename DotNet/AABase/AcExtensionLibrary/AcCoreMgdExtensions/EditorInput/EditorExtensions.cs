@@ -23,6 +23,12 @@ namespace Autodesk.AutoCAD.EditorInput
             // 2) UsePickSet command flag must be defined with the command that should use the Pickfirst selection set
             // 3) Call the SelectImplied method to obtain the PickFirst selection set
             // TODO: check conditions of the above
+            int PickFirstValue = System.Convert.ToInt32(Application.GetSystemVariable("PICKFIRST"));
+            if (!PickFirstValue.Equals(1))
+            {
+                Application.ShowAlertDialog($"PICKFIRST Autocad Variable set to {PickFirstValue.ToString()}\n" + 
+                                            "Needs to be set to 1 for this command to work.");
+            }
 
             // Get the PickFirst selection set
             PromptSelectionResult acSSPrompt;
