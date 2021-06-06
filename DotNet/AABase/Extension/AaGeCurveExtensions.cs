@@ -14,9 +14,15 @@ namespace AABase.Logic
             foreach (IGeCurve geCurve in thisEnumerable)
             {
                 if (geCurve.IsArc)
-                    acCurve = new Arc(geCurve.Center.GetAcPoint3d(), new Vector3d(geCurve.PlaneNormal.AsArray()), geCurve.Radius, geCurve.StartAngle, geCurve.EndAngle);
+                {
+                    AaGeArc arc = (AaGeArc)geCurve;
+                    acCurve = new Arc(arc.Center.GetAcPoint3d(), new Vector3d(arc.PlaneNormal.AsArray()), arc.Radius, arc.StartAngle, arc.EndAngle);
+                }
                 else
-                    acCurve = new Line(geCurve.StartPoint.GetAcPoint3d(), geCurve.EndPoint.GetAcPoint3d());
+                {
+                    AaGeLine line = (AaGeLine)geCurve;
+                    acCurve = new Line(line.StartPoint.GetAcPoint3d(), line.EndPoint.GetAcPoint3d());
+                }
                 acCurve.ColorIndex = 1; // red
                 acCurves.Add(acCurve);
             }

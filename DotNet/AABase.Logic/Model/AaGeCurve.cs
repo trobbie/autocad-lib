@@ -34,16 +34,11 @@ namespace AABase.Logic
 
         public abstract bool IsArc { get; }
 
-        public AaPoint3d Center { get; protected set; } // TODO: move into AaGeArc
-        public double Radius { get; protected set;} // TODO: move into AaGeArc
-        public double StartAngle { get; protected set; } // TODO: move into AaGeArc
-        public double EndAngle { get; protected set; } // TODO: move into AaGeArc
-        public AaPoint3d PlaneNormal { get; protected set; } // TODO: move into AaGeArc
-
-        public abstract double Slope { get; }
-        public abstract double Yintercept { get; }
         public abstract AaPoint3d StartPoint { get; }
         public abstract AaPoint3d EndPoint { get; }
+        
+        public abstract double Slope { get; }
+        public abstract double Yintercept { get; }
 
         public abstract double Bulge { get; }
 

@@ -3,19 +3,13 @@ using OverlapResultSummary = AABase.Logic.AaGeCurveOverlapResult.SummaryType;
 
 namespace AABase.Logic
 {
-    internal class AaGeLine : AaGeCurve
+    public class AaGeLine : AaGeCurve
     {
         protected AaPoint3d _pt1;
         protected AaPoint3d _pt2;
 
         internal AaGeLine(AaPoint3d pt1, AaPoint3d pt2) : base(pt1, pt2)
         {
-            Center = null;
-            Radius = 0;
-            StartAngle = 0;
-            EndAngle = 0;
-            PlaneNormal = null;
-
             _pt1 = pt1;
             _pt2 = pt2;
         }

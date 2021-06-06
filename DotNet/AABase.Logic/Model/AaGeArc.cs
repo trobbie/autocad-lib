@@ -4,8 +4,39 @@ using OverlapResultSummary = AABase.Logic.AaGeCurveOverlapResult.SummaryType;
 
 namespace AABase.Logic
 {
-    internal class AaGeArc : AaGeCurve
+    public class AaGeArc : AaGeCurve
     {
+        /// <summary>
+        /// The center point of curve.
+        /// </summary>
+        public AaPoint3d Center { get; protected set; }
+
+        /// <summary>
+        /// The radius of curve.
+        /// </summary>
+        public double Radius { get; protected set; }
+
+         /// <summary>
+        /// The start angle, in radians, (on unit circle) of the curve within the curve's plane
+        /// </summary>
+        /// <remarks>
+        /// Arc is assumed to go counter-clockwise when viewed from it's plane's normal toward origin.
+        /// </remarks>
+        public double StartAngle { get; protected set; }
+
+        /// <summary>
+        /// The end angle, in radians, (on unit circle) of the curve within the curve's plane.
+        /// </summary>
+        /// <remarks>
+        /// Arc is assumed to go counter-clockwise when viewed from it's plane's normal toward origin.
+        /// </remarks>
+        public double EndAngle { get; protected set; }
+
+        /// <summary>
+        /// The normal vector of the plane containing the arc
+        /// </summary>
+        public AaPoint3d PlaneNormal { get; protected set; }
+
         internal AaGeArc(AaPoint3d center, double radius, double startAngle, double endAngle, AaPoint3d planeNormal)
             : base(center, radius, startAngle, endAngle, planeNormal)
         {
@@ -49,25 +80,27 @@ namespace AABase.Logic
             return $"[{base.GetHashCode()}:Arc:{Center.ToString()},{Radius.ToString()},{StartAngle.ToString()},{EndAngle.ToString()}]";
         }
 
-        public override bool IsEqualTo(IGeCurve curve, bool ignorePointOrder)
+        public override bool IsEqualTo(IGeCurve otherCurve, bool ignorePointOrder)
         {
-            if (!base.IsEqualTo(curve, ignorePointOrder)) return false;
+            if (!base.IsEqualTo(otherCurve, ignorePointOrder)) return false;
+            if (!(otherCurve is AaGeArc)) return false;
+            AaGeArc other = (AaGeArc)otherCurve;
 
-            return (Center.Equals(curve.Center)
-                    && Radius.Equals(curve.Radius)
-                    && (StartAngle.Equals(curve.StartAngle) && EndAngle.Equals(curve.EndAngle))
-                    || (ignorePointOrder && StartAngle.Equals(curve.EndAngle) && EndAngle.Equals(curve.StartAngle)));
+            return (Center.Equals(other.Center)
+                    && Radius.Equals(other.Radius)
+                    && (StartAngle.Equals(other.StartAngle) && EndAngle.Equals(other.EndAngle))
+                    || (ignorePointOrder && StartAngle.Equals(other.EndAngle) && EndAngle.Equals(other.StartAngle)));
         }
 
-        public override int CompareTo(IGeCurve other)
+        public override int CompareTo(IGeCurve otherCurve)
         {
             // If other is not a valid object reference, this instance is greater.
-            if (other == null) return 1;
+            if (otherCurve == null) return 1;
             // if one is line and other is arc, put line first
-            if (IsArc != other.IsArc) return other.IsArc ? 1 : 0;
+            if (IsArc != otherCurve.IsArc) return otherCurve.IsArc ? 1 : 0;
 
-            IGeCurve orderedCurve1 = this.GetCurveOrdered();
-            IGeCurve orderedCurve2 = other.GetCurveOrdered();
+            AaGeArc orderedCurve1 = (AaGeArc)this.GetCurveOrdered();
+            AaGeArc orderedCurve2 = (AaGeArc)otherCurve.GetCurveOrdered();
 
             int result = orderedCurve1.Center.CompareTo(orderedCurve2.Center);
             if (result != 0) return result;
@@ -90,8 +123,10 @@ namespace AABase.Logic
             return new AaGeArc(Center, Radius, EndAngle, StartAngle, PlaneNormal);
         }
 
-        protected override bool OnSameInfiniteCurve(IGeCurve other)
+        protected override bool OnSameInfiniteCurve(IGeCurve otherCurve)
         {
+            if (!(otherCurve is AaGeArc)) return false;
+            AaGeArc other = (AaGeArc)otherCurve;
             return this.Center.Equals(other.Center) && this.Radius.Equals(other.Radius) && this.PlaneNormal.Equals(other.PlaneNormal);
         }
 
@@ -106,14 +141,13 @@ namespace AABase.Logic
         /// <remarks>
         /// The results also contain this curve and the other, unaltered.
         /// </remarks>
-        public override AaGeCurveOverlapResult FindOverlap(IGeCurve other)
+        public override AaGeCurveOverlapResult FindOverlap(IGeCurve otherCurve)
         {
-            AaGeCurveOverlapResult result = base.FindOverlap(other);
+            AaGeCurveOverlapResult result = base.FindOverlap(otherCurve);
 
-            if (!result.Equals(OverlapResultSummary.NotAccessed)) return result;
-                        
-            IGeCurve thisOrdered = this.GetCurveOrdered();
-            IGeCurve otherOrdered = other.GetCurveOrdered();
+            if (!result.Equals(OverlapResultSummary.NotAccessed)) return result; // result already found
+
+            AaGeArc other = (AaGeArc)otherCurve;
 
             // arcs' center, radius, and normal all the same, but arcs are not equal
             // see overlap between StartAngle and EndAngle
