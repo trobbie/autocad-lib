@@ -116,7 +116,7 @@ namespace AABase.Logic
             }
         }
 
-        public override bool ContainsPoint(AaPoint3d pt) { 
+        private bool ContainsPoint(AaPoint3d pt) { 
             if (Slope == Double.PositiveInfinity)
             {
                 if (!pt.X.IsEqualTo(StartPoint.X)) return false;

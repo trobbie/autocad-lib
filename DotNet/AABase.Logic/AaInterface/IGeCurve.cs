@@ -52,12 +52,6 @@ namespace AABase.Logic
         bool IsEqualTo(IGeCurve otherCurve, bool ignorePointOrder);
 
         /// <summary>
-        /// Finds whether point is on this curve, considering fuzz tolerances
-        /// </summary>
-        /// <param name="pt"></param>
-        bool ContainsPoint(AaPoint3d pt);
-
-        /// <summary>
         /// Return the overlap results from testing this curve with a list of curves.
         /// </summary>
         IEnumerable<AaGeCurveOverlapResult> FindOverlapResults(IEnumerable<IGeCurve> listCurves);

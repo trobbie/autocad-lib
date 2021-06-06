@@ -122,11 +122,6 @@ namespace AABase.Logic
             return this.Center.Equals(other.Center) && this.Radius.Equals(other.Radius) && this.PlaneNormal.Equals(other.PlaneNormal);
         }
 
-        public override bool ContainsPoint(AaPoint3d pt) { 
-            // TODO: calculate for arcs
-            return false;
-        }
-
         /// <summary>
         /// Find overlap results between this simple curve and another.  Results includes description and any overlapping curve portion.
         /// </summary>

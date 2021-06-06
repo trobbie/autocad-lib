@@ -70,8 +70,6 @@ namespace AABase.Logic
 
         protected abstract bool OnSameInfiniteCurve(IGeCurve other);
 
-        public abstract bool ContainsPoint(AaPoint3d pt);
-
         /// <summary>
         /// Return all overlap results between this simple curve and list of curves.
         /// </summary>
