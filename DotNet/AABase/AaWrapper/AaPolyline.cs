@@ -125,7 +125,7 @@ namespace AABase.Logic
         public bool AddCurveIfAtEdge(IGeCurve curveConsidered, bool reverseCurveDirection, IEnumerable<AaPoint3d> pointsNonJoin)
         {
             IGeCurve curve = reverseCurveDirection ? curveConsidered : curveConsidered.AsReverseCurve();
-                
+
             if (!pointsNonJoin.Contains(StartPoint) && StartPoint.Equals(curve.EndPoint))
             {
                 return AddCurveToStart(curve);

@@ -32,7 +32,15 @@ namespace AABase.Logic
         /// <summary>
         /// Create polylines from these simple curves such that any ambiguous (multi-path) paths are not followed and left un-joined.
         /// </summary>
-        public static List<AaPolyline> CreateSinglePathPolylines(this IEnumerable<IGeCurve> simpleCurves)
+ 
+        
+        /// <summary>
+        /// Create polylines from these simple curves such that any ambiguous (multi-path) paths are not followed and left un-joined.
+        /// </summary>
+        /// <param name="simpleCurves">Extension object</param>
+        /// <param name="includeJoinCurves">If true, join curves that touch the multi-path intersections.  If false, leave these curves un-joined.</param>
+        /// <returns></returns>
+        public static List<AaPolyline> CreateSinglePathPolylines(this IEnumerable<IGeCurve> simpleCurves, bool includeJoinCurves)
         {
             // points found on more than two curves are on the edges of multi-paths 
             IEnumerable<AaPoint3d> pointsOnMultipleCurves = simpleCurves
@@ -51,14 +59,21 @@ namespace AABase.Logic
             {
                 curveAdded = false;
                 AaPolyline plAddedTo = null;
-                foreach (AaPolyline pl in joinedPolylines)
-                {
-                    plAddedTo = pl;
-                    curveAdded = pl.AddCurveIfAtEdge(curve, false, pointsOnMultipleCurves);
-                    if (curveAdded) break;
-                    curveAdded = pl.AddCurveIfAtEdge(curve, true, pointsOnMultipleCurves);
-                    if (curveAdded) break;
-
+                if (includeJoinCurves 
+                   || !(pointsOnMultipleCurves.Contains(curve.StartPoint) || pointsOnMultipleCurves.Contains(curve.EndPoint)))
+                { 
+                    foreach (AaPolyline pl in joinedPolylines)
+                    {
+                        if (includeJoinCurves 
+                        || !(pointsOnMultipleCurves.Contains(pl.StartPoint) || pointsOnMultipleCurves.Contains(pl.EndPoint)))
+                        {
+                            plAddedTo = pl;
+                            curveAdded = pl.AddCurveIfAtEdge(curve, false, pointsOnMultipleCurves);
+                            if (curveAdded) break;
+                            curveAdded = pl.AddCurveIfAtEdge(curve, true, pointsOnMultipleCurves);
+                            if (curveAdded) break;
+                        }
+                    }
                 }
                 if (curveAdded)
                 {
