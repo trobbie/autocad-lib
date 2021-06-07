@@ -35,7 +35,15 @@ namespace AABase
             // other transactions will be nested
             Active.Database.UsingTransaction((Transaction trParent) =>
             {
-                return action();
+                try
+                {
+                    return action();
+                } 
+                catch (AaCommandCancelledException ex)
+                {
+                    AaBaseLogic.Logger.WriteLine(LogLevel.Error, "Command could not complete successfully: "+ex.Message);
+                    return false;
+                }
             });
 
             AaBaseLogic.Logger.WriteLine(LogLevel.Debug, "END "+commandName);

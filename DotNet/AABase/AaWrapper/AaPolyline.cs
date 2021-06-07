@@ -168,10 +168,7 @@ namespace AABase.Logic
                 {
                     if (!GetPolyline().GetPoint3dAt(0).GetAaPoint().Equals(curve.EndPoint))
                     {
-                        AaBaseLogic.Logger.WriteLine(LogLevel.Error, $"Could not add curve to start of polyline. Points do not match: {curve.EndPoint.ToString()} and {GetPolyline().GetPoint3dAt(0).GetAaPoint().ToString()}");
-                        // TODO: find way to to cancel main transaction from here
-                        success = false;
-                        return false;
+                        throw new AaCommandCancelledException( $"Could not add curve to start of polyline. Points do not match: {curve.EndPoint.ToString()} and {GetPolyline().GetPoint3dAt(0).GetAaPoint().ToString()}");
                     }
                 }
                 GetPolyline().UpgradeOpen();
@@ -195,10 +192,7 @@ namespace AABase.Logic
                 {
                     if (!GetPolyline().GetPoint3dAt(NumberOfVertices-1).GetAaPoint().Equals(curve.StartPoint))
                     {
-                        AaBaseLogic.Logger.WriteLine(LogLevel.Error, $"Could not add curve to end of polyline. Points do not match: {curve.StartPoint.ToString()} and {GetPolyline().GetPoint3dAt(NumberOfVertices-1).GetAaPoint().ToString()}");
-                        // TODO: find way to to cancel main transaction from here
-                        success = false;
-                        return false;
+                        throw new AaCommandCancelledException($"Could not add curve to end of polyline. Points do not match: {curve.StartPoint.ToString()} and {GetPolyline().GetPoint3dAt(NumberOfVertices-1).GetAaPoint().ToString()}");
                     }
                 }
                 GetPolyline().UpgradeOpen();
