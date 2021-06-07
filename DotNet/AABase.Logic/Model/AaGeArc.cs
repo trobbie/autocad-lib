@@ -105,12 +105,12 @@ namespace AABase.Logic
             
         }
 
-        public override AaGeArc GetCurveOrdered() {
+        public override IGeCurve GetCurveOrdered() {
             // arc points are already ordered since flipping Start and End produces a different arc
             return this;  
         }
 
-        public override AaGeArc AsReverseCurve()
+        public override IGeCurve AsReverseCurve()
         {
             return new AaGeArc(Center, Radius, EndAngle, StartAngle, PlaneNormal);
         }

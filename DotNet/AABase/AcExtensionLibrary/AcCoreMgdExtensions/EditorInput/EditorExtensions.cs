@@ -1,5 +1,5 @@
 ﻿using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.ApplicationServices.Core;
 
 namespace Autodesk.AutoCAD.EditorInput
 {
@@ -28,6 +28,7 @@ namespace Autodesk.AutoCAD.EditorInput
             if (!PickFirstValue.Equals(1))
             {
                 Application.ShowAlertDialog($"PICKFIRST Autocad Variable set to {PickFirstValue.ToString()}\n" + 
+                          
                                             "Needs to be set to 1 for this command to work.");
             }
             // Note: The UsePickSet flag is set with CommandMethod attribute's parameter
