@@ -128,13 +128,11 @@ namespace AABase.Logic
                 
             if (!pointsNonJoin.Contains(StartPoint) && StartPoint.Equals(curve.EndPoint))
             {
-                AddCurveToStart(curve);
-                return true;
+                return AddCurveToStart(curve);
             }
             if (!pointsNonJoin.Contains(EndPoint) && EndPoint.Equals(curve.StartPoint))
             {
-                AddCurveToEnd(curve);
-                return true;
+                return AddCurveToEnd(curve);
             }
             return false;
         }
@@ -160,49 +158,56 @@ namespace AABase.Logic
             return false;
         }
         
-        public void AddCurveToStart(IGeCurve curve)
+        public bool AddCurveToStart(IGeCurve curve)
         {
             Database db = Active.Database;
+            bool success = false;
             db.UsingTransaction((Transaction tr) =>
             {
                 if (GetPolyline().NumberOfVertices > 0)
                 {
-                    // TODO: confirm this check rejects w/o crash (temporarily negate logic)
                     if (!GetPolyline().GetPoint3dAt(0).GetAaPoint().Equals(curve.EndPoint))
                     {
                         AaBaseLogic.Logger.WriteLine(LogLevel.Error, $"Could not add curve to start of polyline. Points do not match: {curve.EndPoint.ToString()} and {GetPolyline().GetPoint3dAt(0).GetAaPoint().ToString()}");
+                        // TODO: find way to to cancel main transaction from here
+                        success = false;
                         return false;
                     }
                 }
                 GetPolyline().UpgradeOpen();
                 GetPolyline().AddVertexAt(0, curve.StartPoint.GetAcPoint2d(), curve.Bulge, 0, 0);
+                success = true;
                 return true;
             });
+            return success;
         }
-        public void AddCurveToEnd(IGeCurve curve)
+        public bool AddCurveToEnd(IGeCurve curve)
         {
             if (NumberOfVertices == 0) {
-                AddCurveToStart(curve);
-                return;
+                return AddCurveToStart(curve);
             }
 
+            bool success = false;
             Database db = Active.Database;
             db.UsingTransaction((Transaction tr) =>
             {
                 if (GetPolyline().NumberOfVertices > 0)
                 {
-                    // TODO: confirm this check rejects w/o crash (temporarily negate logic)
                     if (!GetPolyline().GetPoint3dAt(NumberOfVertices-1).GetAaPoint().Equals(curve.StartPoint))
                     {
                         AaBaseLogic.Logger.WriteLine(LogLevel.Error, $"Could not add curve to end of polyline. Points do not match: {curve.StartPoint.ToString()} and {GetPolyline().GetPoint3dAt(NumberOfVertices-1).GetAaPoint().ToString()}");
+                        // TODO: find way to to cancel main transaction from here
+                        success = false;
                         return false;
                     }
                 }
                 GetPolyline().UpgradeOpen();
                 GetPolyline().SetBulgeAt(NumberOfVertices-1, curve.Bulge);
                 GetPolyline().AddVertexAt(NumberOfVertices, curve.EndPoint.GetAcPoint2d(), 0, 0, 0);
+                success = true;
                 return true;
             });
+            return success;
         }
         public bool Join(AaPolyline pl)
         {
