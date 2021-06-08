@@ -44,6 +44,16 @@ namespace AABase
                     AaBaseLogic.Logger.WriteLine(LogLevel.Error, "Command could not complete successfully: "+ex.Message);
                     return false;
                 }
+                catch (Autodesk.AutoCAD.Runtime.Exception ex)
+                {
+                    AaBaseLogic.Logger.WriteLine(LogLevel.Error, ex.Message);
+                    return false;
+                }
+                catch (System.Exception ex)
+                {
+                    AaBaseLogic.Logger.WriteLine(LogLevel.Error, ex.Message);
+                    return false;
+                }
             });
 
             AaBaseLogic.Logger.WriteLine(LogLevel.Debug, "END "+commandName);
