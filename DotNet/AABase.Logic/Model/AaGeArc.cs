@@ -132,8 +132,8 @@ namespace AABase.Logic
         {
             AaGeCurveOverlapResult result = base.FindOverlap(otherCurve);
 
-            if (!result.Equals(OverlapResultSummary.NotAccessed)) return result; // result already found
-
+            if (!result.Summary.Equals(OverlapResultSummary.NotAccessed)) return result;
+            
             AaGeArc other = (AaGeArc)otherCurve;
 
             // arcs' center, radius, and normal all the same, but arcs are not equal
