@@ -19,7 +19,7 @@ namespace Autodesk.AutoCAD.ApplicationServices.Core
             where T : DBObject
         {
             acDoc.UsingAllEntitiesOfType<T>((IEnumerable<T> listA, Transaction tr) => {
-                action(listA); // note: not passing the transaction parameter
+                action(listA.ToList()); // note: not passing the transaction parameter
             });
         }
 
