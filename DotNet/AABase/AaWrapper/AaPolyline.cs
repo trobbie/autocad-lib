@@ -203,19 +203,20 @@ namespace AABase.Logic
             });
             return success;
         }
-        public bool Join(AaPolyline pl)
+        public bool Join(IPolyline otherPolyline)
         {
+            AaPolyline aaPL = (AaPolyline)otherPolyline;
             try 
             {
                 GetPolyline().UpgradeOpen();
-                GetPolyline().JoinEntity(pl.GetPolyline());
+                GetPolyline().JoinEntity(aaPL.GetPolyline());
             }
             catch (Autodesk.AutoCAD.Runtime.Exception)
             {
-                AaBaseLogic.Logger.WriteLine(LogLevel.Warning, $"Could not join polylines {this.ToString()} and {pl.ToString()}");
+                AaBaseLogic.Logger.WriteLine(LogLevel.Warning, $"Could not join polylines {this.ToString()} and {otherPolyline.ToString()}");
                 return false;
             }
-            pl.Erase();
+            aaPL.Erase();
             return true;
         }
 

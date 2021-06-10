@@ -35,5 +35,7 @@ namespace AABase.Tests
 
         public virtual bool IsArcSegment(int vertexIndex) => false;
         public virtual bool IsLineSegment(int vertexIndex) => true;
+
+        public virtual bool Join(IPolyline otherPolyline) => false;
     }
 }

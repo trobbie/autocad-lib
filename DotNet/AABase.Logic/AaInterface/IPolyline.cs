@@ -13,5 +13,7 @@ namespace AABase.Logic
         bool IsLineSegment(int vertexIndex);
         bool IsArcSegment(int vertexIndex);
         IEnumerable<AaPoint3d> GetPointsOnExtentsOfSegmentAt(int vertexIndex);
+
+        bool Join(IPolyline otherPolyline);
     }
 }
