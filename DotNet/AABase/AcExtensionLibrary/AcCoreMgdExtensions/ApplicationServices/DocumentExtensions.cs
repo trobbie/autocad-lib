@@ -19,7 +19,7 @@ namespace Autodesk.AutoCAD.ApplicationServices.Core
             where T : DBObject
         {
             acDoc.UsingAllEntitiesOfType<T>((IEnumerable<T> listA, Transaction tr) => {
-                action(listA.ToList()); // note: not passing the transaction parameter
+                action(listA); // note: not passing the transaction parameter
             });
         }
 
@@ -39,7 +39,7 @@ namespace Autodesk.AutoCAD.ApplicationServices.Core
                 // open the model space BlockTableRecord
                 BlockTableRecord modelSpace = (BlockTableRecord)tr.GetObject(blockTable[BlockTableRecord.ModelSpace], OpenMode.ForRead);
 
-                action(modelSpace.AllOfType<T>(tr), tr);
+                action(modelSpace.AllOfType<T>(tr).ToList(), tr);
                 return true;
             });
         }
