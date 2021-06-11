@@ -68,6 +68,11 @@ namespace AABase.Logic
 
         public abstract IGeCurve AsReverseCurve();
 
+        public static double GetAngleOfTurn(ICurve otherCurve, AaPoint3d connectingPoint, bool useClockwiseMeasurement)
+        {
+            // TODO: implement
+            return 0;
+        }
         protected abstract bool OnSameInfiniteCurve(IGeCurve other);
 
         /// <summary>
