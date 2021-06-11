@@ -3,7 +3,7 @@
 *.bak*
 
 # custom Sample files
-DotNet/AutocadSamples
+AutocadSamples
 
 
 # globs

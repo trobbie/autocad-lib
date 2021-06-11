@@ -1,7 +1,7 @@
 {
   "folders": [
       {
-          "name": "lib",
+          "name": "lib.lsp",
           "path": "."
       }
   ],
