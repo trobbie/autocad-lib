@@ -51,6 +51,8 @@ namespace AABase.Logic
         /// <param name="ignorePointOrder">If true, consider these equal if the other's reverse curve is equal</param>
         bool IsEqualTo(IGeCurve otherCurve, bool ignorePointOrder);
 
+        double GetAngleOnUnitCircle(AaPoint3d origin, bool asCounterClockwise);
+        
         /// <summary>
         /// Return the overlap results from testing this curve with a list of curves.
         /// </summary>

@@ -68,6 +68,26 @@ namespace AABase.Logic
 
         public abstract IGeCurve AsReverseCurve();
 
+        public double GetAngleOnUnitCircle(AaPoint3d origin, bool asCounterClockwise)
+        {
+            double angle;
+            if (origin.Equals(StartPoint))
+            {
+                angle = Math.Acos(EndPoint.Y-StartPoint.Y) / (EndPoint.X-StartPoint.X);
+                if (EndPoint.Y-StartPoint.Y < 0) angle += Math.PI;
+            }
+            else if (origin.Equals(EndPoint))
+            {
+                angle = Math.Acos(StartPoint.Y-EndPoint.Y) / (StartPoint.X-EndPoint.X);
+                if (StartPoint.Y-EndPoint.Y < 0) angle += Math.PI;
+            } else
+            {
+                return Double.NaN;
+            }
+            if (asCounterClockwise) angle = 2 * Math.PI - angle;
+            return angle;
+        }
+        
         public static double GetAngleOfTurn(ICurve otherCurve, AaPoint3d connectingPoint, bool useClockwiseMeasurement)
         {
             // TODO: implement
