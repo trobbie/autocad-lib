@@ -51,8 +51,17 @@ namespace AABase.Logic
         /// <param name="ignorePointOrder">If true, consider these equal if the other's reverse curve is equal</param>
         bool IsEqualTo(IGeCurve otherCurve, bool ignorePointOrder);
 
+        /// <summary>
+        /// Get angle that curve makes with Start and End Points, where origin is at either Start or End point.
+        /// Angles measured from 0 degrees positive x-axis.
+        /// </summary>
+        /// <param name="origin">Must be Start or the End Point</param>
+        /// <param name="asCounterClockwise">If true, returns as expected of a unit circle.  If false, return the Clock-wise angle from 0 degrees.</param>
+        /// <returns>
+        /// Returns angle on unit circle.  If origin is not at start or end point (considering fuzz), then return Double.NaN.
+        /// </returns>
         double GetAngleOnUnitCircle(AaPoint3d origin, bool asCounterClockwise);
-        
+
         /// <summary>
         /// Return the overlap results from testing this curve with a list of curves.
         /// </summary>
