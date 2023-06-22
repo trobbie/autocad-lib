@@ -91,6 +91,12 @@
   (setq modelSpace (vla-get-ModelSpace (vla-get-ActiveDocument (vlax-get-acad-object))))
   (setq objPolyline (vla-AddLightWeightPolyline modelSpace arrayPoints))
 
+  ; close the polyline
+  (command "PEDIT")
+  (command "L")
+  (command "C")
+  (command "")
+
   objPolyline ;return
 )
 
